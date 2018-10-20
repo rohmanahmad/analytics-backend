@@ -1,0 +1,31 @@
+{
+  "name": "microservices",
+  "version": "1.0.0",
+  "description": "microservices by functionality",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch app --watch modules --watch .env -x node server.js"
+  },
+  "author": "rohmanahmad",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.6.1",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "md5": "^2.2.1",
+    "mongodb": "^3.1.1",
+    "optimist": "^0.6.1",
+    "restify": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.18.2",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "standard": "^10.0.2"
+  }
+}
