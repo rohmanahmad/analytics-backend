@@ -1,9 +1,9 @@
 'use strict'
 
-const {malangsoftwaregroup} = require('../../../configs/db.conf')
-const {jwtauth} = require('../../../configs/auth.conf')
+const {mongodb_conf} = use('configs/db.conf')
+const {jwtauth} = use('configs/auth.conf')
 
 module.exports = {
-    malangsoftwaregroup,
-    jwtauth
+    jwtauth,
+    mongodb_conf
 }

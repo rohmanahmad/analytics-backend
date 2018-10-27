@@ -1,11 +1,10 @@
 'use strict'
 
-const Base = require('./Base')
+const Base = require('./_base.model')
 
 class VocabularyModel extends Base {
-    constructor () {
-        super()
-        this.collection_name = 'ml_vocabulary'
+    static get collection () {
+        return 'ml_vocabulary'
     }
 }
 

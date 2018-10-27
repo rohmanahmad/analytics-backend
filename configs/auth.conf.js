@@ -1,6 +1,6 @@
 module.exports = {
     'jwtauth': {
-        'app_token': 'HELLOWORLDQYU',
+        'token': 'RANDOMSTRINGNEED',
         'exp': '30d'
     }
 }

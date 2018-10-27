@@ -1,11 +1,10 @@
 'use strict'
 
-const Base = require('./Base')
+const Base = require('./_base.model')
 
 class SpatternModel extends Base {
-    constructor () {
-        super()
-        this.collection_name = 'ml_sentence_patterns'
+    static get collection () {
+        return 'ml_sentence_patterns'
     }
 }
 

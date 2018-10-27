@@ -1,9 +1,8 @@
-const mongoclient = require('mongodb').MongoClient
-const config = require('../../../../server.conf')
-const database = config.mongodb.malangsoftwaregroup.db_name
-const dsn = config.mongodb.malangsoftwaregroup.dsn
+'use strict'
 
-class UsersModel {
+const Base = require('./_base.model')
+
+class UsersModel extends Base {
     constructor () {
         this.dsn = dsn
         this.connection = null

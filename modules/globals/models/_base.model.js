@@ -1,8 +1,11 @@
 'use strict'
 
-const mongoclient = require('mongodb').MongoClient
-const {malangsoftwaregroup} = require('../libs/settings.loader')
-const {dbname, dsn} = malangsoftwaregroup
+const {mongodb} = use('Deps.Loader')
+const utils = use('Utils.Helper')
+
+const mongoclient = mongodb.MongoClient
+const {mongodb_conf} = use('Settings.Loader')
+const {dbname, dsn} = mongodb_conf
 
 let connectionPool = null
 
@@ -16,14 +19,14 @@ async function reconnectDB () {
         })
         // registering events
         connectionPool.on('close', () => {
-            console.log('... lost connection')
+            utils.debugme('... lost connection')
             reconnectDB()
         })
-        connectionPool.on('reconnect', () => { console.log('-> reconnected') })
-        console.log('... db connected again')
+        connectionPool.on('reconnect', () => { utils.debugme('-> reconnected') })
+        utils.debugme('... db connected again')
         return connectionPool
     } catch (e) {
-        console.log('reconnecting: ', e.message)
+        utils.debugme('reconnecting: ', e.message)
     }
 }
 
@@ -38,11 +41,11 @@ async function connectToDB () {
         })
         // registering events
         connectionPool.on('close', () => {
-            console.log('... lost connection')
+            utils.debugme('... lost connection')
             reconnectDB()
         })
-        connectionPool.on('reconnect', () => { console.log('... reconnected') })
-        console.log('[ai_sentiments] db connections are open!')
+        connectionPool.on('reconnect', () => { utils.debugme('... reconnected') })
+        utils.debugme('db connections are open!')
     } catch (e) {
         console.error(e.message)
     }
@@ -53,10 +56,7 @@ connectToDB()
 class Base {
     constructor () {
         this.collection = this.collection
-        this.db = this.dbname
-    }
-
-    reconnect () {
+        this.db = dbname
     }
     async connection () {
         if (!connectionPool) {
