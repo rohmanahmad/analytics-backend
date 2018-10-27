@@ -1,11 +1,2 @@
 {
-    "saveAndRun": {
-        "commands": [
-            {
-                "match": ".*",
-                "isAsync": true,
-                "cmd": "echo 'I run for all files.'"
-            }
-        ]
-    }
 }

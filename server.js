@@ -1,6 +1,7 @@
-require('dotenv').config({path: './.env'})
-const APIS = process.env.APIS.split(',')
-
-for (let x of APIS) {
-    require(`./modules/servers/${x}`)
+const {Env} = require('./modules/globals/libs/deps.loader')
+const apiList = Env.APIS.split(',')
+/* eslint-enable */
+for (let x of apiList) {
+    const server = x.trim()
+    require(`./modules/servers/${server}`)
 }

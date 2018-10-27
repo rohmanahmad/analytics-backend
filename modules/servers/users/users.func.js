@@ -1,8 +1,7 @@
 'use strict'
 
-const Users = require('./models/Users.model')
-const md5 = require('md5')
-const jwt = require('jsonwebtoken')
+const {Users} = useIt('modules/globals/libs/model.loader')
+const {md5, jwt} = useIt('modules/globals/libs/deps.loader')
 const serverconfig = require('../../../server.conf')
 const jwtExp = serverconfig.jwt.exp
 const jwtToken = serverconfig.jwt.app_token

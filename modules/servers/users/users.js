@@ -1,13 +1,9 @@
-let restify = require('restify');
-let cors = require('cors')
-let server = restify.createServer({
-    // handleUncaughtExceptions: true
-});
-const conf = require('./users.conf')
-const listenPort = conf.app_port || 8001
-let func = require('./users.func')
-const os = require('os')
-const errors = require('restify-errors');
+const app = require('express')();
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const server = require('http').createServer(app);
+const {port} = require('./users.conf')
+const routes = require('./users.routes')
 const HttpListener = require('../../globals/listener/http')
 const ValidateInput = require('../../globals/middlewares/ValidateInput.middleware')
 
@@ -15,42 +11,16 @@ HttpListener.registerListener(server)
 
 const prefix = '/api/users'
 
-server.use(restify.plugins.bodyParser({
-    maxBodySize: 0,
-    mapParams: true,
-    mapFiles: false,
-    overrideParams: false,
-    multipartHandler: function (part) {
-        part.on('data', function (data) {
-        // do something with the multipart data
-        });
-    },
-    multipartFileHandler: function (part) {
-        part.on('data', function (data) {
-        // do something with the multipart file data
-        });
-    },
-    keepExtensions: false,
-    uploadDir: os.tmpdir(),
-    multiples: true,
-    hash: 'sha1',
-    rejectUnknown: true,
-    requestBodyOnGet: false,
-    reviver: undefined,
-    maxFieldsSize: 2 * 1024 * 1024
-}));
+// enable cors in all routes
+app.use(cors())
+// parse various different custom JSON types as JSON
+app.use(bodyParser.json({ type: 'application/*+json' }))
 
-const corsSettings = conf.cors
-server.use(cors({
-    'origin': corsSettings.domains.toString(),
-    'methods': corsSettings.methods.toString(),
-    'preflightContinue': false,
-    'optionsSuccessStatus': 204
-}))
+// parse some custom thing into a Buffer
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type' }))
 
-server.get(`${prefix}`, [func.main])
-server.post(`${prefix}/login`, [ValidateInput, func.login])
+// parse an HTML body into a string
+app.use(bodyParser.text({ type: 'text/html' }))
 
-server.listen(listenPort, function () {
-    console.log('user\'s server ready on %s', server.url)
-});
+
+server.listen(port);

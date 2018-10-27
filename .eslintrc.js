@@ -50,5 +50,5 @@ module.exports = {
         'arrow-spacing': 'error',
         // Requires constructors to have a super() call if it extends something
         'constructor-super': 'error'
-    }
+    }ß
 };
