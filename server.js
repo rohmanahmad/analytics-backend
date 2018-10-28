@@ -1,3 +1,6 @@
+'use strict'
+
+require('make-promises-safe')
 require('./filemapper')
 
 const {Env, optimist} = use('Deps.Loader')
@@ -12,11 +15,11 @@ if (servers) {
         .map(x => x.trim())
         .filter(x => x.length > 0)
         .map(x => x.split(':').map(x => x.trim()))
-        for (let x of s) {
-            const server = x[0].trim()
-            const port = parseInt(x[1])
-            require(`${serverPath}${server}`).start(port)
-        }
+    for (let x of s) {
+        const server = x[0].trim()
+        const port = parseInt(x[1])
+        require(`${serverPath}${server}`).start(port)
+    }
 } else {
     for (let x of apiList) {
         const server = x.trim()

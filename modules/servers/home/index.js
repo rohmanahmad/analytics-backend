@@ -10,7 +10,7 @@ const Routes = require('./home.routes')
 
 HttpListener.registerListener(server)
 
-const prefix = '/api/home'
+const prefix = '/'
 const publicPath = path.join(basePath, 'public')
 // set pug as default engine
 app.use(Express.static('public'))

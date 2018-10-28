@@ -67,7 +67,7 @@ jQuery.browser = jQuery.browser || {};
             if (url && url.length > 1) {
                 url = decodeURIComponent(url[1]);
             } else {
-                url = window.location.toString().replace(/\/*#?.*/, '/api-docs.json');
+                url = window.location.toString().replace(/\/*#?.*/, 'api-docs.json');
             }
 
             window.swaggerUi = new SwaggerUi({
