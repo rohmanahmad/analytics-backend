@@ -27,7 +27,7 @@ module.exports = {
             })
             let resp = {
                 'status': 401,
-                'message': 'email or password doesn\'t match',
+                'message': 'email or password doesn\'t match'
             }
             if (user) {
                 const newToken = jwt.sign({
