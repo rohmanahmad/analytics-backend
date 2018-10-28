@@ -17,6 +17,13 @@ app.use(Express.static('public'))
 app.set('views', publicPath)
 app.set('view engine', 'pug')
 
+// set group routes
+app.use(function (request, response, next) {
+    request.router_group = 'sentiments'
+    next()
+})
+// enable trust-proxy
+app.set('trust proxy', true)
 // enable compression
 app.use(Compression())
 // enable cors in all routes

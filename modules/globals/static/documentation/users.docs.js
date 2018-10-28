@@ -1,6 +1,7 @@
 'use strict'
 
 const definitions = require('./definitions')
+const paths = require('./paths')('users')
 
 module.exports = {
     publish: function () {
@@ -19,7 +20,7 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: 'http://localhost:8000',
+            host: 'localhost:8001',
             basePath: '/api',
             schemes: [
                 'http'
@@ -27,30 +28,8 @@ module.exports = {
             produces: [
                 'application/json'
             ],
-            paths: {
-                '/users/login': {
-                    'post': {
-                        'tags': [
-                            'Authentication'
-                        ],
-                        'summary': 'Login',
-                        'description': 'Login from user',
-                        'parameters': [
-                            { '$ref': '#/definitions/user_email_form' },
-                            { '$ref': '#/definitions/user_password_form' }
-                        ],
-                        'responses': {
-                            '200': {
-                                'description': 'Successful response',
-                                'schema': {
-                                    '$ref': '#/definitions/login_response'
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            definitions
+            paths,
+            definitions: definitions.schemas
         }
     }
 }

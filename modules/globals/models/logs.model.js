@@ -2,14 +2,10 @@
 
 const Base = require('./_base.model')
 
-class LogModel extends Base {
-    static get collection () {
+class Log extends Base {
+    get collection () {
         return 'request_logs'
-    }
-
-    static get dbname () {
-        return 'malangsoftwarecom'
     }
 }
 
-module.exports = LogModel
+module.exports = new Log()

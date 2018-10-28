@@ -1,7 +1,7 @@
 'use strict'
 
-const {Users} = use('Model.Loader')
-const {Env, md5, jwt} = use('Deps.Loader')
+const {Users, LoginLogs} = use('Models.Loader')
+const {Env, md5, jwt, moment} = use('Deps.Loader')
 const docs = use('modules/globals/static/documentation/users.docs')
 const AppKey = Env.API_KEY
 const TokenExp = Env.TOKEN_EXP
@@ -18,33 +18,54 @@ module.exports = {
     },
     login: async (request, response, next) => {
         try {
-            const userEmail = request.all.user_email
-            const userPassword = md5(request.all.user_password)
-            const o = await new Users().query()
-            const users = await o.db_collection.findOne({'user_email': userEmail, 'user_password': userPassword})
+            const userEmail = request.validInput.user_email
+            const userPassword = md5(request.validInput.user_password)
+            const o = await Users.query()
+            const user = await o.findOne({
+                'user_email': userEmail,
+                'user_password': userPassword
+            })
             let resp = {
                 'status': 401,
                 'message': 'email or password doesn\'t match',
-                'data': {
-                    'items': null
-                }
             }
-            if (users) {
-                const newToken = jwt.sign({'data': users.user_email}, AppKey, {'expiresIn': TokenExp})
+            if (user) {
+                const newToken = jwt.sign({
+                    'data': userEmail
+                },
+                AppKey,
+                {'expiresIn': TokenExp})
+                const expiredDate = moment()
+                    .add(TokenExp)
+                    .toDate()
+                    .getTime()
                 resp = {
                     'status': 200,
-                    'message': 'login success',
+                    'message': 'Login Success',
                     'data': {
                         'items': {
-                            email: users.user_email,
-                            token: newToken
+                            email: userEmail,
+                            token: newToken,
+                            token_id: 'login_' + md5(newToken), // yg disimpan di redis ini, bukan token asli krn panjang
+                            expires_in: new Date(expiredDate)
                         }
                     }
                 }
+                const l = await LoginLogs.query()
+                await l.insert({
+                    user_id: user._id,
+                    login_at: new Date(),
+                    ip_address: request.ip,
+                    user_agent: request.get('User-Agent')
+                })
             }
-            response.send(resp.status || 400, resp)
+            response.status(resp.status || 400).send(resp)
         } catch (e) {
             next(e)
         }
+    },
+    register: async (request, response, next) => {
+    },
+    reset: async (request, response, next) => {
     }
 }

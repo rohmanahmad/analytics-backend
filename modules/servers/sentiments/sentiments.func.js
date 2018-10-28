@@ -1,12 +1,9 @@
 'use strict'
 
-const {Patterns, Vocabularies} = use('Model.Loader')
+const {Vocabularies} = use('Models.Loader')
 const {ObjectId} = use('Deps.Loader')
 // const ObjectID = require('bson/lib/bson/objectid')
 const docs = use('modules/globals/static/documentation/sentiments.docs')
-
-const sPatternModel = new Patterns()
-const vocabModel = new Vocabularies()
 
 function pagginate (dataCount, limit, page) {
     const pageCount = Math.floor(dataCount / limit)
@@ -37,7 +34,7 @@ module.exports = {
             const limit = request.all.limit || 10
             const page = request.all.page
             const sort = request.all.sort
-            const q = await vocabModel.query()
+            const q = await Vocabularies.query()
             const total = await q.find().count()
             let paggination = pagginate(total, limit, page)
             let v = q.find({})
@@ -54,7 +51,7 @@ module.exports = {
     vocabOne: async (request, response, next) => {
         try {
             const _id = new ObjectId(request.params.id)
-            const q = await vocabModel.query().findOne({_id})
+            const q = await Vocabularies.query().findOne({_id})
             response.apiCollection(q, {})
         } catch (e) {
             next(e)
@@ -72,7 +69,7 @@ module.exports = {
             data['indo_keyword'] = data.indo_keyword || ''
             data['en_keyword'] = data.en_keyword || ''
             data['description'] = data.description || defaultDesc[type]
-            const q = await vocabModel.query().insertOne(data)
+            const q = await Vocabularies.query().insertOne(data)
             response.apiCollection(q, {data})
         } catch (e) {
             next(e)
@@ -85,7 +82,7 @@ module.exports = {
             if (action !== 'delete' && action !== 'update') throw new Error('action not valid!')
             const items = request.all.items
             if (items && items.length === 0) throw new Error('items not valid')
-            let bulkOps = await vocabModel.query().initializeUnorderedBulkOp({ w: 1 })
+            let bulkOps = await Vocabularies.query().initializeUnorderedBulkOp({ w: 1 })
             for (let x of items) {
                 let data = x.data
                 const type = data.type.split('|')[0].trim()

@@ -54,10 +54,6 @@ async function connectToDB () {
 connectToDB()
 
 class Base {
-    constructor () {
-        this.collection = this.collection
-        this.db = dbname
-    }
     async connection () {
         if (!connectionPool) {
             connectionPool = await reconnectDB()
@@ -67,12 +63,12 @@ class Base {
         }
         return connectionPool
     }
-    async collection () {
+    async currentCollection () {
         const con = await this.connection()
-        return con.db(dbname).collection(this.collection_name)
+        return con.db(dbname).collection(this.collection)
     }
     async query () {
-        const col = await this.collection()
+        const col = await this.currentCollection()
         return col
     }
 }

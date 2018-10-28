@@ -1,6 +1,6 @@
 'use strict'
 
-const {LogModel} = use('Model.Loader')
+const {LogModel} = use('Models.Loader')
 const {md5} = use('Deps.Loader')
 
 async function createLog (data, error) {

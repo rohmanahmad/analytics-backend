@@ -1,8 +1,9 @@
 const nameSpaces = {
     'Utils.Helper': './modules/globals/helpers/utils.helper',
     'Deps.Loader': './modules/globals/libs/deps.loader',
-    'Model.Loader': './modules/globals/libs/model.loader',
+    'Models.Loader': './modules/globals/libs/model.loader',
     'Settings.Loader': './modules/globals/libs/settings.loader',
+    'Middlewares': './modules/globals/middlewares',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
     'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
     'Http.Listener': './modules/globals/listener/http',

@@ -2,10 +2,10 @@
 
 const Base = require('./_base.model')
 
-class SpatternModel extends Base {
-    static get collection () {
+class Patterns extends Base {
+    get collection () {
         return 'ml_sentence_patterns'
     }
 }
 
-module.exports = SpatternModel
+module.exports = new Patterns()

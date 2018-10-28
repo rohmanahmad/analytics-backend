@@ -17,6 +17,13 @@ app.use(Express.static('public'))
 app.set('views', publicPath)
 app.set('view engine', 'pug')
 
+// set group routes
+app.use(function (request, response, next) {
+    request.router_group = 'users'
+    next()
+})
+// enable trust-proxy
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal'])
 // enable compression
 app.use(Compression())
 // enable cors in all routes
@@ -26,6 +33,8 @@ app.use(BodyParser.json({ type: 'application/*+json' }))
 
 // parse some custom thing into a Buffer
 app.use(BodyParser.raw({ type: 'application/vnd.custom-type' }))
+
+app.use(BodyParser.urlencoded({ extended: true }))
 
 // parse an HTML body into a string
 app.use(BodyParser.text({ type: 'text/html' }))
