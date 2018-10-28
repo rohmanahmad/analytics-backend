@@ -1,9 +1,21 @@
 'use strict'
 
 const {Users} = use('Model.Loader')
-const {md5, jwt} = use('Deps.Loader')
+const {Env, md5, jwt} = use('Deps.Loader')
+const docs = use('modules/globals/static/documentation/users.docs')
+const AppKey = Env.API_KEY
+const TokenExp = Env.TOKEN_EXP
 
 module.exports = {
+    main: async (request, response) => {
+        response.send('user\'s server running...')
+    },
+    docs: async (request, response) => {
+        response.render('docs/index', docs.publish())
+    },
+    apidocs: async (request, response) => {
+        response.json(docs.publish())
+    },
     login: async (request, response, next) => {
         try {
             const userEmail = request.all.user_email
@@ -18,7 +30,7 @@ module.exports = {
                 }
             }
             if (users) {
-                const newToken = jwt.sign({'data': users.user_email}, jwtToken, {'expiresIn': jwtExp})
+                const newToken = jwt.sign({'data': users.user_email}, AppKey, {'expiresIn': TokenExp})
                 resp = {
                     'status': 200,
                     'message': 'login success',
@@ -34,9 +46,5 @@ module.exports = {
         } catch (e) {
             next(e)
         }
-    },
-    
-    main: async (request, response) => {
-        response.send('user\'s server running...')
     }
 }

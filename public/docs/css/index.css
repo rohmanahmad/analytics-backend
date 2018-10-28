@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+}
 .color {
     background: #f00;
     border-radius: 3px;

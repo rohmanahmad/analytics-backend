@@ -5,12 +5,12 @@ const utils = use('Utils.Helper')
 const HttpListener = use('Http.Listener')
 // const ValidateInput = use('ValidateInput.Middleware')
 
-const {port} = require('./users.conf')
-const Routes = require('./users.routes')
+const {port} = require('./sentiments.conf')
+const Routes = require('./sentiments.routes')
 
 HttpListener.registerListener(server)
 
-const prefix = '/api/users'
+const prefix = '/api/analytics/sentiments'
 const publicPath = path.join(basePath, 'public')
 // set pug as default engine
 app.use(Express.static('public'))
@@ -37,6 +37,6 @@ module.exports = {
     start: function (newport) {
         newport = newport || port
         server.listen(newport)
-        utils.log('users server listen on port: ' + newport)
+        utils.log('sentiments server listen on port: ' + newport)
     }
 }

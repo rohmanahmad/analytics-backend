@@ -1,12 +1,12 @@
 'use strict'
 
-const serverconfig = require('../../../server.conf')
-const Mpattern = require('./models/s_pattern.model')
-const Mvoc = require('./models/s_vocabulary.model')
-const ObjectID = require('bson/lib/bson/objectid')
+const {Patterns, Vocabularies} = use('Model.Loader')
+const {ObjectId} = use('Deps.Loader')
+// const ObjectID = require('bson/lib/bson/objectid')
+const docs = use('modules/globals/static/documentation/sentiments.docs')
 
-const sPatternModel = new Mpattern()
-const vocabModel = new Mvoc()
+const sPatternModel = new Patterns()
+const vocabModel = new Vocabularies()
 
 function pagginate (dataCount, limit, page) {
     const pageCount = Math.floor(dataCount / limit)
@@ -22,8 +22,17 @@ function pagginate (dataCount, limit, page) {
     }
 }
 
-class Sentiments {
-    async vocabListAll (request, response, next) {
+module.exports = {
+    main: async (request, response) => {
+        response.send('user\'s server running...')
+    },
+    docs: async (request, response) => {
+        response.render('docs/index', docs.publish())
+    },
+    apidocs: async (request, response) => {
+        response.json(docs.publish())
+    },
+    vocabList: async (request, response, next) => {
         try {
             const limit = request.all.limit || 10
             const page = request.all.page
@@ -41,19 +50,17 @@ class Sentiments {
         } catch (e) {
             next(e)
         }
-    }
-
-    async vocabListOne (request, response, next) {
+    },
+    vocabOne: async (request, response, next) => {
         try {
-            const _id = new ObjectID(request.params.id)
+            const _id = new ObjectId(request.params.id)
             const q = await vocabModel.query().findOne({_id})
-            response.r.apiCollection(q, {})
+            response.apiCollection(q, {})
         } catch (e) {
             next(e)
         }
-    }
-
-    async createOne (request, response, next) {
+    },
+    vocabNew: async (request, response, next) => {
         try {
             const defaultDesc = request.config.default_vocab_desc
             const type = request.all.type.split('|')[0].trim()
@@ -66,13 +73,12 @@ class Sentiments {
             data['en_keyword'] = data.en_keyword || ''
             data['description'] = data.description || defaultDesc[type]
             const q = await vocabModel.query().insertOne(data)
-            response.r.apiCollection(q, {data})
+            response.apiCollection(q, {data})
         } catch (e) {
             next(e)
         }
-    }
-
-    async vocabUpdateOrDelete (request, response, next) {
+    },
+    vocabUpdate: async (request, response, next) => {
         try {
             const defaultDesc = request.config.default_vocab_desc
             const action = request.all.action
@@ -87,14 +93,19 @@ class Sentiments {
                 data['indo_keyword'] = data.indo_keyword || ''
                 data['en_keyword'] = data.en_keyword || ''
                 data['description'] = data.description || defaultDesc[type]
-                bulkOps.updateOne({ '_id': new ObjectID(x.id) }, { '$set': x.data }, { '$upsert': true })
+                bulkOps.updateOne({ '_id': new ObjectId(x.id) }, { '$set': x.data }, { '$upsert': true })
             }
             bulkOps = await bulkOps.execute()
-            response.r.apiCollection(bulkOps, {})
+            response.apiCollection(bulkOps, {})
+        } catch (e) {
+            next(e)
+        }
+    },
+    vocabDelete: async (request, response, next) => {
+        try {
+            response.apiCollection({})
         } catch (e) {
             next(e)
         }
     }
 }
-
-module.exports = Sentiments

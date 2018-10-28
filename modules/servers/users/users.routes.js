@@ -20,6 +20,8 @@ const listRoutes = {
 
 const register = function (app, prefix = '/api/users') {
     app.get('/', func.main)
+    app.get('/documentation', func.docs)
+    app.get('/api-docs.json', func.apidocs)
     for (let r of listRoutes['get']) {
         const routePath = `${prefix}${r.path}`
         utils.debugme(`|-- registering route: ${routePath} [GET]`)

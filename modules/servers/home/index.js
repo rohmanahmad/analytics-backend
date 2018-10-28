@@ -1,9 +1,9 @@
-const {Express, Cors, BodyParser, Http, Compression} = use('Deps.Loader')
+const {basePath, Express, Cors, BodyParser, Http, Compression, path} = use('Deps.Loader')
 const app = Express()
 const server = Http.createServer(app);
 const utils = use('Utils.Helper')
 const HttpListener = use('Http.Listener')
-const ValidateInput = use('ValidateInput.Middleware')
+// const ValidateInput = use('ValidateInput.Middleware')
 
 const {port} = require('./home.conf')
 const Routes = require('./home.routes')
@@ -11,7 +11,11 @@ const Routes = require('./home.routes')
 HttpListener.registerListener(server)
 
 const prefix = '/api/home'
-
+const publicPath = path.join(basePath, 'public')
+// set pug as default engine
+app.use(Express.static('public'))
+app.set('views', publicPath)
+app.set('view engine', 'pug')
 // enable compression
 app.use(Compression())
 // enable cors in all routes

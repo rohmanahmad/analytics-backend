@@ -1,13 +1,13 @@
 'use strict'
 
-const logs = require('../models/logs.model')
-const patterns = require('../models/patterns.model')
-const users = require('../models/users.model')
-const vocabularies = require('../models/vocabularies.model')
+const Logs = require('../models/logs.model')
+const Patterns = require('../models/patterns.model')
+const Users = require('../models/users.model')
+const Vocabularies = require('../models/vocabularies.model')
 
 module.exports = {
-    logs,
-    patterns,
-    users,
-    vocabularies
+    Logs,
+    Patterns,
+    Users,
+    Vocabularies
 }
