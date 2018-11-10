@@ -1,0 +1,87 @@
+'use strict'
+
+const {mongod} = use('Deps.Loader')
+const utils = use('Utils.Helper')
+
+const mongoclient = mongod.MongoClient
+const {mongodb} = use('Settings.Loader')
+const {dbname, dsn} = mongodb
+
+let connectionPool = null
+
+async function reconnectDB () {
+    try {
+        connectionPool = await mongoclient.connect(dsn, {
+            // reconnectTries: 3,
+            // auto_reconnect: true,
+            poolSize: 10,
+            useNewUrlParser: true
+        })
+        // registering events
+        connectionPool.on('close', () => {
+            utils.debugme('... lost connection')
+            reconnectDB()
+        })
+        connectionPool.on('reconnect', () => { utils.debugme('-> reconnected') })
+        utils.debugme('... db connected again')
+        return connectionPool
+    } catch (e) {
+        utils.debugme('reconnecting: ', e.message)
+    }
+}
+
+async function connectToDB () {
+    try {
+        connectionPool = null
+        connectionPool = await mongoclient.connect(dsn, {
+            // reconnectTries: 3,
+            // auto_reconnect: true,
+            poolSize: 10,
+            useNewUrlParser: true
+        })
+        // registering events
+        connectionPool.on('close', () => {
+            utils.debugme('... lost connection')
+            reconnectDB()
+        })
+        connectionPool.on('reconnect', () => { utils.debugme('... reconnected') })
+        utils.debugme('db connections are open!')
+    } catch (e) {
+        console.error(e.message)
+    }
+}
+// connecting to db firstly
+connectToDB()
+
+class Base {
+    async connection () {
+        if (!connectionPool) {
+            connectionPool = await reconnectDB()
+        }
+        if (!connectionPool.isConnected()) {
+            connectionPool = await reconnectDB()
+        }
+        return connectionPool
+    }
+    async currentCollection () {
+        const con = await this.connection()
+        return con.db(dbname).collection(this.collection)
+    }
+    async query () {
+        const col = await this.currentCollection()
+        return col
+    }
+    validFields (allInput) {
+        let validInput = {}
+        if (this.fields) {
+            for (const input of this.fields) {
+                if (allInput[input]) {
+                    validInput[input] = allInput[input]
+                }
+            }
+        }
+        return validInput
+    }
+}
+
+module.exports = Base

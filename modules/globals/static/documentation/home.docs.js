@@ -19,8 +19,8 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: 'localhost:8000',
-            basePath: '/api',
+            host: 'localhost',
+            basePath: '/',
             schemes: [
                 'http'
             ],

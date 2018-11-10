@@ -6,43 +6,74 @@ const allRoutes = use('All.Routes')
 
 const func = require('./sentiments.func')
 
+const {auth, input} = use('Middlewares')
+
 const listRoutes = {
     get: [
         {
-            path: '/vocab-list',
-            fn: func.vocabList
+            path: '/vocab/list',
+            fn: func.vocabList,
+            middlewares: [
+                auth,
+                input
+            ]
         },
         {
             path: '/vocab/:id',
-            fn: func.vocabOne
+            fn: func.vocabOne,
+            middlewares: [
+                auth,
+                input
+            ]
         },
         {
-            path: '/vocab-delete',
-            fn: func.vocabDelete
+            path: '/vocab/delete',
+            fn: func.vocabDelete,
+            middlewares: [
+                auth,
+                input
+            ]
         }
     ],
     post: [
         {
             path: '/vocab/update',
-            fn: func.vocabUpdate
+            fn: func.vocabUpdate,
+            middlewares: [
+                auth,
+                input
+            ]
         },
         {
             path: '/vocab/create',
-            fn: func.vocabNew
+            fn: func.vocabNew,
+            middlewares: [
+                auth,
+                input
+            ]
         }
     ]
 }
 
+function getMiddlewares (r, prefix) {
+    const middlewares = r.middlewares || []
+    return {
+        route: path.join(prefix, r.path),
+        funcs: middlewares,
+        handler: r.fn
+    }
+}
+
 const register = function (app, prefix = '/api/analytics/sentiments') {
     for (let r of listRoutes['get']) {
-        const routePath = path.join(prefix, r.path)
-        utils.debugme(` |-- registering route: ${routePath} [GET]`)
-        app.get(routePath, r.fn)
+        const {route, funcs, handler} = getMiddlewares(r, prefix)
+        utils.debugme(` |-- registering route: ${route} [GET]`)
+        app.get(route, funcs, handler)
     }
     for (let r of listRoutes['post']) {
-        const routePath = path.join(prefix, r.path)
-        utils.debugme(` |-- registering route: ${routePath} [POST]`)
-        app.post(routePath, r.fn)
+        const {route, funcs, handler} = getMiddlewares(r, prefix)
+        utils.debugme(` |-- registering route: ${route} [POST]`)
+        app.post(route, funcs, handler)
     }
     // register another routes
     allRoutes.register(app, func, prefix)

@@ -27,7 +27,7 @@ const usersPaths = {
 }
 
 const sentimentsPaths = {
-    '/ai/vocabulary/': {
+    '/analytics/sentiments/vocab/list': {
         'get': {
             'tags': [
                 'AI_Sentiments'
@@ -47,27 +47,9 @@ const sentimentsPaths = {
                     }
                 }
             }
-        },
-        'put': {
-            'tags': [
-                'AI_Sentiments'
-            ],
-            'summary': 'vocabulary update or delete',
-            'description': 'update or delete of vocabulary (multiple support)',
-            'parameters': [
-                definitions.getData('ai_voc_body_put')
-            ],
-            'responses': {
-                '200': {
-                    'description': 'Successful response',
-                    'schema': {
-                        '$ref': '#/definitions/deleted_response'
-                    }
-                }
-            }
         }
     },
-    '/ai/vocabulary/{id}': {
+    '/analytics/sentiments/vocab/{id}': {
         'get': {
             'tags': [
                 'AI_Sentiments'
@@ -87,7 +69,7 @@ const sentimentsPaths = {
             }
         }
     },
-    '/ai/vocabulary/create': {
+    '/analytics/sentiments/vocab/create': {
         'post': {
             'tags': [
                 'AI_Sentiments'
@@ -95,7 +77,31 @@ const sentimentsPaths = {
             'summary': 'vocabulary create',
             'description': 'create of vocabulary',
             'parameters': [
-                definitions.getData('ai_voc_body')
+                definitions.getData('type_form'),
+                definitions.getData('id_key_form'),
+                definitions.getData('en_key_form'),
+                definitions.getData('sentiment_form'),
+                definitions.getData('description_form')
+            ],
+            'responses': {
+                '200': {
+                    'description': 'Successful response',
+                    'schema': {
+                        '$ref': '#/definitions/login_response'
+                    }
+                }
+            }
+        }
+    },
+    '/analytics/sentiments/vocab/delete': {
+        'get': {
+            'tags': [
+                'AI_Sentiments'
+            ],
+            'summary': 'vocabulary delete',
+            'description': 'delete vocabulary',
+            'parameters': [
+                definitions.getData('id_query')
             ],
             'responses': {
                 '200': {
@@ -109,9 +115,52 @@ const sentimentsPaths = {
     }
 }
 
+const sharesPaths = {
+    '/shares/new': {
+        'post': {
+            'tags': [
+                'Shares'
+            ],
+            'summary': 'New Share',
+            'description': 'Generate Share Url',
+            'parameters': [
+                definitions.getData('url_form')
+            ],
+            'responses': {
+                '200': {
+                    'description': 'Successful response',
+                    'schema': {
+                        '$ref': '#/definitions/share_new_response'
+                    }
+                }
+            }
+        }
+    },
+    '/shares/{uniq_code}': {
+        'get': {
+            'tags': [
+                'Shares'
+            ],
+            'summary': 'Goto Url',
+            'description': 'Goto Url',
+            'parameters': [
+                definitions.getData('uniq_code_path')
+            ],
+            'responses': {
+                '200': {
+                    'description': 'Successful response',
+                    'schema': {
+                        '$ref': '#/definitions/share_new_response'
+                    }
+                }
+            }
+        }
+    }
+}
 const allPaths = {
     users: usersPaths,
-    sentiments: sentimentsPaths
+    sentiments: sentimentsPaths,
+    shares: sharesPaths
 }
 
 module.exports = function (group) {

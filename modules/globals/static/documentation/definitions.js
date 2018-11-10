@@ -6,7 +6,7 @@ const schemas = {
             "data": {
                 "type": "object",
                 "properties": {
-                    "_id": {"default": "hash-id"}
+                    "_id": {"default": "OBjectID"}
                 }
             }
         }
@@ -37,7 +37,7 @@ const schemas = {
             "data": {
                 "type": "object",
                 "properties": {
-                    "_id": {"default": "hash-id"}
+                    "_id": {"default": "ObjectID"}
                 }
             }
         }
@@ -70,7 +70,7 @@ const schemas = {
                         "items": [
                             {
                                 "properties": {
-                                    "_id": {"default": "random-hash"},
+                                    "_id": {"default": "ObjectID"},
                                     "indo_keyword": {"default": "contoh"},
                                     "en_keyword": {"default": "example"},
                                     "type": {"default": "V|N|ADJ|C|PN"},
@@ -90,7 +90,7 @@ const schemas = {
             "data": {
                 "type": "object",
                 "properties": {
-                    "_id": {"default": "random-hash"},
+                    "_id": {"default": "ObjectID"},
                     "indo_keyword": {"default": "contoh"},
                     "en_keyword": {"default": "example"},
                     "type": {"default": "V|N|ADJ|C|PN"},
@@ -101,105 +101,91 @@ const schemas = {
     }
 }
 const definitions = {
-    "ai_voc_body": {
-        "in": "body",
-        "name": "data",
-        "description": "data [object]",
-        "schema": {
-            "$ref": "#/definitions/ai_voc_schema"
-        }
-    },
-    "ai_voc_body_put": {
-        "in": "body",
-        "name": "data",
-        "description": "data [object]",
-        "schema": {
-            "$ref": "#/definitions/ai_body"
-        }
-    },
     "id_path": {
         "in": "path",
         "name": "id",
-        "type": "path",
-        "description": "id [string]"
+        "type": "path (string)",
+        "description": "ObjectID"
+    },
+    "type_form": {
+        "in": "formData",
+        "name": "type",
+        "type": "form (string)",
+        "description": "V|N|ADJ|C|PN"
+    },
+    "id_key_form": {
+        "in": "formData",
+        "name": "id_key",
+        "type": "form (string)",
+        "description": ""
+    },
+    "en_key_form": {
+        "in": "formData",
+        "name": "en_key",
+        "type": "form (string)",
+        "description": ""
+    },
+    "description_form": {
+        "in": "formData",
+        "name": "description",
+        "type": "form (string)",
+        "description": ""
     },
     "id_query": {
         "in": "query",
         "name": "id",
-        "type": "query",
-        "description": "id (string)"
-    },
-    "ai_body": {
-        "properties": {
-            "action": {
-                "type": "string",
-                "default": "update|delete"
-            },
-            "items": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string",
-                            "default": "hash-id"
-                        },
-                        "data": {
-                            "type": "object",
-                            "properties": {
-                                "type": {
-                                    "type": "string",
-                                    "default": "V|N|ADJ|C|PN|"
-                                },
-                                "indo_keyword": {
-                                    "type": "string",
-                                    "default": "update keyword"
-                                },
-                                "en_keyword": {
-                                    "type": "string",
-                                    "default": "update keyword"
-                                },
-                                "description": {
-                                    "type": "string",
-                                    "default": "update description"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        "type": "query (string)",
+        "description": "ObjectID"
     },
     "limit_query": {
         "in": "query",
         "name": "limit",
-        "type": "query",
-        "description": "limit (int)"
+        "type": "query (numeral)",
+        "description": "limit"
     },
     "page_query": {
         "in": "query",
         "name": "page",
-        "type": "query",
-        "description": "page (int)"
+        "type": "query (numeral)",
+        "description": "page"
     },
     "user_email_form": {
         "in": "formData",
         "name": "user_email",
-        "type": "formData",
-        "description": "user_email (string)"
+        "type": "form (string)",
+        "description": "user email"
+    },
+    "url_form": {
+        "in": "formData",
+        "name": "url",
+        "type": "form (string)",
+        "description": "url include http / https"
     },
     "user_password_form": {
         "in": "formData",
         "name": "user_password",
-        "type": "formData",
-        "description": "user_password (string)"
+        "type": "form (string)",
+        "description": "user password"
+    },
+    "uniq_code_path": {
+        "in": "path",
+        "name": "uniq_code",
+        "type": "path (string)",
+        "description": "Unique Code Url"
     },
     "sort_query": {
         "in": "query",
         "name": "sort",
-        "type": "query",
-        "description": "asc | desc (string)",
+        "type": "query (string)",
+        "description": "asc | desc",
         "default": "asc"
+    },
+    "sentiment_form": {
+        "in": "formData",
+        "name": "sentiment",
+        "type": "form (numeral)",
+        "description": "1 | 0 | -1",
+        "default": 0
     },
 }
 module.exports = {

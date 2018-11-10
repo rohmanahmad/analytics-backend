@@ -13,12 +13,15 @@ const Express = require('express')
 const Http = require('http')
 const jwt = require('jsonwebtoken')
 const md5 = require('md5')
-const mongodb = require('mongodb')
+const mongod = require('mongodb')
+const mongoose = require('mongoose')
 const moment = require('moment')
 const optimist = require('optimist')
 const path = require('path')
+const util = require('util')
 
-const ObjectId = mongodb.ObjectId
+const ObjectId = mongod.ObjectId
+const mongooseObjID = mongoose.Schema.Types.ObjectId
 
 module.exports = {
     _,
@@ -32,9 +35,12 @@ module.exports = {
     Http,
     jwt,
     md5,
-    mongodb,
+    mongod,
     moment,
+    mongoose,
+    mongooseObjID,
     optimist,
     ObjectId,
-    path
+    path,
+    util
 }

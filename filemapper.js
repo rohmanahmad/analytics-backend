@@ -6,7 +6,7 @@ const nameSpaces = {
     'Middlewares': './modules/globals/middlewares',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
     'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
-    'Http.Listener': './modules/globals/listener/http',
+    'Http.Response': './modules/globals/listener/response',
     'All.Routes': './modules/globals/routes/all.routes'
 }
 
