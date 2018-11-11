@@ -21,6 +21,7 @@ module.exports = {
     newShare: async (request, response) => {
         try {
             const {url} = request.validInput
+            console.log(request.validInput)
             if (url && url.length > 0) {
                 const md5Url = md5(url)
                 const isExists = await ShortLink.findOne({'hash': md5Url})
@@ -38,22 +39,31 @@ module.exports = {
                     response.send(domain + '/' + isExists.uniq_code)
                 }
             } else {
-                response.send(md5(url))
+                throw new Error('invalid url')
             }
         } catch (e) {
-            response.status(400).send(e.message)
+            response
+                .status(400)
+                .send(e.message)
         }
     },
     goToUrl: async (request, response) => {
-        const val = request.params
-        const uniqCode = val ? val.uniq_code : false
-        if (uniqCode) {
+        try {
+            const val = request.params
+            const uniqCode = val ? val.uniq_code : false
+            if (!uniqCode) {
+                throw new Error('required uniq code')
+            }
             const q = await ShortLink.findOne({'uniq_code': uniqCode})
             const linkTo = q ? q.url : false
-            if (linkTo) {
-                return response.redirect(linkTo)
+            if (!linkTo) {
+                throw new Error('invalid url')
             }
+            response.redirect(linkTo)
+        } catch (e) {
+            response
+                .status(400)
+                .send(e.message)
         }
-        response.status(400).send('bad request')
     }
 }
