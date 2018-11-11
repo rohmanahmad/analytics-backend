@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
     const routerGroup = req.router_group || ''
     const routerMethod = req.method.toLowerCase()
     const listPaths = paths(routerGroup) || {}
-    const validInput = _.result(listPaths, `${routerPath}.${routerMethod}.parameters`, {})
+    const validInput = _.result(listPaths, `${routerPath}.${routerMethod}.parameters`, [])
     // console.log({routerGroup, routerMethod, routerPath, validInput, listPaths})
     let inputs = {}
     for (let input of validInput) {

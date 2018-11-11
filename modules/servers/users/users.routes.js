@@ -3,7 +3,7 @@
 const utils = use('Utils.Helper')
 const func = require('./users.func')
 const allRoutes = use('All.Routes')
-const {path, _} = use('Deps.Loader')
+const {path} = use('Deps.Loader')
 
 const {auth, input} = use('Middlewares')
 
@@ -36,20 +36,25 @@ const listRoutes = {
     ]
 }
 
+function getMiddlewares (r, prefix) {
+    const middlewares = r.middlewares || []
+    return {
+        route: path.join(prefix, r.path),
+        funcs: middlewares,
+        handler: r.fn
+    }
+}
+
 const register = function (app, prefix = '/api/users') {
     for (let r of listRoutes['get']) {
-        const routePath = path.join(prefix, r.path)
-        const middlewares = r.middlewares || []
-        const sequenceFuncs = middlewares.push(r.fn)
-        utils.debugme(` |-- registering route: ${routePath} [GET]`)
-        app.get(routePath, sequenceFuncs)
+        const {route, funcs, handler} = getMiddlewares(r, prefix)
+        utils.debugme(` |-- registering route: ${route} [GET]`)
+        app.get(route, funcs, handler)
     }
     for (let r of listRoutes['post']) {
-        const routePath = path.join(prefix, r.path)
-        const middlewares = r.middlewares || []
-        const sequenceFuncs = _.concat(middlewares, r.fn)
-        utils.debugme(` |-- registering route: ${routePath} [POST]`)
-        app.post(routePath, sequenceFuncs)
+        const {route, funcs, handler} = getMiddlewares(r, prefix)
+        utils.debugme(` |-- registering route: ${route} [POST]`)
+        app.post(route, funcs, handler)
     }
     // register another routes
     allRoutes.register(app, func, prefix)

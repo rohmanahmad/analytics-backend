@@ -40,9 +40,17 @@ const register = function (app, func, prefix = '') {
         utils.debugme(` |-- registering route: ${routePath} [GET]`)
         app.get(routePath, func[i.fn])
     }
-    registerNotFound(app, prefix)
+    if (this.useNotfound === 'yes') {
+        registerNotFound(app, prefix)
+    }
+}
+
+const use404 = function () {
+    this.useNotfound = 'yes'
+    return this
 }
 
 module.exports = {
-    register
+    register,
+    use404
 }

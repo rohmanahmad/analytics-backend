@@ -2,13 +2,11 @@ const {basePath, Express, Cors, BodyParser, Http, Compression, path} = use('Deps
 const app = Express()
 const server = Http.createServer(app);
 const utils = use('Utils.Helper')
-const HttpListener = use('Http.Listener')
+const HttpResponse = use('Http.Response')
 // const ValidateInput = use('ValidateInput.Middleware')
 
 const {port} = require('./home.conf')
 const Routes = require('./home.routes')
-
-HttpListener.registerListener(server)
 
 const prefix = '/'
 const publicPath = path.join(basePath, 'public')
@@ -29,13 +27,21 @@ app.use(BodyParser.raw({ type: 'application/vnd.custom-type' }))
 // parse an HTML body into a string
 app.use(BodyParser.text({ type: 'text/html' }))
 
+app.use(HttpResponse)
+
 // registering user's routers
 Routes.register(app, prefix)
 
 module.exports = {
     start: function (newport) {
+        const workerId = this.workerId ? ' |-- workerID: ' + this.workerId : false
         newport = newport || port
         server.listen(newport)
         utils.log('home server listen on port: ' + newport)
+        if (workerId) utils.log(workerId)
+    },
+    cluster: function (worker) {
+        this.workerId = worker.id
+        return this
     }
 }

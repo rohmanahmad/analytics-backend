@@ -4,7 +4,7 @@ const definitions = require('./definitions')
 const paths = require('./paths')('sentiments')
 
 module.exports = {
-    publish: function (host = 'localhost:8000') {
+    publish: function (host = 'localhost:8002') {
         return {
             swagger: '2.0',
             info: {
@@ -20,8 +20,8 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host,
-            basePath: '/api',
+            host: 'localhost',
+            basePath: '/',
             schemes: [
                 'http'
             ],

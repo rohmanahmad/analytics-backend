@@ -1,7 +1,5 @@
 'use strict'
 
-const _ = require('lodash')
-
 let {connections, mysql, mongodb} = {
     'mongodb': 'server1',
     'mysql': 'server2',
@@ -15,7 +13,7 @@ let {connections, mysql, mongodb} = {
             'port': 3306,
             'user': 'root',
             'pass': '',
-            'db': '',
+            'db': ''
         },
         'server3': '',
         'server4': '',
@@ -34,6 +32,6 @@ let {connections, mysql, mongodb} = {
 
 module.exports = {
     connections,
-    mongodb_conf: connections[mongodb],
-    mysql_conf: connections[mysql]
+    mongodb: connections[mongodb],
+    mysql: connections[mysql]
 }

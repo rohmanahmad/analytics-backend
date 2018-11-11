@@ -1,7 +1,13 @@
 'use strict'
 
-const {Users, LoginLogs} = use('Models.Loader')
-const {Env, md5, jwt, moment} = use('Deps.Loader')
+const Models = use('Models.Loader')
+const Users = Models.Users
+const LoginLogs = Models.LoginLogs
+const Deps = use('Deps.Loader')
+const Env = Deps.Env
+const md5 = Deps.md5
+const jwt = Deps.jwt
+const moment = Deps.moment
 const docs = use('modules/globals/static/documentation/users.docs')
 const AppKey = Env.API_KEY
 const TokenExp = Env.TOKEN_EXP
@@ -18,15 +24,13 @@ module.exports = {
     },
     login: async (request, response, next) => {
         try {
-            const userEmail = request.validInput.user_email
-            const userPassword = md5(request.validInput.user_password)
-            const o = await Users.query()
-            const user = await o.findOne({
-                'user_email': userEmail,
-                'user_password': userPassword
+            const {user_email: userEmail, user_password: userPassword} = request.validInput
+            const user = await Users.findOne({
+                'user_email': userEmail || '',
+                'user_password': md5(userPassword || '')
             })
             let resp = {
-                'status': 401,
+                'status': 400,
                 'message': 'email or password doesn\'t match'
             }
             if (user) {
@@ -46,13 +50,13 @@ module.exports = {
                         'items': {
                             email: userEmail,
                             token: newToken,
-                            token_id: 'login_' + md5(newToken), // yg disimpan di redis ini, bukan token asli krn panjang
+                            // yg disimpan di redis ini, bukan token asli krn panjang
+                            token_id: 'login_' + md5(newToken),
                             expires_in: new Date(expiredDate)
                         }
                     }
                 }
-                const l = await LoginLogs.query()
-                await l.insert({
+                await LoginLogs.create({
                     user_id: user._id,
                     login_at: new Date(),
                     ip_address: request.ip,

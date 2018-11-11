@@ -31,19 +31,17 @@ module.exports = {
     },
     vocabList: async (request, response, next) => {
         try {
-            const limit = request.all.limit || 10
-            const page = request.all.page
-            const sort = request.all.sort
+            const {limit, page, sort} = request.validInput
             const q = await Vocabularies.query()
             const total = await q.find().count()
             let paggination = pagginate(total, limit, page)
             let v = q.find({})
-            v = v.limit(limit)
+            v = v.limit(limit || 10)
             v = v.skip(paggination.skip)
             if (sort === 'desc') v = v.sort({$natural: -1})
             v = await v.toArray()
             paggination.current_count = v.length
-            response.r.apiCollection(v, paggination)
+            response.apiCollection(v, paggination)
         } catch (e) {
             next(e)
         }
@@ -59,17 +57,16 @@ module.exports = {
     },
     vocabNew: async (request, response, next) => {
         try {
-            const defaultDesc = request.config.default_vocab_desc
-            const type = request.all.type.split('|')[0].trim()
-            if (request.config.accepted_vocab_type.indexOf(type) < 0) {
-                throw new Error('type not accepted!')
-            }
-            let data = request.all
+            const {type, indo_key: idKey, en_key: enKey, sentiment, description} = request.validInput
+            let data = {}
             data['type'] = type
-            data['indo_keyword'] = data.indo_keyword || ''
-            data['en_keyword'] = data.en_keyword || ''
-            data['description'] = data.description || defaultDesc[type]
-            const q = await Vocabularies.query().insertOne(data)
+            data['id_key'] = idKey || ''
+            data['en_key'] = enKey || ''
+            data['sentiment'] = sentiment || ''
+            data['description'] = description || ''
+            const q = await Vocabularies
+                .query()
+                .insert(data)
             response.apiCollection(q, {data})
         } catch (e) {
             next(e)
