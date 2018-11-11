@@ -21,7 +21,6 @@ module.exports = {
     newShare: async (request, response) => {
         try {
             const {url} = request.validInput
-            console.log(request.validInput)
             if (url && url.length > 0) {
                 const md5Url = md5(url)
                 const isExists = await ShortLink.findOne({'hash': md5Url})
