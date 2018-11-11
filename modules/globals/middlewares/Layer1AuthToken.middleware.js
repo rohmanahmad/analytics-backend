@@ -13,12 +13,12 @@ module.exports = function (request, response, next) {
         authToken = _.result(request.query, 'access_token', null)
     }
     if (!authToken) {
-        response.status(402)
+        response.status(400)
         response.json({
             status: 402,
-            'message': 'UnAuthorized Request'
+            'message': 'Bad Request'
         })
     } else {
-        return next()
+        next()
     }
 }

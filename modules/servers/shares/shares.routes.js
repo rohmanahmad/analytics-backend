@@ -7,7 +7,7 @@ const Deps = use('Deps.Loader')
 const path = Deps.path
 const _ = Deps._
 
-const {auth, input} = use('Middlewares')
+const {input} = use('Middlewares')
 
 const listRoutes = {
     post: [
@@ -26,6 +26,15 @@ const listRoutes = {
             middlewares: [
                 input
             ]
+        },
+        {
+            path: '/*',
+            fn: function (req, res) {
+                res.send({
+                    status: 404,
+                    message: 'NOT FOUND'
+                })
+            }
         }
     ]
 }

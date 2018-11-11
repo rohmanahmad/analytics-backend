@@ -28,6 +28,7 @@ app.set('view engine', 'pug')
 app.use(function (request, response, next) {
     utils.debugme(`accessing : ${request.originalUrl}`)
     request.router_group = 'shares'
+    request.router_prefix = prefix
     next()
 })
 // enable trust-proxy
