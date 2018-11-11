@@ -20,7 +20,7 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: 'localhost',
+            host: '',
             basePath: '/',
             schemes: [
                 'http'

@@ -116,7 +116,7 @@ const sentimentsPaths = {
 }
 
 const sharesPaths = {
-    '/shares/new': {
+    '/new': {
         'post': {
             'tags': [
                 'Shares'
@@ -136,7 +136,7 @@ const sharesPaths = {
             }
         }
     },
-    '/shares/{uniq_code}': {
+    '/{uniq_code}': {
         'get': {
             'tags': [
                 'Shares'

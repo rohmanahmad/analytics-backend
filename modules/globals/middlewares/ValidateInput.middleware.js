@@ -6,12 +6,16 @@ const paths = use('modules/globals/static/documentation/paths')
 
 module.exports = function (req, res, next) {
     utils.debugme('... middleware [input]')
-    const routerPath = (req.route.path || '').replace('/api', '')
+    const routerPath = (req.route.path || '')
+        .replace(
+            (req.router_prefix || '/api'),
+            ''
+        )
     const routerGroup = req.router_group || ''
     const routerMethod = req.method.toLowerCase()
     const listPaths = paths(routerGroup) || {}
     const validInput = _.result(listPaths, `${routerPath}.${routerMethod}.parameters`, [])
-    // console.log({routerGroup, routerMethod, routerPath, validInput, listPaths})
+    console.log({routerGroup, routerMethod, routerPath, validInput, listPaths})
     let inputs = {}
     for (let input of validInput) {
         const name = input.name
