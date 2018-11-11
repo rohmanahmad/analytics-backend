@@ -22,9 +22,7 @@ module.exports = {
             },
             host: '',
             basePath: '/',
-            schemes: [
-                'http'
-            ],
+            schemes: [],
             produces: [
                 'application/json'
             ],
