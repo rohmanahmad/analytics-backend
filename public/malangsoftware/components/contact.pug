@@ -1,0 +1,53 @@
+section(id="contact")
+    div(class="container wow fadeInUp")
+        div(class="section-header")
+            h3(class="section-title") Kontak Kami
+            p(class="section-description") Segera Hubungi kami dan temukan solusi dari masalah IT anda sekarang
+    div(class="container wow fadeInUp")
+        div(class="row justify-content-center")
+            div(class="col-lg-3 col-md-4")
+                div(class="info")
+                    div
+                        i(class="fa fa-map-marker")
+                        p Jl Tebet Barat VIb No 1<br>Tebet, Jakarta Selatan
+                    div
+                        i(class="fa fa-envelope")
+                        p support@malangsoftware.com
+                    div
+                        i(class="fa fa-phone")
+                        p +62 823 3230 3931
+                div(class="social-links")
+                    a(href="#", class="twitter")
+                        i(class="fa fa-twitter")
+                    a(href="#", class="facebook")
+                        i(class="fa fa-facebook")
+                    a(href="#" class="instagram")
+                        i(class="fa fa-instagram")
+                    a(href="#", class="google-plus")
+                        i(class="fa fa-google-plus")
+                    a(href="#", class="linkedin")
+                        i(class="fa fa-linkedin")
+            div(class="col-lg-5 col-md-8")
+                div(class="form")
+                    div(id="sendmessage") Your message has been sent. Thank you!
+                    div(id="errormessage")
+                    div(class="contactForm")
+                        div(class="form-group")
+                            input(type="text", name="name", id="name", placeholder="Your Name",
+                                data-rule="minlen:4", data-msg="Please enter at least 4 chars", class="form-control")
+                            div(class="validation")
+                        div(class="form-group")
+                            input(type="email", name="email", id="email", placeholder="Your Email",
+                                data-rule="email", data-msg="Please enter a valid email", class="form-control")
+                            div(class="validation")
+                        div(class="form-group")
+                            input(type="text", name="subject", id="subject",
+                                placeholder="Subject", data-rule="minlen:4", data-msg="Please enter at least 8 chars of subject"
+                                class="form-control")
+                            div(class="validation")
+                        div(class="form-group")
+                            textarea(name="message", rows="5", data-rule="required",
+                                data-msg="Please write something for us", placeholder="Message", class="form-control")
+                            div(class="validation")
+                        div(class="text-center")
+                            button(type="submit") Send Message
