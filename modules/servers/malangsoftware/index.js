@@ -57,7 +57,7 @@ module.exports = {
         const workerId = this.workerId ? ' |-- workerID: ' + this.workerId : false
         newport = newport || port
         server.listen(newport)
-        utils.log('shares server listen on port: ' + newport)
+        utils.log('malangsoftware server listen on port: ' + newport)
         if (workerId) utils.log(workerId)
     },
     cluster: function (worker) {
