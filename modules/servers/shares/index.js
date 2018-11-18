@@ -1,13 +1,10 @@
 'use strict'
 
-const Deps = use('Deps.Loader')
-const basePath = Deps.basePath
-const Express = Deps.Express
-const Cors = Deps.Cors
-const BodyParser = Deps.BodyParser
-const Http = Deps.Http
-const Compression = Deps.Compression
-const path = Deps.path
+const Express = use('Express')
+const Cors = use('Cors')
+const BodyParser = use('BodyParser')
+const Http = use('Http')
+const Compression = use('Compression')
 const app = Express()
 const server = Http.createServer(app)
 const utils = use('Utils.Helper')
@@ -18,7 +15,7 @@ const {port} = require('./shares.conf')
 const Routes = require('./shares.routes')
 
 const prefix = '/api/shares'
-const publicPath = path.join(basePath, 'public')
+const publicPath = basePath('public')
 // set pug as default engine
 app.use(Express.static('public'))
 app.set('views', publicPath)

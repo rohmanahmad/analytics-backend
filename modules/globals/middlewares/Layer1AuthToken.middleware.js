@@ -1,7 +1,7 @@
 'use strict'
 
 const utils = use('Utils.Helper')
-const {_} = use('Deps.Loader')
+const _ = use('_')
 
 module.exports = function (request, response, next) {
     utils.debugme(' ... middleware [auth]')

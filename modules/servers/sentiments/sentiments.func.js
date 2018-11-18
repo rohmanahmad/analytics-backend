@@ -1,8 +1,7 @@
 'use strict'
 
-const {Vocabularies} = use('Models.Loader')
-const {ObjectId} = use('Deps.Loader')
-// const ObjectID = require('bson/lib/bson/objectid')
+const Vocabularies = use('Vocabularies.Model')
+const ObjectId = useStatic('ObjectId')
 const docs = use('modules/globals/static/documentation/sentiments.docs')
 
 function pagginate (dataCount, limit, page) {

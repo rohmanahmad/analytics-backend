@@ -3,11 +3,10 @@
 const utils = use('Utils.Helper')
 const func = require('./shares.func')
 const allRoutes = use('All.Routes')
-const Deps = use('Deps.Loader')
-const path = Deps.path
-const _ = Deps._
+const path = use('path')
+const _ = use('_')
 
-const {input} = use('Middlewares')
+const input = use('ValidateInput.Middleware')
 
 const listRoutes = {
     post: [

@@ -3,9 +3,10 @@
 const utils = use('Utils.Helper')
 const func = require('./users.func')
 const allRoutes = use('All.Routes')
-const {path} = use('Deps.Loader')
+const path = use('path')
 
-const {auth, input} = use('Middlewares')
+const auth = use('Layer1AuthToken.Middleware')
+const input = use('ValidateInput.Middleware')
 
 const listRoutes = {
     get: [

@@ -52,6 +52,8 @@ module.exports = {
         'constructor-super': 'error'
     },
     globals: {
-        use: true
+        use: true,
+        useStatic: true,
+        basePath: true
     }
 };
