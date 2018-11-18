@@ -2,9 +2,8 @@
 
 const utils = use('Utils.Helper')
 const func = require('./mlg.func')
-const Deps = use('Deps.Loader')
-const path = Deps.path
-const _ = Deps._
+const path = use('path')
+const _ = use('_')
 
 const listRoutes = {
     post: [

@@ -3,7 +3,8 @@
 require('make-promises-safe')
 require('./filemapper')
 
-const {Env, optimist} = use('Deps.Loader')
+const Env = useStatic('Env')
+const optimist = use('optimist')
 const apiList = Env.APIS.split(',')
 const serverPath = './modules/servers/'
 

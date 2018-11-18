@@ -1,6 +1,7 @@
 'use strict'
 
-const {mongoose, mongooseObjID} = use('Deps.Loader')
+const mongoose = use('mongoose')
+const mongooseObjID = useStatic('mongooseObjID')
 const {mongodb} = use('Settings.Loader')
 const {dsn} = mongodb
 

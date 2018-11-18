@@ -1,4 +1,8 @@
-const {basePath, Express, Cors, BodyParser, Http, Compression, path} = use('Deps.Loader')
+const Express = use('Express')
+const Cors = use('Cors')
+const BodyParser = use('BodyParser')
+const Http = use('Http')
+const Compression = use('Compression')
 const app = Express()
 const server = Http.createServer(app);
 const utils = use('Utils.Helper')
@@ -9,7 +13,7 @@ const {port} = require('./home.conf')
 const Routes = require('./home.routes')
 
 const prefix = '/'
-const publicPath = path.join(basePath, 'public')
+const publicPath = basePath('public')
 // set pug as default engine
 app.use(Express.static('public'))
 app.set('views', publicPath)

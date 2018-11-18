@@ -3,7 +3,7 @@
 const func = require('./home.func')
 const utils = use('Utils.Helper')
 const allRoutes = use('All.Routes')
-const {path} = use('Deps.Loader')
+const path = use('path')
 
 const listRoutes = {
     get: [
