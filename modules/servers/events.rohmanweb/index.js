@@ -11,10 +11,10 @@ const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
 // const ValidateInput = use('ValidateInput.Middleware')
 
-const {port} = require('./shares.conf')
-const Routes = require('./shares.routes')
+const {port} = require('./events.conf')
+const Routes = require('./events.routes')
 
-const prefix = '/api/shares'
+const prefix = '/events'
 const publicPath = basePath('public')
 // set pug as default engine
 app.use(Express.static('public'))
@@ -55,7 +55,7 @@ module.exports = {
         const workerId = this.workerId ? ' |-- workerID: ' + this.workerId : false
         newport = newport || port
         server.listen(newport)
-        utils.log('share.rohmanwebid server listen on port: ' + newport)
+        utils.log('events.rohmanwebid server listen on port: ' + newport)
         if (workerId) utils.log(workerId)
     },
     cluster: function (worker) {
