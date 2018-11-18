@@ -4,6 +4,7 @@ const utils = use('Utils.Helper')
 const func = require('./rohmanwebid.func')
 const path = use('path')
 const _ = use('_')
+const allRoutes = use('All.Routes')
 
 const listRoutes = {
     post: [
@@ -51,6 +52,7 @@ const register = function (app, prefix = '/rohmanwebid') {
             app.post(r.route, r.funcs, r.handler)
         }
     }
+    allRoutes.registerNotFound(app, prefix)
 }
 
 module.exports = {

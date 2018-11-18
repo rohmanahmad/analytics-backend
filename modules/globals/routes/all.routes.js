@@ -3,6 +3,8 @@
 const utils = use('Utils.Helper')
 const path = use('path')
 
+const RequestLog = use('RequestLogger.Middleware')
+
 const listRoutes = {
     get: [
         {
@@ -23,15 +25,7 @@ const listRoutes = {
 const registerNotFound = function (app, prefix = '') {
     const routePath = path.join(prefix, '/*')
     utils.debugme(` |-- registering route: ${routePath} [GET]`)
-    app.get('*', function (request, response) {
-        response
-            .status(404)
-            .json({
-                'status': 404,
-                'message': 'Route Not Found',
-                'group': prefix
-            })
-    })
+    app.get('*', RequestLog)
 }
 
 const register = function (app, func, prefix = '') {
@@ -51,6 +45,7 @@ const use404 = function () {
 }
 
 module.exports = {
+    registerNotFound,
     register,
     use404
 }
