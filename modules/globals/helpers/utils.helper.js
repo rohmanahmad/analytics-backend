@@ -1,6 +1,9 @@
 'use strict'
 
-const {debug, Env, moment, util} = use('Deps.Loader')
+const Env = useStatic('Env')
+const debug = use('debug')
+const moment = use('moment')
+const util = use('util')
 const isDebug = Env.DEBUG_LOG === 'yes'
 const d = isDebug ? 'debug' : 'app'
 const dodebug = debug(d)

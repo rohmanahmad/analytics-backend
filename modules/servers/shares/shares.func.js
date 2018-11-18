@@ -1,11 +1,9 @@
 'use strict'
 
-const Models = use('Models.Loader')
-const Deps = use('Deps.Loader')
 const docs = use('modules/globals/static/documentation/shares.docs')
 const Randomize = use('modules/globals/libs/randomize.lib')
-const md5 = Deps.md5
-const ShortLink = Models.ShortLink
+const md5 = use('md5')
+const ShortLink = use('ShortLink.Model')
 const domain = 'http://share.rohman.web.id'
 
 module.exports = {

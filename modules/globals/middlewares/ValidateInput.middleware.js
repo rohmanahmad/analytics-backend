@@ -1,6 +1,6 @@
 'use strict'
 
-const {_} = use('Deps.Loader')
+const _ = use('_')
 const utils = use('Utils.Helper')
 const paths = use('modules/globals/static/documentation/paths')
 

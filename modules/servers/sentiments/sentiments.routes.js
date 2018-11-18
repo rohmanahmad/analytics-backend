@@ -1,12 +1,13 @@
 'use strict'
 
 const utils = use('Utils.Helper')
-const {path} = use('Deps.Loader')
+const path = use('path')
 const allRoutes = use('All.Routes')
 
 const func = require('./sentiments.func')
 
-const {auth, input} = use('Middlewares')
+const auth = use('Layer1AuthToken.Middleware')
+const input = use('ValidateInput.Middleware')
 
 const listRoutes = {
     get: [

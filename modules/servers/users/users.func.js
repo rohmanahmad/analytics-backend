@@ -1,13 +1,11 @@
 'use strict'
 
-const Models = use('Models.Loader')
-const Users = Models.Users
-const LoginLogs = Models.LoginLogs
-const Deps = use('Deps.Loader')
-const Env = Deps.Env
-const md5 = Deps.md5
-const jwt = Deps.jwt
-const moment = Deps.moment
+const Users = use('Users.Model')
+const LoginLogs = use('LoginLogs.Model')
+const Env = useStatic('Env')
+const md5 = use('md5')
+const jwt = use('jwt')
+const moment = use('moment')
 const docs = use('modules/globals/static/documentation/users.docs')
 const AppKey = Env.API_KEY
 const TokenExp = Env.TOKEN_EXP

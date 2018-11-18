@@ -1,7 +1,7 @@
 'use strict'
 
 const utils = use('Utils.Helper')
-const {path} = use('Deps.Loader')
+const path = use('path')
 
 const listRoutes = {
     get: [
