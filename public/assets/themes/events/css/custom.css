@@ -1,0 +1,34 @@
+@font-face {
+    font-family: Chanry;
+    src: url(../fonts/chanry.ttf);
+}
+.fonts-chanry {
+    font-family: Chanry;
+}
+
+.pad-top100 {
+    padding-top: 100px;
+}
+
+.pad-bottom50 {
+    padding-bottom: 50px;
+}
+
+.pad-bottom60 {
+    padding-bottom: 60px;
+}
+
+.mg-top50 {
+    padding-top: 50px;
+}
+
+.mg-b20 {
+    margin-bottom: 10px;
+}
+
+.mg-top100 {
+    padding-top: 100px;
+}
+.h600 {
+    height: 600px;
+}

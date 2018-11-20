@@ -15,13 +15,8 @@ const listRoutes = {
             fn: func.main
         },
         {
-            path: '/*',
-            fn: function (req, res) {
-                res.send({
-                    status: 404,
-                    message: 'NOT FOUND'
-                })
-            }
+            path: '/wedding',
+            fn: func.wedding
         }
     ]
 }
@@ -61,6 +56,8 @@ const register = function (app, prefix = '/events') {
             app.post(r.route, r.funcs, r.handler)
         }
     }
+
+    allRoutes.registerNotFound(app, prefix)
 }
 
 module.exports = {

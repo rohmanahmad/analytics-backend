@@ -14,10 +14,14 @@ require('dotenv').config({path: myBasePath('.env')})
 const nameSpaces = {
     'Utils.Helper': './modules/globals/helpers/utils.helper',
     'Settings.Loader': './modules/globals/libs/settings.loader',
-    'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
-    'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
     'Http.Response': './modules/globals/listener/response',
     'All.Routes': './modules/globals/routes/all.routes',
+    // LIBS
+    'ErrorHandler': './modules/globals/libs/ErrorHandler.lib',
+    // MIDDLEWARES
+    'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
+    'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
+    'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
     // MODELS
     'Logs.Model': './modules/globals/models/mongodb/logs.model',
     'Patterns.Model': './modules/globals/models/mongodb/patterns.model',
