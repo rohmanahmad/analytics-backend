@@ -9,7 +9,7 @@ const app = Express()
 const server = Http.createServer(app)
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
-// const ValidateInput = use('ValidateInput.Middleware')
+const ErrorHandler = use('ErrorHandler')
 
 const {port} = require('./rohmanwebid.conf')
 const Routes = require('./rohmanwebid.routes')
@@ -46,6 +46,7 @@ app.use(BodyParser.text({ type: 'text/html' }))
 
 app.use(HttpResponse)
 
+app.use(ErrorHandler)
 // registering user's routers
 Routes.register(app, prefix)
 

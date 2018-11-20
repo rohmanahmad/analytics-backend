@@ -9,7 +9,6 @@ const app = Express()
 const server = Http.createServer(app)
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
-// const ValidateInput = use('ValidateInput.Middleware')
 
 const {port} = require('./mlg.conf')
 const Routes = require('./mlg.routes')
