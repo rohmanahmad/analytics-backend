@@ -12,31 +12,35 @@ html.no-js(lang='zxx')
     link(rel='stylesheet', href='/assets/themes/events/css/linearicons.css')
     link(rel='stylesheet', href='/assets/vendor/bootstrap-4/css/bootstrap.min.css')
     link(rel='stylesheet', href='/assets/themes/events/css/main.css')
-    link(rel='stylesheet', href='/assets/themes/events/css/landing.css')
+    link(rel='stylesheet', href='/assets/themes/events/css/wedding.css')
+    link(rel='stylesheet', href='/assets/themes/events/css/custom.css')
   body
     header.default-header
       .container
         .header-wrap
           .header-top.d-flex.justify-content-between.align-items-center
             .logo
-              a(href='index.html')
+              a(href='/')
                 //- img(src='img/logo.png', alt='')
-                h3(style="color: #fff;") Events
+                //- b Events
             .main-menubar.d-flex.align-items-center
               nav.hide
-                a(href='index.html') Home
-                a(href='generic.html') Generic
-                a(href='elements.html') Elements
+                a(href='/') Home
+                a(href='/') Generic
+                a(href='/') Elements
               .menu-bar
                 span.lnr.lnr-menu
     section.banner-area.relative
       .container
         .row.fullscreen.align-items-center.justify-content-between(style='height: 735px;')
-          .col-lg-12
-            .banner-content.text-center
-              img(src="/assets/themes/events/img/me2.png", alt="", class="rounded-circle img-profile-md")
-              h4.text-white.text-uppercase rohman.web.id
-              h1.text-uppercase events
+    .overide-container
+      .container
+        .row.pad-top100
+          include components/wedding/title.pug
+          include components/wedding/resepsi.pug
+    p.d-block.d-sm-none
+     br
+     br
 
 script(src='/assets/vendor/jquery-2/jquery-2.2.4.min.js')
 script(src='/assets/themes/events/js/main.js')

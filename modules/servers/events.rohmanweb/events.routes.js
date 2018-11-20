@@ -13,6 +13,10 @@ const listRoutes = {
         {
             path: '/',
             fn: func.main
+        },
+        {
+            path: '/wedding',
+            fn: func.wedding
         }
     ]
 }
