@@ -51,6 +51,7 @@ body {
     width: 100%;
     background:#e8e8e87d;
     color: #b76565;
+    background-image: url('../img/bg.png');
 }
 
 .title-congrats {
