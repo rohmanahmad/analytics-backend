@@ -50,7 +50,7 @@ body {
     padding: 10px;
     width: 100%;
     background:#e8e8e87d;
-    color: #b76565;
+    color: #010102;
     background-image: url('../img/bg.png');
 }
 
@@ -58,16 +58,27 @@ body {
     padding-top: 20px;
     font-size: 18px;
     height: 80px;
-    color: #b76565;
+    color: #010102;
 }
 
 .title {
     padding-top: 20px;
     font-size: 85px;
     height: 80px;
-    color: #b76565;
+    color: #010102;
 }
 
 .akad-title {
     font-size: 30px;
+}
+
+.realname1 {
+    margin-top: -20px;
+    margin-left: 110px;
+    float: right;
+}
+
+.realname2 {
+    margin-top: -20px;
+    float: right;
 }
