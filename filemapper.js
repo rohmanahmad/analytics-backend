@@ -30,6 +30,7 @@ const nameSpaces = {
     'LoginLogs.Model': './modules/globals/models/mongodb/login_logs.model',
     'ShortLink.Model': './modules/globals/models/mongodb/short_link.model',
     'InvalidRequestLog.Model': './modules/globals/models/mongodb/invalid_request_log.model',
+    'InvitationContacts.Model': './modules/globals/models/mongodb/invitation_contacts.model',
     // DEPENDENCIES
     '_': 'lodash',
     'BodyParser': 'body-parser',

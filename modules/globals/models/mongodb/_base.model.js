@@ -4,6 +4,7 @@ const mongoose = use('mongoose')
 const mongooseObjID = useStatic('mongooseObjID')
 const {mongodb} = use('Settings.Loader')
 const {dsn} = mongodb
+const utils = use('Utils.Helper')
 
 class Base {
     constructor () {
@@ -19,6 +20,7 @@ class Base {
     }
 
     connection () {
+        utils.debugme(`connect to: ${dsn}`)
         mongoose.connect(dsn, this.options)
     }
 

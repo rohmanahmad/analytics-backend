@@ -2,7 +2,7 @@ doctype html
 html.no-js(lang='zxx')
   head
     meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-    link(rel='shortcut icon', href='img/fav.png')
+    link(rel='shortcut icon', href='/assets/themes/rohmanwebid/img/icons/favicon.ico')
     meta(name='author', content='Colorlib')
     meta(name='description', content='')
     meta(name='keywords', content='')
@@ -43,6 +43,9 @@ html.no-js(lang='zxx')
     p.d-block.d-sm-none
      br
      br
+    if data.name
+      include components/wedding/extras/welcome.pug
 
 script(src='/assets/vendor/jquery-2/jquery-2.2.4.min.js')
+script(src='/assets/vendor/bootstrap-4/js/bootstrap.min.js')
 script(src='/assets/themes/events/js/main.js')
