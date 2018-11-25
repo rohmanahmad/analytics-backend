@@ -1,0 +1,55 @@
+.container
+  .login-box
+    .title
+      h3 ROHMAN PORTAL
+    #login-progress.progress.hidden
+      .progress-bar.progress-bar-success.progress-bar-striped.active(role='progressbar', aria-valuenow='100', aria-valuemin='0', aria-valuemax='100', style='width: 100%')
+        | Log In...
+    #login-message.alert.alert-success.hidden(role='alert')
+      i.fa.fa-check
+      |  Login Success. Please wait for loading.
+    .box
+      form#login-form(action='/login', method='post')
+        .control
+          .label Email Address
+          input.form-control#email(type='text', placeholder='jhon@doe.com')
+        .control
+          .label Password
+          input.form-control#password(type='password', placeholder='*******')
+        .login-button
+          input.btn.btn-orange(type='submit', value='Login')
+    .info-box
+      span.text-left
+        a(href='#') Create new account
+      span.text-right
+        a(href='#') Forgot password?
+      .clear-both
+script(type='text/javascript').
+  $(() => {
+    if (!axios) alert('please call developer!');
+    $("#login-form").submit(() => {
+        $("#login-progress").removeClass("hidden");
+        setTimeout(() => {
+            $("#login-progress").addClass("hidden");
+            $("#login-message").removeClass("hidden");
+            const email = $('#email').val();
+            const passw = $('#password').val();
+            const data = {
+                email,
+                password: passw
+            }
+            console.log(data)
+            if (email && passw && email.length > 5 && email.length > 5) {
+                axios
+                    .post('/login', data)
+                    .then(function (r) {
+                        console.log(r)
+                    })
+                    .catch(function (e) {
+                        console.log(e)
+                    })
+            }
+        },1000);
+        return false;
+    });
+  });
