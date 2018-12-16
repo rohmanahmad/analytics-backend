@@ -50,24 +50,56 @@ body {
     padding: 10px;
     width: 100%;
     background:#e8e8e87d;
-    color: #b76565;
+    color: #010102;
     background-image: url('../img/bg.png');
+}
+
+.header-bg {
+    background-image: url('../img/header-bg.jpg');
+    background-position: center top;
+}
+
+.no-border{
+    border: 0px solid #fff;
+}
+
+.color-bg{
+    background: #72d2fd;
+}
+
+.color-black {
+    color: #010102;
+}
+
+.custom-btn-color {
+    color: #879fabf7;
 }
 
 .title-congrats {
     padding-top: 20px;
     font-size: 18px;
     height: 80px;
-    color: #b76565;
+    color: #010102;
 }
 
 .title {
     padding-top: 20px;
     font-size: 85px;
     height: 80px;
-    color: #b76565;
+    color: #010102;
 }
 
 .akad-title {
     font-size: 30px;
+}
+
+.realname1 {
+    margin-top: -20px;
+    margin-left: 110px;
+    float: right;
+}
+
+.realname2 {
+    margin-top: -20px;
+    float: right;
 }
