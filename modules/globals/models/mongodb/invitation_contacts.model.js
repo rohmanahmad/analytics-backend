@@ -17,7 +17,10 @@ class InvitationContacts extends Base {
             'updated_at': Date,
             'name': String,
             'title': String,
-            'alias': String
+            'alias': String,
+            'phone': String,
+            'link': String,
+            'is_sent': Number
         }
     }
 }

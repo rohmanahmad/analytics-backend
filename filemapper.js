@@ -21,6 +21,7 @@ const nameSpaces = {
     // MIDDLEWARES
     'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
+    'Layer1AuthSession.Middleware': './modules/globals/middlewares/Layer1AuthSession.middleware',
     'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
     // MODELS
     'Logs.Model': './modules/globals/models/mongodb/logs.model',
@@ -46,6 +47,7 @@ const nameSpaces = {
     'mongoose': 'mongoose',
     'optimist': 'optimist',
     'path': 'path',
+    'session': 'express-session',
     'util': 'util'
 }
 

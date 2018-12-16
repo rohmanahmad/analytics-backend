@@ -1,7 +1,7 @@
 .container
   .login-box
     .title
-      h3 ROHMAN PORTAL
+      //- h3 ROHMAN PORTAL
     #login-progress.progress.hidden
       .progress-bar.progress-bar-success.progress-bar-striped.active(role='progressbar', aria-valuenow='100', aria-valuemin='0', aria-valuemax='100', style='width: 100%')
         | Log In...
@@ -12,7 +12,7 @@
       form#login-form(action='/login', method='post')
         .control
           .label Email Address
-          input.form-control#email(type='text', placeholder='jhon@doe.com')
+          input.form-control#email(type='text', placeholder='jhon@doe.com', autofocus=true)
         .control
           .label Password
           input.form-control#password(type='password', placeholder='*******')
@@ -35,13 +35,12 @@ script(type='text/javascript').
             const email = $('#email').val();
             const passw = $('#password').val();
             const data = {
-                email,
-                password: passw
+                user_email: email,
+                user_password: passw
             }
-            console.log(data)
             if (email && passw && email.length > 5 && email.length > 5) {
                 axios
-                    .post('/login', data)
+                    .post('/api/login', data)
                     .then(function (r) {
                         console.log(r)
                     })

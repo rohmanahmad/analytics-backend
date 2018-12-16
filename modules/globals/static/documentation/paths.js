@@ -157,10 +157,35 @@ const sharesPaths = {
         }
     }
 }
+
+const adminPaths = {
+    '/api/login': {
+        'post': {
+            'tags': [
+                'Admin'
+            ],
+            'summary': 'Login',
+            'description': 'Login User',
+            'parameters': [
+                definitions.getData('user_email_form'),
+                definitions.getData('user_password_form')
+            ],
+            'responses': {
+                '200': {
+                    'description': 'Successful response',
+                    'schema': {
+                        '$ref': '#/definitions/share_new_response'
+                    }
+                }
+            }
+        }
+    }
+}
 const allPaths = {
     users: usersPaths,
     sentiments: sentimentsPaths,
-    shares: sharesPaths
+    shares: sharesPaths,
+    admin: adminPaths
 }
 
 module.exports = function (group) {

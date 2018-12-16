@@ -6,18 +6,27 @@ const path = use('path')
 const _ = use('_')
 const allRoutes = use('All.Routes')
 const input = use('ValidateInput.Middleware')
+const session = use('Layer1AuthSession.Middleware')
 
 const listRoutes = {
     post: [
         {
-            path: '/login',
+            path: '/api/login',
             fn: func.login,
             middlewares: [
-                input
+                input,
+                session
             ]
         }
     ],
     get: [
+        {
+            path: '/auth/login',
+            fn: func.loginPage,
+            middlewares: [
+                session
+            ]
+        },
         {
             path: '/',
             fn: func.main,
@@ -38,7 +47,7 @@ function getMiddlewares (r, prefix) {
 
 const register = function (app, prefix = '/rohmanwebid/admin') {
     // register another routes
-    // allRoutes.register(app, func, prefix)
+    allRoutes.register(app, func, prefix)
     let routes = []
     for (let r of listRoutes['post']) {
         const {route, funcs, handler} = getMiddlewares(r, prefix)

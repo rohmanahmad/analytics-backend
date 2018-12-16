@@ -1,6 +1,7 @@
 'use strict'
 
 const Express = use('Express')
+const Session = use('session')
 const Cors = use('Cors')
 const BodyParser = use('BodyParser')
 const Http = use('Http')
@@ -10,6 +11,7 @@ const server = Http.createServer(app)
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
 const ErrorHandler = use('ErrorHandler')
+const Env = useStatic('Env')
 
 const {port} = require('./admin.conf')
 const Routes = require('./admin.routes')
@@ -20,6 +22,13 @@ const publicPath = basePath('public')
 app.use(Express.static('public'))
 app.set('views', publicPath)
 app.set('view engine', 'pug')
+
+// setup session
+app.use(Session({
+    secret: Env.API_KEY,
+    resave: false,
+    saveUninitialized: true
+}))
 
 // set group routes
 app.use(function (request, response, next) {
