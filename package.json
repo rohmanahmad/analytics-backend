@@ -1,12 +1,12 @@
 {
   "name": "microservices",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "microservices by functionality",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch app --watch modules --watch .env -x node server.js",
-    "dev-cluster": "nodemon --watch app --watch modules --watch .env -x node server.cluster.js"
+    "dev": "nodemon --watch configs --watch modules --watch filemapper.js -x node server.js",
+    "dev-cluster": "nodemon --watch app --watch -x node server.cluster.js"
   },
   "author": "rohmanahmad",
   "license": "ISC",
@@ -18,6 +18,7 @@
     "debug": "^4.1.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.4",
+    "express-session": "^1.15.6",
     "jsonwebtoken": "^8.3.0",
     "lodash": "^4.17.11",
     "make-promises-safe": "^2.0.0",

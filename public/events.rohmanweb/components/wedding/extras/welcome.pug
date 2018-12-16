@@ -1,0 +1,27 @@
+.modal(tabindex='-1', role='dialog', id='welcome-modal', class="fade fonts-chanry")
+  .modal-dialog(role='document')
+    .modal-content.header-bg
+      .modal-header.no-border
+        h5.modal-title.fonts-chanry Undangan Pernikahan (Limited Edition)
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+      .modal-body.fonts-chanry.color-black
+        p Assalamualaikum,
+        table
+            tr
+                td Kepada
+                td : #{data.title} 
+                    b #{data.name} 
+                    | (#{data.alias})
+            tr
+                td(colspan='2')
+                    | Kami Segenap Keluarga besar dari kedua pihak pengantin,
+                    | Mengundang dan mengharap kehadiran anda dalam acara pernikahan
+                    | Anak Kami.
+                    p Acara Insya Allah akan diadakan pada tanggal 
+                        b 07 Desember 2018 
+                        | pada pukul 
+                        b 08:00 WIB 
+                        | sampai selesai
+      .modal-footer.no-border
+        button.btn.btn-primary.custom-btn-color(data-dismiss="modal") Lihat Undangan
