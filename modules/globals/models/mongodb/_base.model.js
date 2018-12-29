@@ -2,13 +2,18 @@
 
 const mongoose = use('mongoose')
 const mongooseObjID = useStatic('mongooseObjID')
-const {mongodb} = use('Settings.Loader')
+const {mongodb, connections} = use('Settings.Loader')
 const {dsn} = mongodb
 const utils = use('Utils.Helper')
+const _ = use('_')
 
 class Base {
-    constructor () {
-        this.connection()
+    constructor (custServer = null) { // custServer = 'server1'
+        if (custServer) {
+            this.connection(custServer)
+        } else {
+            this.connection()
+        }
     }
     get options () {
         return {
@@ -19,9 +24,10 @@ class Base {
         }
     }
 
-    connection () {
-        utils.debugme(`connect to: ${dsn}`)
-        mongoose.connect(dsn, this.options)
+    connection (cust) {
+        const currentDsn = cust ? _.result(connections, `${cust}.dsn`) : dsn
+        utils.debugme(`connect to: ${currentDsn}`)
+        mongoose.connect(currentDsn, this.options)
     }
 
     getSchema () {
