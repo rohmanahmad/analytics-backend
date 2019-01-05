@@ -22,4 +22,4 @@ class VocabularyModel extends Base {
     }
 }
 
-module.exports = new VocabularyModel().model()
+module.exports = VocabularyModel

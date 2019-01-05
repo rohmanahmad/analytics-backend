@@ -21,4 +21,4 @@ class InvalidRequestLog extends Base {
     }
 }
 
-module.exports = new InvalidRequestLog().model()
+module.exports = InvalidRequestLog

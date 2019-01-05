@@ -1,5 +1,6 @@
 'use strict'
 
+const namespace = 'events'
 const Express = use('Express')
 const Cors = use('Cors')
 const BodyParser = use('BodyParser')
@@ -9,12 +10,12 @@ const app = Express()
 const server = Http.createServer(app)
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
+const Settings = use('Settings.Helper')
 // const ValidateInput = use('ValidateInput.Middleware')
 
-const {port} = require('./events.conf')
+const {port} = Settings(namespace)
 const Routes = require('./events.routes')
 
-const prefix = '/events'
 const publicPath = basePath('public')
 // set pug as default engine
 app.use(Express.static('public'))
@@ -25,7 +26,7 @@ app.set('view engine', 'pug')
 app.use(function (request, response, next) {
     utils.debugme(`accessing : ${request.originalUrl}`)
     request.router_group = 'shares'
-    request.router_prefix = prefix
+    request.router_prefix = `/${namespace}`
     next()
 })
 // enable trust-proxy
@@ -48,7 +49,7 @@ app.use(BodyParser.text({ type: 'text/html' }))
 app.use(HttpResponse)
 
 // registering user's routers
-Routes.register(app, prefix)
+Routes.register(app, namespace)
 
 module.exports = {
     start: function (newport) {

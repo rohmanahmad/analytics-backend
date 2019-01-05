@@ -1,7 +1,9 @@
 'use strict'
 
-const InvitationC = use('InvitationContacts.Model')
-const utils = use('Utils.Helper')
+const Settings = use('Settings.Helper')
+const {dsn} = Settings('events')
+const Models = use('Models')
+const InvitationC = new Models('InvitationContacts.Model', dsn)
 
 module.exports = {
     main: async (request, response) => {

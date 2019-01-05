@@ -1,37 +1,37 @@
 'use strict'
 
-const path = require('path')
-
-const myBasePath = function (file = '') {
-    return path.resolve(file)
-}
-
-module.exports = global.basePath = function (file = '') {
-    return myBasePath(file)
-}
-require('dotenv').config({path: myBasePath('.env')})
-
 const nameSpaces = {
+    // CONFIGS
+    'admin': './configs/admin.conf',
+    'events': './configs/events.conf',
+    'malangsoftware': './configs/malangsoftware.conf',
+    'rohmanwebid': './configs/rohmanwebid.conf',
+    'sentiments': './configs/sentiments.conf',
+    'shares': './configs/shares.conf',
+    'store': './configs/store.conf',
+    'users': './configs/users.conf',
+    // HELPERS
     'Utils.Helper': './modules/globals/helpers/utils.helper',
-    'Settings.Loader': './modules/globals/libs/settings.loader',
+    'Settings.Helper': './modules/globals/helpers/Settings.helper',
     'Http.Response': './modules/globals/listener/response',
     'All.Routes': './modules/globals/routes/all.routes',
     // LIBS
     'ErrorHandler': './modules/globals/libs/ErrorHandler.lib',
+    'Models': './modules/globals/libs/Models.lib',
     // MIDDLEWARES
     'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
     'Layer1AuthSession.Middleware': './modules/globals/middlewares/Layer1AuthSession.middleware',
     'ValidateInput.Middleware': './modules/globals/middlewares/ValidateInput.middleware',
     // MODELS
-    'Logs.Model': './modules/globals/models/mongodb/logs.model',
-    'Patterns.Model': './modules/globals/models/mongodb/patterns.model',
-    'Users.Model': './modules/globals/models/mongodb/users.model',
-    'Vocabularies.Model': './modules/globals/models/mongodb/vocabularies.model',
-    'LoginLogs.Model': './modules/globals/models/mongodb/login_logs.model',
-    'ShortLink.Model': './modules/globals/models/mongodb/short_link.model',
-    'InvalidRequestLog.Model': './modules/globals/models/mongodb/invalid_request_log.model',
-    'InvitationContacts.Model': './modules/globals/models/mongodb/invitation_contacts.model',
+    'Logs.Model': './modules/globals/models/mongodb/Logs.model',
+    'Patterns.Model': './modules/globals/models/mongodb/Patterns.model',
+    'Users.Model': './modules/globals/models/mongodb/Users.model',
+    'Vocabularies.Model': './modules/globals/models/mongodb/Vocabularies.model',
+    'LoginLogs.Model': './modules/globals/models/mongodb/LoginLogs.model',
+    'ShortLink.Model': './modules/globals/models/mongodb/ShortLink.model',
+    'InvalidRequestLog.Model': './modules/globals/models/mongodb/InvalidRequestLog.model',
+    'InvitationContacts.Model': './modules/globals/models/mongodb/InvitationContacts.model',
     // DEPENDENCIES
     '_': 'lodash',
     'BodyParser': 'body-parser',
@@ -51,6 +51,16 @@ const nameSpaces = {
     'util': 'util'
 }
 
+const path = require('path')
+
+const myBasePath = function (file = '') {
+    return path.resolve(file)
+}
+
+module.exports = global.basePath = function (file = '') {
+    return myBasePath(file)
+}
+
 module.exports = global.use = function (name) {
     const moduleName = nameSpaces[name] || false
     if (moduleName) {
@@ -60,6 +70,7 @@ module.exports = global.use = function (name) {
     }
 }
 
+require('dotenv').config({path: myBasePath('.env')})
 const mongod = require('mongodb')
 const mongoose = require('mongoose')
 const Env = process.env

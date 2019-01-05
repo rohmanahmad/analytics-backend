@@ -18,4 +18,4 @@ class Log extends Base {
     }
 }
 
-module.exports = new Log().model()
+module.exports = Log
