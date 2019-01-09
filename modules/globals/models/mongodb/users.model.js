@@ -19,4 +19,4 @@ class Users extends Base {
     }
 }
 
-module.exports = new Users().model()
+module.exports = Users

@@ -2,13 +2,15 @@
 
 const mongoose = use('mongoose')
 const mongooseObjID = useStatic('mongooseObjID')
-const {mongodb} = use('Settings.Loader')
-const {dsn} = mongodb
 const utils = use('Utils.Helper')
 
 class Base {
-    constructor () {
-        this.connection()
+    constructor (dsn = null) { // dsn = 'server1'
+        if (dsn) {
+            this.connection(dsn)
+        } else {
+            throw new Error('no DSN found')
+        }
     }
     get options () {
         return {
@@ -19,7 +21,7 @@ class Base {
         }
     }
 
-    connection () {
+    connection (dsn) {
         utils.debugme(`connect to: ${dsn}`)
         mongoose.connect(dsn, this.options)
     }

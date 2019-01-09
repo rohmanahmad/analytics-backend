@@ -23,4 +23,4 @@ class ShortLink extends Base {
     }
 }
 
-module.exports = new ShortLink().model()
+module.exports = ShortLink

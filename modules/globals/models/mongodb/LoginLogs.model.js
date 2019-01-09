@@ -20,4 +20,4 @@ class UsersLoginLogs extends Base {
     }
 }
 
-module.exports = new UsersLoginLogs().model()
+module.exports = UsersLoginLogs

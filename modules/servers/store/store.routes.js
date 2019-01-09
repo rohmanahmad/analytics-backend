@@ -1,7 +1,7 @@
 'use strict'
 
 const utils = use('Utils.Helper')
-const func = require('./mlg.func')
+const func = require('./store.func')
 const path = use('path')
 const _ = use('_')
 const allRoutes = use('All.Routes')
@@ -28,8 +28,9 @@ function getMiddlewares (r, prefix) {
     }
 }
 
-const register = function (app, prefix = '/malangsoftware') {
+const register = function (app, prefix = '/store') {
     // register another routes
+    // allRoutes.register(app, func, prefix)
     let routes = []
     for (let r of listRoutes['post']) {
         const {route, funcs, handler} = getMiddlewares(r, prefix)

@@ -25,4 +25,4 @@ class InvitationContacts extends Base {
     }
 }
 
-module.exports = new InvitationContacts().model()
+module.exports = InvitationContacts

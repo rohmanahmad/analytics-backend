@@ -19,4 +19,4 @@ class Patterns extends Base {
     }
 }
 
-module.exports = new Patterns().model()
+module.exports = Patterns
