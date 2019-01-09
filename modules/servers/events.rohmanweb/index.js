@@ -6,15 +6,21 @@ const Cors = use('Cors')
 const BodyParser = use('BodyParser')
 const Http = use('Http')
 const Compression = use('Compression')
+// registering Express Engine
 const app = Express()
+const appRouter = Express.Router()
 const server = Http.createServer(app)
+
+// loading all libs and helpers
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
 const Settings = use('Settings.Helper')
+const Registry = use('Registry')
 // const ValidateInput = use('ValidateInput.Middleware')
 
 const {port} = Settings(namespace)
-const Routes = require('./events.routes')
+const routes = require(`./${namespace}.routes`)
+const controllers = require(`./${namespace}.func`)
 
 const publicPath = basePath('public')
 // set pug as default engine
@@ -49,14 +55,17 @@ app.use(BodyParser.text({ type: 'text/html' }))
 app.use(HttpResponse)
 
 // registering user's routers
-Routes.register(app, namespace)
+new Registry(appRouter)
+    .setControllerObj(controllers)
+    .registerRoutes(routes, namespace)
+    .releaseRoutes(app)
 
 module.exports = {
     start: function (newport) {
         const workerId = this.workerId ? ' |-- workerID: ' + this.workerId : false
         newport = newport || port
         server.listen(newport)
-        utils.log('events.rohmanwebid server listen on port: ' + newport)
+        utils.log(`${namespace} server listen on port: ` + newport)
         if (workerId) utils.log(workerId)
     },
     cluster: function (worker) {

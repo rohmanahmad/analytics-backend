@@ -3,6 +3,7 @@
 const nameSpaces = {
     // CONFIGS
     'admin': './configs/admin.conf',
+    'default': './configs/default.conf',
     'events': './configs/events.conf',
     'malangsoftware': './configs/malangsoftware.conf',
     'rohmanwebid': './configs/rohmanwebid.conf',
@@ -18,6 +19,7 @@ const nameSpaces = {
     // LIBS
     'ErrorHandler': './modules/globals/libs/ErrorHandler.lib',
     'Models': './modules/globals/libs/Models.lib',
+    'Registry': './modules/globals/libs/Registry.lib',
     // MIDDLEWARES
     'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',

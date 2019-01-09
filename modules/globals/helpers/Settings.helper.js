@@ -2,7 +2,7 @@
 
 const _ = use('_')
 
-module.exports = (namespace) => {
+module.exports = (namespace = 'default') => {
     const config = use(namespace)
     return {
         dsn: _.result(config, 'database.mongodb.dsn', null),
