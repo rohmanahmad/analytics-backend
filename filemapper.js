@@ -5,6 +5,7 @@ const nameSpaces = {
     'admin': './configs/admin.conf',
     'default': './configs/default.conf',
     'events': './configs/events.conf',
+    'home': './configs/home.conf',
     'malangsoftware': './configs/malangsoftware.conf',
     'rohmanwebid': './configs/rohmanwebid.conf',
     'sentiments': './configs/sentiments.conf',
