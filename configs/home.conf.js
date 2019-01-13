@@ -23,6 +23,7 @@ module.exports = {
         }
     },
     server: {
+        domain: 'home.localhost',
         default: {
             port: 4000
         },

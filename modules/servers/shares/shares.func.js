@@ -3,7 +3,11 @@
 const docs = use('modules/globals/static/documentation/shares.docs')
 const Randomize = use('modules/globals/libs/randomize.lib')
 const md5 = use('md5')
-const ShortLink = use('ShortLink.Model')
+const Settings = use('Settings.Helper')
+const {dsn} = Settings()
+const Models = use('Models')
+const M = new Models(dsn)
+const ShortLink = M.model('ShortLink.Model')
 const domain = 'http://share.rohman.web.id'
 
 module.exports = {

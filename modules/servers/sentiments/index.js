@@ -21,7 +21,7 @@ app.set('view engine', 'pug')
 
 // set group routes
 app.use(function (request, response, next) {
-    request.router_group = 'sentiments'
+    request.router_group = namespace // 'sentiments'
     next()
 })
 // enable trust-proxy

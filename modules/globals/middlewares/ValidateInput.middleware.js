@@ -27,6 +27,7 @@ module.exports = function (req, res, next) {
             inputs[name] = req.params[name]
         }
     }
+    console.log(inputs)
     req.validInput = inputs
     next()
 }

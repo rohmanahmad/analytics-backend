@@ -23,6 +23,8 @@ const routes = require(`./${namespace}.routes`)
 const controllers = require(`./${namespace}.func`)
 
 const publicPath = basePath('public')
+// set public
+appRouter.use(Express.static(publicPath))
 // set pug as default engine
 app.use(Express.static('public'))
 app.set('views', publicPath)
@@ -31,7 +33,7 @@ app.set('view engine', 'pug')
 // set group routes
 app.use(function (request, response, next) {
     utils.debugme(`accessing : ${request.originalUrl}`)
-    request.router_group = 'shares'
+    request.router_group = namespace // 'shares'
     request.router_prefix = `/${namespace}`
     next()
 })
