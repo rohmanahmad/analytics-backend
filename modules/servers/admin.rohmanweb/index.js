@@ -33,7 +33,7 @@ app.use(Session({
 // set group routes
 app.use(function (request, response, next) {
     utils.debugme(`accessing : ${request.originalUrl}`)
-    request.router_group = 'shares'
+    request.router_group = namespace // 'shares'
     next()
 })
 // enable trust-proxy

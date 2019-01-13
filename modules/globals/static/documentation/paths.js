@@ -116,7 +116,7 @@ const sentimentsPaths = {
 }
 
 const sharesPaths = {
-    '/new': {
+    '/api/new': {
         'post': {
             'tags': [
                 'Shares'

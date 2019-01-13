@@ -1,10 +1,12 @@
 'use strict'
 
 const utils = use('Utils.Helper')
+const _ = use('_')
 
 class Registry {
     constructor (Obj) { // Obj = Route or other
         this.obj = Obj
+        this.middlewares = []
     }
 
     setControllerObj (ObjController) {
@@ -23,18 +25,27 @@ class Registry {
         if (!this.ObjController) throw new Error('Please Set Controller First!')
         this.prefix = prefix
         for (const x of listRoutes) {
-            const controller = this.ObjController[x.controller]
+            const controller = (typeof x.controller === 'string') ? this.ObjController[x.controller] : x.controller
             const type = x.type
             const routepath = x.path
-            // const middleware = this.ObjMiddleware[x.middleware]
+            const middlewares = _.result(x, 'middlewares', []).length > 0 ? x.middlewares.map(x => this.middlewares[x]) : []
             if (typeof this.obj[type] === 'function') {
                 utils.debugme(` |-- registering route: ${routepath} [${type}]`)
-                this.obj[type](routepath, controller)
+                this.obj[type](routepath, middlewares, controller)
             }
         }
         this.obj['get']('*', function (req, res, next) {
-            res.json({'status': 404, 'message': 'NOT FOUND'})
+            res
+                .status(404)
+                .json({'status': 404, 'message': 'NOT FOUND'})
         })
+        return this
+    }
+
+    initialMiddlewares (middlewares = {}) {
+        for (let x in middlewares) {
+            this.middlewares[x] = middlewares[x]
+        }
         return this
     }
 

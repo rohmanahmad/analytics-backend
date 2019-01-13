@@ -24,7 +24,7 @@ app.set('view engine', 'pug')
 // set group routes
 app.use(function (request, response, next) {
     utils.debugme(`accessing : ${request.originalUrl}`)
-    request.router_group = 'users'
+    request.router_group = namespace // 'users'
     next()
 })
 // enable trust-proxy
