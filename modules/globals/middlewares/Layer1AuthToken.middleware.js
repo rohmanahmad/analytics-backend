@@ -8,7 +8,7 @@ module.exports = function (request, response, next) {
     let authToken = request.header('Authorization')
     authToken = authToken && typeof authToken === 'string'
         ? authToken.replace('Bearer').trim()
-        : null
+        : _.result(request.query, 'token', '').trim()
     if (!authToken) {
         authToken = _.result(request.query, 'access_token', null)
     }

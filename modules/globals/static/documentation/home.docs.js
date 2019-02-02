@@ -3,6 +3,9 @@
 const definitions = require('./definitions')
 
 module.exports = {
+    getPath: () => {
+        return {}
+    },
     publish: function () {
         return {
             swagger: '2.0',
@@ -19,7 +22,7 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: 'localhost',
+            host: (config.domain || 'localhost'),
             basePath: '/',
             schemes: [
                 'http'
@@ -27,7 +30,7 @@ module.exports = {
             produces: [
                 'application/json'
             ],
-            paths: {},
+            paths: this.getPath(),
             definitions: definitions.schemas
         }
     }

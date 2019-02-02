@@ -1,3 +1,7 @@
+'use strict'
+
+const _ = use('_')
+
 const schemas = {
     "deleted_response": {
         "properties": {
@@ -101,17 +105,32 @@ const schemas = {
     }
 }
 const definitions = {
+    // D
+    "description_form": {
+        "in": "formData",
+        "name": "description",
+        "type": "form (string)",
+        "description": ""
+    },
+    // E
+    "en_key_form": {
+        "in": "formData",
+        "name": "en_key",
+        "type": "form (string)",
+        "description": ""
+    },
+    // I
+    "id_query": {
+        "in": "query",
+        "name": "id",
+        "type": "query (string)",
+        "description": "ObjectID"
+    },
     "id_path": {
         "in": "path",
         "name": "id",
         "type": "path (string)",
         "description": "ObjectID"
-    },
-    "type_form": {
-        "in": "formData",
-        "name": "type",
-        "type": "form (string)",
-        "description": "V|N|ADJ|C|PN"
     },
     "id_key_form": {
         "in": "formData",
@@ -119,36 +138,49 @@ const definitions = {
         "type": "form (string)",
         "description": ""
     },
-    "en_key_form": {
-        "in": "formData",
-        "name": "en_key",
-        "type": "form (string)",
-        "description": ""
-    },
-    "description_form": {
-        "in": "formData",
-        "name": "description",
-        "type": "form (string)",
-        "description": ""
-    },
-    "id_query": {
-        "in": "query",
-        "name": "id",
-        "type": "query (string)",
-        "description": "ObjectID"
-    },
+    // L
     "limit_query": {
         "in": "query",
         "name": "limit",
         "type": "query (numeral)",
         "description": "limit"
     },
+    // P
     "page_query": {
         "in": "query",
         "name": "page",
         "type": "query (numeral)",
         "description": "page"
     },
+    // S
+    "sort_query": {
+        "in": "query",
+        "name": "sort",
+        "type": "query (string)",
+        "description": "asc | desc",
+        "default": "asc"
+    },
+    "sentiment_form": {
+        "in": "formData",
+        "name": "sentiment",
+        "type": "form (numeral)",
+        "description": "1 | 0 | -1",
+        "default": 0
+    },
+    "sentence_form": {
+        "in": "formData",
+        "name": "sentence",
+        "type": "form (string)",
+        "description": ""
+    },
+    // T
+    "type_form": {
+        "in": "formData",
+        "name": "type",
+        "type": "form (string)",
+        "description": "V|N|ADJ|C|PN"
+    },
+    // U
     "user_email_form": {
         "in": "formData",
         "name": "user_email",
@@ -172,28 +204,17 @@ const definitions = {
         "name": "uniq_code",
         "type": "path (string)",
         "description": "Unique Code Url"
-    },
-    "sort_query": {
-        "in": "query",
-        "name": "sort",
-        "type": "query (string)",
-        "description": "asc | desc",
-        "default": "asc"
-    },
-    "sentiment_form": {
-        "in": "formData",
-        "name": "sentiment",
-        "type": "form (numeral)",
-        "description": "1 | 0 | -1",
-        "default": 0
-    },
+    }
 }
 module.exports = {
     schemas,
     getSchema: function (key) {
         return schemas[key]
     },
-    getData: function (key) {
-        return definitions[key]
+    getData: function (key, defaultVal = null, customDescription = null) {
+        let definition = _.cloneDeep(definitions[key])
+        if (defaultVal) definition['default'] = defaultVal
+        if (customDescription) definition['description'] = customDescription
+        return definition
     }
 }

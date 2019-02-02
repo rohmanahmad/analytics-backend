@@ -1,7 +1,7 @@
 'use strict'
 
 class ModelsLib {
-    constructor (dsn) {
+    constructor (dsn = null) {
         this.dsn = dsn
     }
 

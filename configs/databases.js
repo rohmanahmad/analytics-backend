@@ -4,25 +4,29 @@ const _ = require('lodash')
 const Env = useStatic('Env')
 
 module.exports = {
-    'default': {
-        'dsn': _.result(Env, 'SERVER_DEFAULT_DSN', ''),
-        'dbname': 'malangsoftware'
+    'server0': {
+        'dsn': _.result(Env, 'SERVER0_DSN', ''),
+        'dbname': 'sentiments_local'
     },
     'server1': {
         'dsn': _.result(Env, 'SERVER1_DSN', ''),
-        'dbname': 'malangsoftwaregroup'
+        'dbname': 'users_local'
     },
     'server2': {
         'dsn': _.result(Env, 'SERVER2_DSN', ''),
-        'dbname': 'malangsoftwaregroup'
+        'dbname': 'share_local'
     },
     'server3': {
+        'dsn': _.result(Env, 'SERVER3_DSN', ''),
+        'dbname': 'logs_local'
+    },
+    'server44': {
         'host': 'localhost',
         'port': 3306,
         'user': 'root',
         'pass': '',
         'db': ''
     },
-    'server4': {},
-    'server5': {}
+    'server442': {},
+    'server524': {}
 }

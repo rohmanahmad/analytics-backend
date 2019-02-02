@@ -1,11 +1,16 @@
 'use strict'
 
-const Users = use('Users.Model')
-const LoginLogs = use('LoginLogs.Model')
 const Env = useStatic('Env')
 const md5 = use('md5')
 const jwt = use('jwt')
 const moment = use('moment')
+const _ = use('_')
+
+const Models = use('Models')
+
+const Users = new Models().model('Users.Model')
+const LoginLogs = new Models().model('LoginLogs.Model')
+
 const docs = use('modules/globals/static/documentation/users.docs')
 const AppKey = Env.API_KEY
 const TokenExp = Env.TOKEN_EXP
@@ -18,15 +23,20 @@ module.exports = {
         response.render('docs/index', docs.publish())
     },
     apidocs: async (request, response) => {
-        response.json(docs.publish())
+        const config = _.result(request.configs, 'documentation', '')
+        response.json(docs.publish(config))
     },
     login: async (request, response, next) => {
         try {
-            const {user_email: userEmail, user_password: userPassword} = request.validInput
-            const user = await Users.findOne({
+            const {
+                user_email: userEmail,
+                user_password: userPassword
+            } = request.validInput
+            const criteria = {
                 'user_email': userEmail || '',
                 'user_password': md5(userPassword || '')
-            })
+            }
+            const user = await Users.findOne(criteria)
             let resp = {
                 'status': 400,
                 'message': 'email or password doesn\'t match'

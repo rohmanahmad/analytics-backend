@@ -24,7 +24,7 @@ module.exports = {
     },
     server: {
         default: {
-            port: 1000
+            port: 8000
         },
         cors: {
             domains: ['http://localhost:8080'],

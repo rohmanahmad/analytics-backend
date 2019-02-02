@@ -2,6 +2,9 @@
 
 const nameSpaces = {
     // CONFIGS
+    'model_mapping': './configs/model_mapping_db',
+    'databases_conf': './configs/databases',
+    // SERVER CONFIGS
     'admin': './configs/admin.conf',
     'default': './configs/default.conf',
     'events': './configs/events.conf',
@@ -21,6 +24,7 @@ const nameSpaces = {
     'ErrorHandler': './modules/globals/libs/ErrorHandler.lib',
     'Models': './modules/globals/libs/Models.lib',
     'Registry': './modules/globals/libs/Registry.lib',
+    'SentencesLib': './modules/globals/libs/Sentences.lib',
     // MIDDLEWARES
     'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
