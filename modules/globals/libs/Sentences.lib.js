@@ -12,12 +12,22 @@ class SentencesLib {
 
     fixSentences () {
         return this.sentences
+        // hapus perulangan karakter yang tidak diperlukan
             .replace(/\,{2,}/g, ',')
             .replace(/\.{2,}/g, '.')
             .replace(/\!{2,}/g, '!')
             .replace(/\?{2,}/g, '?')
             .replace(/\:{2,}/g, ':')
             .replace(/\;{2,}/g, ';')
+        // tambah spasi di belakang karakter
+            .replace(/\,/g, ', ')
+            .replace(/\./g, '. ')
+            .replace(/\!/g, '! ')
+            .replace(/\?/g, '? ')
+            .replace(/\:/g, ': ')
+            .replace(/\;/g, '; ')
+        // replace multiple spaces
+            .replace(/ {2,}/g, ' ')
     }
 
     async process () {
@@ -78,6 +88,7 @@ class SentencesLib {
                 }
             }
         }
+        console.log(allWords)
         // memastikan semua keyword ketika di gabung sama dengan inputan
         const original = allWords
             .map(x => x.id_keyword)
@@ -89,6 +100,9 @@ class SentencesLib {
             .replace(/ \!/g, '!')
             .replace(/ \;/g, ';')
             .replace(/ \:/g, ':')
+        const pattern = allWords
+            .map(x => (x.is_symbol ? '|' : x.type))
+            .join(' + ')
         const perkalimat = _.filter(
             original
                 .split(/[\.\?\!\;]/)
@@ -101,7 +115,7 @@ class SentencesLib {
                 return x.length > 0
             }
         )
-        return {original, allWords, perkalimat}
+        return {original, perkalimat, pattern, allWords}
     }
 }
 

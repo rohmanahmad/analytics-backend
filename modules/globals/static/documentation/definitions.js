@@ -21,7 +21,7 @@ const schemas = {
                 "type": "string",
                 "default": "V|N|ADJ|C|PN|"
             },
-            "indo_keyword": {
+            "id_keyword": {
                 "type": "string",
                 "default": "test"
             },
@@ -75,7 +75,7 @@ const schemas = {
                             {
                                 "properties": {
                                     "_id": {"default": "ObjectID"},
-                                    "indo_keyword": {"default": "contoh"},
+                                    "id_keyword": {"default": "contoh"},
                                     "en_keyword": {"default": "example"},
                                     "type": {"default": "V|N|ADJ|C|PN"},
                                     "desctription": {"default": "description of keyword"}
@@ -95,7 +95,7 @@ const schemas = {
                 "type": "object",
                 "properties": {
                     "_id": {"default": "ObjectID"},
-                    "indo_keyword": {"default": "contoh"},
+                    "id_keyword": {"default": "contoh"},
                     "en_keyword": {"default": "example"},
                     "type": {"default": "V|N|ADJ|C|PN"},
                     "desctription": {"default": "description of keyword"}

@@ -32,5 +32,22 @@ module.exports = [
             'auth',
             'input'
         ]
+    },
+    {
+        path: '/user-login',
+        type: 'get',
+        controller: 'viewLogin',
+        middlewares: [
+            'sessionAuth'
+        ]
+    },
+    {
+        path: '/user-login',
+        type: 'post',
+        controller: 'doLogin',
+        middlewares: [
+            'sessionAuth',
+            'input'
+        ]
     }
 ]

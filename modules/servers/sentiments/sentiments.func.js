@@ -119,5 +119,12 @@ module.exports = {
         } catch (e) {
             next(e)
         }
+    },
+    viewWordList: async (request, response) => {
+        response.render('sentiments/index', {
+            active_view: 'wordlist',
+            title: 'word list',
+            token: 'my-token'
+        })
     }
 }

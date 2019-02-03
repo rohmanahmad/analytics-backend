@@ -57,6 +57,8 @@ app.use(HttpResponse)
 // require middlewares
 const auth = use('Layer1AuthToken.Middleware')
 const input = use('ValidateInput.Middleware')
+
+// console.log(controllers)
 // registering user's routers
 new Registry(appRouter)
     .setControllerObj(controllers)

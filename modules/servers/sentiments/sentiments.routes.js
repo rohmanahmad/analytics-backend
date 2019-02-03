@@ -61,5 +61,11 @@ module.exports = [
             'auth',
             'input'
         ]
+    },
+    {
+        path: '/wordlist',
+        type: 'get',
+        controller: 'viewWordList',
+        middlewares: []
     }
 ]
