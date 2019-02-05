@@ -39,6 +39,11 @@ const nameSpaces = {
     'ShortLink.Model': './modules/globals/models/mongodb/ShortLink.model',
     'InvalidRequestLog.Model': './modules/globals/models/mongodb/InvalidRequestLog.model',
     'InvitationContacts.Model': './modules/globals/models/mongodb/InvitationContacts.model',
+    'RawHijupProducts.Model': './modules/globals/models/mongodb/RawHijupProducts.model',
+    'RawHijupCategories.Model': './modules/globals/models/mongodb/RawHijupCategories.model',
+    'RawHijupProductsDetail.Model': './modules/globals/models/mongodb/RawHijupProductsDetail.model',
+    // SERVICES
+    'hijup': './modules/services/stores/hijup',
     // DEPENDENCIES
     '_': 'lodash',
     'BodyParser': 'body-parser',
@@ -46,9 +51,11 @@ const nameSpaces = {
     'Cors': 'cors',
     'debug': 'debug',
     'Express': 'express',
+    'got': 'got',
     'Http': 'http',
     'jwt': 'jsonwebtoken',
     'md5': 'md5',
+    'minimist': 'minimist',
     'mongod': 'mongodb',
     'moment': 'moment',
     'mongoose': 'mongoose',

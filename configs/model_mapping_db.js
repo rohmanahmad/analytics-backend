@@ -6,5 +6,8 @@ module.exports = {
     user_login_logs: 'server3',
     short_link: 'server0',
     invitation_contacts: 'server0',
-    invalid_request_log: 'server3'
+    invalid_request_log: 'server3',
+    raw_hijup_products: 'server4',
+    raw_hijup_products_detail: 'server4',
+    raw_hijup_categories: 'server4'
 }
