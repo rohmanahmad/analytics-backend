@@ -42,6 +42,9 @@ const nameSpaces = {
     'RawHijupProducts.Model': './modules/globals/models/mongodb/RawHijupProducts.model',
     'RawHijupCategories.Model': './modules/globals/models/mongodb/RawHijupCategories.model',
     'RawHijupProductsDetail.Model': './modules/globals/models/mongodb/RawHijupProductsDetail.model',
+    'StoreCategories.Model': './modules/globals/models/mongodb/StoreCategories.model',
+    'StoreProducts.Model': './modules/globals/models/mongodb/StoreProducts.model',
+    'StoreProductDetail.Model': './modules/globals/models/mongodb/StoreProductDetail.model',
     // SERVICES
     'hijup': './modules/services/stores/hijup',
     // DEPENDENCIES

@@ -12,5 +12,11 @@ module.exports = [
         type: 'get',
         controller: 'mobile',
         middlewares: []
+    },
+    {
+        path: '/categories/list',
+        type: 'get',
+        controller: 'categories',
+        middlewares: []
     }
 ]

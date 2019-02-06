@@ -8,11 +8,12 @@ html(lang="en")
         link(rel="stylesheet", type="text/css", href="assets/vendor/onsenUi/css/onsen-css-components.min.css")
         script(src="assets/vendor/onsenUi/js/onsenui.min.js")
         script(src="assets/vendor/jquery-3/jquery.min.js")
+        script(src="assets/vendor/lodash/lodash.min.js")
         title Document
     body
         script(src="assets/themes/store/js/mobile.js?c=" + String(isDev ? new Date().getTime() : 0))
         include components/mobile/header.pug
-        include components/mobile/left-menu.pug
+        include components/mobile/categories.pug
         include components/mobile/bottom-toolbars.pug
         //- layouts
         include layouts/mobile/home.pug
@@ -24,3 +25,5 @@ html(lang="en")
         include layouts/mobile/chats-toolbars.pug
         include layouts/mobile/coupons-toolbars.pug
         include layouts/mobile/favorites-toolbars.pug
+        //- products
+        include layouts/mobile/products.pug

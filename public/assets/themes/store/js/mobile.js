@@ -2,12 +2,13 @@
 
 $(function(){
     // Initialization code
-    window.components = {}
-    var components = window.components
-    $.getScript('/assets/themes/store/js/components/mobile/leftmenu.js')
-    $.getScript('/assets/themes/store/js/components/mobile/bottom-toolbars.js')
-
-    $('ons-button#test').on('click', function(e) {
-        ons.notification.alert('Button is tapped!');
-    })
-})
+    window.components = {};
+    var components = window.components;
+    if (!localStorage) {
+        alert('localstorage doesnt support');
+        return null
+    }
+    $.getScript('/assets/themes/store/js/components/mobile/categories.js');
+    $.getScript('/assets/themes/store/js/components/mobile/bottom-toolbars.js');
+    $.getScript('/assets/themes/store/js/components/mobile/products.js');
+});

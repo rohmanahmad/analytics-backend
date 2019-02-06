@@ -5,23 +5,23 @@ div(class="tabbar")
             i(class="tabbar__icon ion-home")
             div(class="tabbar__label") Home
 
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.favorites.template')", tappable)
+        input(type="radio", name="tabbar-a")
+        button(class="tabbar__button")
+            i(class="tabbar__icon zmdi zmdi-favorite")
+            div(class="tabbar__label") Favorit
+
     label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.carts.template')", tappable)
         input(type="radio", name="tabbar-a")
         button(class="tabbar__button")
-            i(class="tabbar__icon ion-card")
+            i(class="tabbar__icon zmdi zmdi-shopping-cart")
             div(class="tabbar__label") Belanjaan
 
     label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.coupons.template')", tappable)
         input(type="radio", name="tabbar-a")
         button(class="tabbar__button")
-            i(class="tabbar__icon ion-cash")
+            i(class="tabbar__icon zmdi zmdi-label-heart")
             div(class="tabbar__label") Kupon
-
-    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.favorites.template')", tappable)
-        input(type="radio", name="tabbar-a")
-        button(class="tabbar__button")
-            i(class="tabbar__icon ion-star")
-            div(class="tabbar__label") Favorit
 
     label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.chats.template')", tappable)
         input(type="radio", name="tabbar-a")

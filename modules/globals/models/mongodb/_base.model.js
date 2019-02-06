@@ -17,6 +17,10 @@ class Base {
         }
     }
 
+    getMongooseInstance (key = '') {
+        return _.result(mongoose, key)
+    }
+
     connect () {
         const dsn = this.getDsn()
         if (dsn) {
@@ -51,6 +55,7 @@ class Base {
     }
 
     model () {
+        this.ObjectID = mongooseObjID
         const connect = this.connect()
         const myschema = this.getSchema()
         const schema = new mongoose.Schema(myschema)

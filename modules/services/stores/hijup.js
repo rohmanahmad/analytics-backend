@@ -3,18 +3,21 @@
 const URLSearchParams = require('url').URLSearchParams
 const got = use('got')
 const _ = use('_')
+const md5 = use('md5')
 const utils = use('Utils.Helper')
 const Models = use('Models')
 
 const RawHijupProducts = new Models().model('RawHijupProducts.Model')
 const RawHijupCategories = new Models().model('RawHijupCategories.Model')
 const RawHijupProductsDetail = new Models().model('RawHijupProductsDetail.Model')
+const StoreCategories = new Models().model('StoreCategories.Model')
 
 const graphUrl = 'https://www.hijup.com/proxy/graphql'
+const prefix = 'hijup'
 
 /*
     node service.js [-i _i_ -process _p_]
-    * _p_: products | categories | details
+    * _p_: import_categories | import_products | import_details | update_categories
     * _i_: number
 */
 
@@ -90,10 +93,12 @@ class Hijup {
 
     async run (type) {
         utils.debugme(`running run ${type}`)
-        if (type === 'categories' || type === 'all') await this.importCategories()
-        // if (type === 'categories' || type === 'all') await this.getProductsByCategory()
-        if (type === 'products' || type === 'all') await this.getAllProducts()
-        if (type === 'details' || type === 'all') await this.getProductDetail()
+        // import from web hijup.com
+        if (type === 'import_categories' || type === 'all') await this.importCategories()
+        if (type === 'import_products' || type === 'all') await this.getAllProducts()
+        if (type === 'import_details' || type === 'all') await this.getProductDetail()
+        // import from db
+        if (type === 'update_categories' || type === 'all') await this.importLocalCategories()
     }
 
     async getProductDetail () {
@@ -179,6 +184,29 @@ class Hijup {
             })
         return null
     }
+    // import from raw to product_categories
+    async importLocalCategories () {
+        utils.debugme('update categories to store_categories')
+        const data = await RawHijupCategories.find({})
+        // console.log(data)
+        this.upsertMany(this.mappingToCategories(data), StoreCategories)
+    }
+
+    mappingToCategories (data = []) {
+        return data
+            .map(x => ({
+                id: md5(`${prefix}_${x.id}`),
+                name: x.name,
+                icon: x.icon,
+                order: x.order,
+                parent_id: x.parent_id ? md5(`${prefix}_${x.parent_id}`) : '',
+                slug: x.slug,
+                source: {
+                    id: x.id,
+                    type: prefix
+                }
+            }))
+    }
 
     async getAllProducts () {
         let n = 1
@@ -212,11 +240,6 @@ class Hijup {
         bulk.execute(function (e, r) {
             utils.log(`upserted: ${r.nUpserted}, updated: ${r.nModified}`)
         })
-    }
-
-    async getProductsByCategory (category = null) {
-        utils.debugme('get product from category')
-        return null
     }
 
     getData (url = '', opt = {}) {

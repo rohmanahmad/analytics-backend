@@ -9,5 +9,8 @@ module.exports = {
     invalid_request_log: 'server3',
     raw_hijup_products: 'server4',
     raw_hijup_products_detail: 'server4',
-    raw_hijup_categories: 'server4'
+    raw_hijup_categories: 'server4',
+    store_categories: 'server4',
+    store_products: 'server4',
+    store_product_detail: 'server4'
 }
