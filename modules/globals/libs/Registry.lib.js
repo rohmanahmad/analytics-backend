@@ -36,6 +36,10 @@ class Registry {
             if (typeof this.obj[type] === 'function') {
                 utils.debugme(` |-- registering route: ${routepath} [${type}]`)
                 this.obj[type](routepath, middlewares, controller)
+                // if (middlewares.length > 0) {
+                // } else {
+                //     this.obj[type](routepath, controller)
+                // }
             }
         }
         return this

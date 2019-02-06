@@ -1,0 +1,8 @@
+ons-splitter
+  ons-splitter-side(id="menu", side="left", width="220px", collapse, swipeable)
+    ons-page
+      ons-list
+        ons-list-item(onclick="components.leftmenu.load('home.template')", tappable) Home
+        ons-list-item(onclick="components.leftmenu.load('settings.template')", tappable) Settings
+        ons-list-item(onclick="components.leftmenu.load('about.template')", tappable) About
+  ons-splitter-content(id="content", page="home.template")

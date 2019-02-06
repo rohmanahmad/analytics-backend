@@ -102,18 +102,17 @@ class Hijup {
         const pengurang = 1 * 24 * 60 * 60 * 1000
         const dateCriteria = new Date(dateNow - pengurang)
         const q = RawHijupProducts.find({
-            // 'last_recrawl.detail': {
-            //     $gte: dateCriteria
-            // }
-            last_recrawl: {
-                $exists: false
+            'last_recrawl.detail': {
+                $gte: dateCriteria
             }
+            // last_recrawl: {
+            //     $exists: false
+            // }
         }).select('id') // .limit(1)
         q.exec(async (err, res) => {
             if (err) {
                 throw err
             }
-            console.log(res.length)
             for (let d of res) {
                 if (!d) break
                 const detail = await this.getDetail(d.id)

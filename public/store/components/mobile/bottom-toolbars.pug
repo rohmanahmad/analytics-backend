@@ -1,0 +1,30 @@
+div(class="tabbar")
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.home.template')", tappable)
+        input(type="radio", name="tabbar-a" checked="checked")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-home")
+            div(class="tabbar__label") Home
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.carts.template')", tappable)
+        input(type="radio", name="tabbar-a")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-card")
+            div(class="tabbar__label") Belanjaan
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.coupons.template')", tappable)
+        input(type="radio", name="tabbar-a")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-cash")
+            div(class="tabbar__label") Kupon
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.favorites.template')", tappable)
+        input(type="radio", name="tabbar-a")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-star")
+            div(class="tabbar__label") Favorit
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.chats.template')", tappable)
+        input(type="radio", name="tabbar-a")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-chatboxes")
+            div(class="tabbar__label") Chats

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", type="text/css", href="assets/vendor/onsenUi/css/onsenui.css")
+        link(rel="stylesheet", type="text/css", href="assets/vendor/onsenUi/css/onsen-css-components.min.css")
+        script(src="assets/vendor/onsenUi/js/onsenui.min.js")
+        script(src="assets/vendor/jquery-3/jquery.min.js")
+        title Document
+    body
+        script(src="assets/themes/store/js/mobile.js?c=" + String(isDev ? new Date().getTime() : 0))
+        include components/mobile/header.pug
+        include components/mobile/left-menu.pug
+        include components/mobile/bottom-toolbars.pug
+        //- layouts
+        include layouts/mobile/home.pug
+        include layouts/mobile/settings.pug
+        include layouts/mobile/about.pug
+        //- toolbars
+        include layouts/mobile/home-toolbars.pug
+        include layouts/mobile/carts-toolbars.pug
+        include layouts/mobile/chats-toolbars.pug
+        include layouts/mobile/coupons-toolbars.pug
+        include layouts/mobile/favorites-toolbars.pug
