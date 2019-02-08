@@ -38,7 +38,7 @@ function updateItems (categories) {
       if (childs) {
         htmlInner = `<ons-list-header>${parent.name}</ons-list-header>`;
         for (let c of childs) {
-          htmlInner += `<ons-list-item onclick="components.products.load('products.template')">${c.name}</ons-list-item>`
+          htmlInner += `<ons-list-item onclick="components.products.load('products.template', '${c.id}')">${c.name}</ons-list-item>`
         }
         $('#category-items').append(htmlInner);
       } else {

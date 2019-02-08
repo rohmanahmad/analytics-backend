@@ -1,6 +1,6 @@
 <template id="products.template">
   <ons-page>
-    div(class="toolbar toolbar--material")
+    ons-toolbar(class="toolbar toolbar--material")
         div(class="toolbar__left toolbar--material__left", onclick="categories.open()")
             span(class="toolbar-button toolbar-button--material")
                 i(class="zmdi zmdi-menu")
@@ -10,8 +10,48 @@
             span(class="toolbar-button toolbar-button--material")
                 i(class="zmdi zmdi-search")
             span(class="toolbar-button toolbar-button--material")
-                i(class="zmdi zmdi-favorite")
+                i(class="zmdi zmdi-sort")
             span(class="toolbar-button toolbar-button--material")
                 i(class="zmdi zmdi-more-vert")
+    ons-list(class="list __product_paddings")
+        each x in [1, 2, 3, 4]
+            <ons-list-item modifier="nodivider" class="__list_product">
+                <ons-row>
+                    each o in [1, 2]
+                        <ons-col>
+                            <div class="__product __product_border_radius">
+                                <div class="__product_image">
+                                    <img src="https://asset.hijup.com/image/upload/q_auto:eco,f_auto,w_auto,dpr_auto/gs/system/product_image/image/223336/smaller_v1-549-46584-85732-13962-46-113634-3.jpg" class="__product_image" alt=""/>
+                                </div>
+                                <div class="__product_image_others">
+                                    <img class="list" src="https://asset.hijup.com/image/upload/q_auto:eco,f_auto,w_auto,dpr_auto/gs/system/product_image/image/252310/smaller_v1-498-51399-95598-17107-46-128078.jpg" alt=""/>
+                                    <img class="list" src="https://asset.hijup.com/image/upload/q_auto:eco,f_auto,w_auto,dpr_auto/gs/system/product_image/image/234024/smaller_v1-219-48428-89676-15168-46-119104.jpg" alt=""/>
+                                    <img class="list" src="https://asset.hijup.com/image/upload/q_auto:eco,f_auto,w_auto,dpr_auto/gs/system/product_image/image/252236/smaller_v1-219-48428-95622-17116-46-128102.jpg" alt=""/>
+                                    <img class="list" src="https://asset.hijup.com/image/upload/q_auto:eco,f_auto,w_auto,dpr_auto/gs/system/product_image/image/249854/smaller_v1-219-48428-94150-16624-46-125799.jpg" alt=""/>
+                                </div>
+                                <div class="__product_title">Jilbab Syar'i</div>
+                                <div class="__product_favorite">
+                                    <span class="">23</span>
+                                    <i class="zmdi zmdi-favorite-outline"></i>
+                                </div>
+                                <div class="__product_price">
+                                    <span class="__product_price_before_dics">IDR 269,000</span>
+                                    <span class="__product_current_price">IDR 250,000</span>
+                                    <div class="__product_brand">zahra collections</div>
+                                    <div class="__product_disc">20%</div>
+                                </div>
+                                <div class="__product_stars">
+                                    <span class="zmdi zmdi-star __yellow_star"></span>
+                                    <span class="zmdi zmdi-star __yellow_star"></span>
+                                    <span class="zmdi zmdi-star __yellow_star"></span>
+                                    <span class="zmdi zmdi-star-half __yellow_star"></span>
+                                    <span class="zmdi zmdi-star-outline __yellow_star __last_star"></span>
+                                </div>
+                            </div>
+                        </ons-col>
+                </ons-row>
+            </ons-list-item>
+    div(style="height: 50px;width: 100%;")
+        
   </ons-page>
 </template>
