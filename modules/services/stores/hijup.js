@@ -11,13 +11,23 @@ const RawHijupProducts = new Models().model('RawHijupProducts.Model')
 const RawHijupCategories = new Models().model('RawHijupCategories.Model')
 const RawHijupProductsDetail = new Models().model('RawHijupProductsDetail.Model')
 const StoreCategories = new Models().model('StoreCategories.Model')
+const StoreProducts = new Models().model('StoreProducts.Model')
+const StoreProductPrices = new Models().model('StoreProductPrices.Model')
+const StoreProductVariants = new Models().model('StoreProductVariants.Model')
+const StoreProductBrands = new Models().model('StoreProductBrands.Model')
 
 const graphUrl = 'https://www.hijup.com/proxy/graphql'
 const prefix = 'hijup'
+const localLimit = 1000
 
 /*
     node service.js [-i _i_ -process _p_]
-    * _p_: import_categories | import_products | import_details | update_categories
+    * _p_:
+        - import_categories : import from website to local
+        - import_products : import from website to local
+        - import_details : import from website to local
+        - update_categories : update from raw_categories to real
+        - update_products : update from raw_products to real
     * _i_: number
 */
 
@@ -99,6 +109,114 @@ class Hijup {
         if (type === 'import_details' || type === 'all') await this.getProductDetail()
         // import from db
         if (type === 'update_categories' || type === 'all') await this.importLocalCategories()
+        if (type === 'update_products' || type === 'all') await this.importLocalProducts()
+    }
+
+    async importLocalProducts () {
+        if (!this.currentSkip) {
+            this.currentSkip = 0
+        }
+        try {
+            const raw = await RawHijupProducts
+                .find({})
+                .limit(localLimit)
+                .skip(this.currentSkip)
+            /* running without sync */
+            this.updateProducts(raw)
+            if (typeof raw === 'object' && raw.length === 0) {
+                this.currentSkip = 0
+                return null
+            }
+            this.currentSkip += localLimit
+        } catch (e) {
+            utils.debugme(e.message)
+        }
+    }
+
+    updateProducts (raw) {
+        try {
+            const products = raw.map(x => {
+                const favorites = _.random(0, 50)
+                return {
+                    id: md5(`${prefix}_${x.id}`),
+                    name: x.name,
+                    gender: x.gender,
+                    slug: `${x.name.toLowerCase().replace(/ /g, '-')}_${x.id}`,
+                    category_id: md5(`${prefix}_${x.category.id}`),
+                    status: {
+                        trash: false,
+                        suspend: false,
+                        ready: false,
+                        available: false,
+                        preorder: false
+                    },
+                    source: {
+                        id: x.id,
+                        type: prefix
+                    },
+                    images: {
+                        main: x.image.big,
+                        others: [
+                            x.image.smaller
+                        ]
+                    },
+                    brand: md5(`${prefix}_${x.vendor.id}`),
+                    favorites: {
+                        count: favorites,
+                        by: []
+                    },
+                    stars: {
+                        count: favorites / 10
+                    }
+                }
+            })
+            const variants = raw.map(x => ({
+                id: `variant_${prefix}_${x.id}`,
+                product_id: md5(`${prefix}_${x.id}`),
+                items: x.variants.map(o => ({
+                    units: o.units.map((i) => ({
+                        stock: i.stock,
+                        size_label: i.size_label
+                    })),
+                    color: o.color_name,
+                    images: o.images.map(img => ({
+                        default: img.default,
+                        small: img.smaller,
+                        big: img.big
+                    }))
+                })),
+                status: {
+                    trash: false
+                }
+            }))
+            const prices = raw.map(x => ({
+                id: `price_${prefix}_${x.id}`,
+                product_id: md5(`${prefix}_${x.id}`),
+                source: x.prices,
+                price: Number(x.prices.raw_final) + 50000,
+                discount: {
+                    type: 'percent', // percent or nominal
+                    value: 0
+                },
+                status: {
+                    trash: false,
+                    pending: false
+                }
+            }))
+            const brands = raw.map(x => ({
+                id: md5(`${prefix}_${x.vendor.id}`),
+                name: x.vendor.name,
+                source: {
+                    id: x.vendor.id
+                }
+            }))
+            this.upsertMany(products, StoreProducts)
+            // this.upsertMany(prices, StoreProductPrices)
+            // this.upsertMany(variants, StoreProductVariants)
+            // this.upsertMany(brands, StoreProductBrands)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async getProductDetail () {

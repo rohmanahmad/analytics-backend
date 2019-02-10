@@ -18,5 +18,17 @@ module.exports = [
         type: 'get',
         controller: 'categories',
         middlewares: []
+    },
+    {
+        path: '/products/list',
+        type: 'get',
+        controller: 'products',
+        middlewares: []
+    },
+    {
+        path: '/brands/list',
+        type: 'get',
+        controller: 'brands',
+        middlewares: []
     }
 ]

@@ -20,7 +20,7 @@ const Registry = use('Registry')
 
 const {port} = Settings(namespace)
 const routes = require(`./${namespace}.routes`)
-const controllers = require(`./${namespace}.func`)
+const Controllers = require(`./${namespace}.func`)
 
 const publicPath = basePath('public')
 // set pug as default engine
@@ -61,11 +61,11 @@ const input = use('ValidateInput.Middleware')
 // console.log(controllers)
 // registering user's routers
 new Registry(appRouter)
-    .setControllerObj(controllers)
+    .setControllerObj(new Controllers())
     .setMiddlewareObj({
         input, auth
     })
-    // .initialDocumentation()
+    .initialDocumentation()
     .registerRoutes(routes, namespace)
     .releaseRoutes(app)
 

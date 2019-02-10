@@ -13,11 +13,14 @@ class StoreProductsModel extends Base {
 
     get schema () {
         return {
+            id: String,
             name: String,
             gender: String,
             slug: String,
-            category_id: Number,
+            category_id: String,
             status: {
+                trash: Boolean,
+                suspend: Boolean,
                 ready: Boolean,
                 available: Boolean,
                 preorder: Boolean
@@ -29,6 +32,14 @@ class StoreProductsModel extends Base {
             images: {
                 main: String,
                 others: Array
+            },
+            brand: String,
+            favorites: {
+                count: Number,
+                by: Array
+            },
+            stars: {
+                count: Number
             }
         }
     }

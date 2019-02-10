@@ -105,6 +105,13 @@ const schemas = {
     }
 }
 const definitions = {
+    // C
+    "categories_query": {
+        "in": "query",
+        "name": "categories",
+        "type": "query (string)",
+        "description": "category ids (separated by comma)"
+    },
     // D
     "description_form": {
         "in": "formData",
@@ -146,6 +153,12 @@ const definitions = {
         "description": "limit"
     },
     // P
+    "parent_query": {
+        "in": "query",
+        "name": "parent",
+        "type": "query (numeral)",
+        "description": "parent"
+    },
     "page_query": {
         "in": "query",
         "name": "page",
@@ -157,8 +170,16 @@ const definitions = {
         "in": "query",
         "name": "sort",
         "type": "query (string)",
+        "enum": ["asc", "desc"],
         "description": "asc | desc",
         "default": "asc"
+    },
+    "settings_query": {
+        "in": "query",
+        "name": "settings",
+        "type": "query (string)",
+        "description": "adjust for page settings (separated by comma)",
+        "default": 0
     },
     "sentiment_form": {
         "in": "formData",
@@ -170,6 +191,12 @@ const definitions = {
     "sentence_form": {
         "in": "formData",
         "name": "sentence",
+        "type": "form (string)",
+        "description": ""
+    },
+    "slug_query": {
+        "in": "query",
+        "name": "slug",
         "type": "form (string)",
         "description": ""
     },

@@ -45,6 +45,9 @@ const nameSpaces = {
     'StoreCategories.Model': './modules/globals/models/mongodb/StoreCategories.model',
     'StoreProducts.Model': './modules/globals/models/mongodb/StoreProducts.model',
     'StoreProductDetail.Model': './modules/globals/models/mongodb/StoreProductDetail.model',
+    'StoreProductVariants.Model': './modules/globals/models/mongodb/StoreProductVariants.model',
+    'StoreProductPrices.Model': './modules/globals/models/mongodb/StoreProductPrices.model',
+    'StoreProductBrands.Model': './modules/globals/models/mongodb/StoreProductBrands.model',
     // SERVICES
     'hijup': './modules/services/stores/hijup',
     // DEPENDENCIES

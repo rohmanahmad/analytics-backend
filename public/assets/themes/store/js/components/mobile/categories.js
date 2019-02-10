@@ -1,6 +1,8 @@
 components.categories = {};
 var categories = components.categories;
 
+setTimeout(initialItems, 2 * 1000);
+
 categories.open = function () {
   initialItems();
   var menu = document.getElementById('categories');

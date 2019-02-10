@@ -1,3 +1,6 @@
+.__no_paddings {
+    padding: 0 0px 0px 0px;
+}
 .__product {
     width: 96%;
     height: 100%;
@@ -6,11 +9,12 @@
     text-align: center;
     border: 1px solid #f5f2f2;
 }
-.__product_paddings {
-    padding: 0 0px 0px 0px;
-}
 .__list_product {
-    padding: 0px 0px 0px 6px;
+    float: left;
+}
+.__list {
+    max-width: 170px;
+    float: left;
 }
 .__product_border_radius {
     border-radius: 2px;
@@ -53,23 +57,29 @@
     display: block;
     line-height: 3pt;
 }
-.__product_favorite {
-    font-size: 30px;
+.__product_cart {
+    font-size: 25px;
     float: right;
     width: 49%;
     padding-right: 10px;
     text-align: right;
+    color: #7fa4ca;
+    /* padding-top: 5px; */
+}
+.__product_favorite {
+    float: left;
     color: #f39e51;
 }
-.__product_favorite span {
-    /* float: left; */
-    font-size: 6pt;
-    margin-right: -10px;
+.__product_favorite_count {
+    float: left;
+    font-size: 6pt !important;
+    margin-left: 3px;
 }
 .__product_image_others {
     width: 100%;
     height: 55px;
-    margin-top: 3px;
+    margin-top: 0px;
+    overflow: hidden;
     /* border: 1px solid #000; */
 }
 .__product_image_others .list {
@@ -123,4 +133,15 @@
     background-image: url('./img/disc-bg.png');
     color: #fff;
     line-height: 11pt;
+    margin-top: 5px;
+}
+.__product_section_1 {
+    width: 100%;
+    height: auto;
+    min-height: 30px;
+    padding: 0px 0px 0px 6px;
+    /* border: 1px solid; */
+}
+.__product_row_items {
+    padding: 4px 15px;
 }

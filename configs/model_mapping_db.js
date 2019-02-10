@@ -12,5 +12,8 @@ module.exports = {
     raw_hijup_categories: 'server4',
     store_categories: 'server4',
     store_products: 'server4',
-    store_product_detail: 'server4'
+    store_product_detail: 'server4',
+    store_product_variants: 'server4',
+    store_product_prices: 'server4',
+    store_product_brands: 'server4'
 }
