@@ -1,3 +1,6 @@
+.__cursor {
+    cursor: pointer;
+}
 .__no_paddings {
     padding: 0 0px 0px 0px;
 }
@@ -69,6 +72,7 @@
 .__product_favorite {
     float: left;
     color: #f39e51;
+    margin-left: 5px;
 }
 .__product_favorite_count {
     float: left;

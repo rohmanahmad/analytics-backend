@@ -8,6 +8,7 @@ class Products extends Page {
         this.currentPage = 0;
         this.brands = [];
         this.currentCategory = null;
+        this.favorites = this.getFavorites();
     }
     /* categories can multiple separated by comma (,) */
     setCategories (categories = '') {
@@ -144,6 +145,7 @@ class Products extends Page {
             `;
             let rowlist = '';
             for (let product of sq) {
+                const productId = product.product_id;
                 const price = 'IDR ' + _.result(product, 'prices.price', 0).toLocaleString();
                 const brandname = this.brands[product.brand];
                 const discountKey = _.result(product, 'prices.discount.type', null);
@@ -165,15 +167,16 @@ class Products extends Page {
                             <img src="${mainImg}" class="__product_image" alt="${product.name}"/>
                         </div>
                         <div class="__product_image_others">
-                            <img class="list" src="${imgs[0] || ''}" alt=""/>
-                            <img class="list" src="${imgs[1] || ''}" alt=""/>
-                            <img class="list" src="${imgs[2] || ''}" alt=""/>
-                            <img class="list" src="${imgs[3] || ''}" alt=""/>
+                            <img class="list __list_image_other __cursor" src="${mainImg || ''}" alt=""/>
+                            <img class="list __list_image_other __cursor" src="${imgs[0] || ''}" alt=""/>
+                            <img class="list __list_image_other __cursor" src="${imgs[1] || ''}" alt=""/>
+                            <img class="list __list_image_other __cursor" src="${imgs[2] || ''}" alt=""/>
+                            <img class="list __list_image_other __cursor" src="${imgs[3] || ''}" alt=""/>
                         </div>
                         <div class="__product_title">${name}</div>
                         <div class="__product_section_1">
                             <div class="__product_cart">
-                                <i class="zmdi zmdi-shopping-cart-plus"></i>
+                                <i class="zmdi zmdi-shopping-cart-plus __cursor"></i>
                             </div>
                             <div class="__product_price">
                                 ${priceBefore}
@@ -183,7 +186,7 @@ class Products extends Page {
                             </div>
                         </div>
                         <div class="__product_stars">
-                            <i class="zmdi zmdi-favorite-outline __product_favorite"></i>
+                            <i class="zmdi zmdi-favorite-outline __product_favorite __cursor" data-id="${productId}"></i>
                             <span class="__product_favorite __product_favorite_count">${favorites}</span>
                             
                             ${this.getStartsHtml(stars)}
@@ -194,6 +197,9 @@ class Products extends Page {
             listProducts += htmlProduct.replace('__list_products__', rowlist);
         }
         $('#product_list_items').append(listProducts);
+        this.registerImageChanger('img.__list_image_other');
+        this.registerFavoritedEvent('i.__product_favorite');
+        this.registerCartEvent('span.__product_favorite_count');
     }
     // utils
     getPerpage () {
@@ -201,11 +207,73 @@ class Products extends Page {
         const devided = width / this.productWidth;
         return Math.round(devided);
     }
+    getFavorites () {
+        console.log('get favorites');
+        let myfavorites = localStorage.getItem('favorites');
+        if (!myfavorites) {
+            localStorage.setItem('favorites', '');
+            return [];
+        }
+        console.log('get', myfavorites);
+        return myfavorites
+            .split(',')
+            .filter(x => x.trim().length > 0);
+    }
+    setFavorite (prdId) {
+        console.log('set favorites');
+        let myfavorites = this.getFavorites();
+        console.log('set', myfavorites);
+        if (prdId) {
+            myfavorites.push(prdId);
+            console.log(myfavorites);
+            localStorage.setItem('favorites', myfavorites.toString());
+        }
+    }
+    toggleActive (instance, selector) {
+        console.log('toggle active favorites');
+        const prdId = $(instance).data('id');
+        let d = this.getFavorites();
+        const pos = d.indexOf(prdId);
+        if (pos > -1) {
+            $(instance).removeClass(selector);
+            d[pos] = null;
+            console.log(d);
+        } else {
+            $(instance).addClass(selector);
+            this.setFavorite(prdId);
+        }
+    }
+    registerFavoritedEvent (selector) {
+        console.log('registering events...registerFavoritedEvent');
+        const self = this;
+        $(selector).click(function (e) {
+            self.toggleActive(this, 'zmdi-favorite');
+        });
+        return this;
+    }
+    registerCartEvent (selector) {
+        console.log('registering events...registerCartEvent');
+        $(selector).click(function (e) {
+            console.log('1----');
+        });
+        return this;
+    }
+    registerImageChanger (selector) {
+        console.log('registering events...registerImageCanger');
+        $(selector).click(function (e) {
+            console.log('2----');
+        });
+        return this;
+    }
 }
 
 const P = new Products();
-P.loadBrands();
-P.loadProducts();
+P
+    .loadBrands()
+    .loadProducts()
+    // .registerFavoritedEvent('#favorited')
+    // .registerCartEvent('#addtocart')
+    // .registerImageChanger('#changethis');
 
 components.products = {};
 components.products.load = function(page, catId) {
