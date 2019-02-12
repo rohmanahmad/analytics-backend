@@ -27,7 +27,8 @@ class Products extends Page {
                     data: {},
                     success: (res) => {
                         this.brands = _.reduce(res.items, (r, x) => {
-                            r[x.id] = x.name;
+                            const k = String(x.id);
+                            r[k] = x.name;
                             return r;
                         }, {});
                         localStorage.setItem('brands', JSON.stringify(this.brands));
@@ -45,6 +46,7 @@ class Products extends Page {
 
     loadProducts (productIds = null) {
         this.perpage = this.getPerpage();
+        this.currentLimit = this.perpage * 3;
         $.ajax({
             url: '/products/list',
             type: 'get',
@@ -134,7 +136,9 @@ class Products extends Page {
     }
 
     listingProducts (products) {
+        this.loadBrands();
         let listProducts = '';
+        let myfavorites = this.getFavorites();
         for (const sq of products) {
             let htmlProduct = `
             <ons-list-item modifier="nodivider" class="__list_product __no_paddings">
@@ -144,10 +148,13 @@ class Products extends Page {
             </ons-list-item>
             `;
             let rowlist = '';
+            // console.log(sq)
             for (let product of sq) {
                 const productId = product.product_id;
+                const isFavorited = myfavorites.indexOf(productId) > -1 ? 'zmdi-favorite' : '';
                 const price = 'IDR ' + _.result(product, 'prices.price', 0).toLocaleString();
-                const brandname = this.brands[product.brand];
+                const brandname = _.result(this.brands, `${product.brand}`);
+                const brandTag = brandname ? `<div class="__product_brand">${brandname}</div>` : '';
                 const discountKey = _.result(product, 'prices.discount.type', null);
                 const discountVal = _.result(product, 'prices.discount.value', null);
                 const discountHtml = (discountVal > 0 && discountKey === 'percent') ? '<div class="__product_disc">20%</div>' : '';
@@ -164,9 +171,9 @@ class Products extends Page {
                 <ons-col class="__list">
                     <div class="__product __product_border_radius">
                         <div class="__product_image" onclick="showpopup('${name}', '${price}')">
-                            <img src="${mainImg}" class="__product_image" alt="${product.name}"/>
+                            <img src="${mainImg}" class="__product_image" id="mainimage_${productId}" alt="${product.name}"/>
                         </div>
-                        <div class="__product_image_others">
+                        <div class="__product_image_others" data-id="${productId}">
                             <img class="list __list_image_other __cursor" src="${mainImg || ''}" alt=""/>
                             <img class="list __list_image_other __cursor" src="${imgs[0] || ''}" alt=""/>
                             <img class="list __list_image_other __cursor" src="${imgs[1] || ''}" alt=""/>
@@ -181,12 +188,12 @@ class Products extends Page {
                             <div class="__product_price">
                                 ${priceBefore}
                                 <span class="__product_current_price">${price}</span>
-                                <div class="__product_brand">${brandname}</div>
+                                ${brandTag}
                                 ${discountHtml}
                             </div>
                         </div>
-                        <div class="__product_stars">
-                            <i class="zmdi zmdi-favorite-outline __product_favorite __cursor" data-id="${productId}"></i>
+                        <div class="__product_stars" id="${productId}">
+                            <i class="zmdi zmdi-favorite-outline __product_favorite __cursor ${isFavorited}" data-id="${productId}"></i>
                             <span class="__product_favorite __product_favorite_count">${favorites}</span>
                             
                             ${this.getStartsHtml(stars)}
@@ -214,7 +221,6 @@ class Products extends Page {
             localStorage.setItem('favorites', '');
             return [];
         }
-        console.log('get', myfavorites);
         return myfavorites
             .split(',')
             .filter(x => x.trim().length > 0);
@@ -222,24 +228,26 @@ class Products extends Page {
     setFavorite (prdId) {
         console.log('set favorites');
         let myfavorites = this.getFavorites();
-        console.log('set', myfavorites);
         if (prdId) {
             myfavorites.push(prdId);
-            console.log(myfavorites);
             localStorage.setItem('favorites', myfavorites.toString());
         }
     }
     toggleActive (instance, selector) {
         console.log('toggle active favorites');
         const prdId = $(instance).data('id');
+        const countInstance = $(`#${prdId} > .__product_favorite_count`);
+        const currentCount = parseInt(countInstance.html());
         let d = this.getFavorites();
         const pos = d.indexOf(prdId);
         if (pos > -1) {
             $(instance).removeClass(selector);
             d[pos] = null;
-            console.log(d);
+            countInstance.html(currentCount - 1);
+            localStorage.setItem('favorites', _.compact(d).toString());
         } else {
             $(instance).addClass(selector);
+            countInstance.html(currentCount + 1);
             this.setFavorite(prdId);
         }
     }
@@ -261,13 +269,16 @@ class Products extends Page {
     registerImageChanger (selector) {
         console.log('registering events...registerImageCanger');
         $(selector).click(function (e) {
-            console.log('2----');
+            const prdId = $(this).parent().data('id');
+            const currentImg = $(this).attr('src');
+            const mainImage = $(`#mainimage_${prdId}`);
+            mainImage.attr('src', currentImg);
         });
         return this;
     }
 }
 
-const P = new Products();
+let P = new Products();
 P
     .loadBrands()
     .loadProducts()
@@ -278,8 +289,9 @@ P
 components.products = {};
 components.products.load = function(page, catId) {
     console.log('load product');
-    var content = document.getElementById('content');
-    var menu = document.getElementById('categories');
+    P = new Products();
+    const content = document.getElementById('content');
+    const menu = document.getElementById('categories');
     if (catId) {
         P.loadProductsByCategory(catId);
     } else {
