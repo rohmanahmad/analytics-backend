@@ -12,6 +12,7 @@ categories.open = function () {
 categories.load = function (page) {
   var content = document.getElementById('content');
   var menu = document.getElementById('categories');
+  setActivePage(page); // mobile.js
   content.load(page)
     .then(menu.close.bind(menu));
 };

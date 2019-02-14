@@ -55,6 +55,7 @@ module.exports = {
                     'summary': 'Products',
                     'description': 'Products List',
                     'parameters': [
+                        definitions.getData('ids_query'),
                         definitions.getData('limit_query'),
                         definitions.getData('page_query'),
                         definitions.getData('categories_query'),

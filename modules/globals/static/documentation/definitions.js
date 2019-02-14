@@ -133,6 +133,12 @@ const definitions = {
         "type": "query (string)",
         "description": "ObjectID"
     },
+    "ids_query": {
+        "in": "query",
+        "name": "ids",
+        "type": "query (string)",
+        "description": "Id not ObjectId"
+    },
     "id_path": {
         "in": "path",
         "name": "id",

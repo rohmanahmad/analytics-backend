@@ -11,120 +11,6 @@ const StoreProductPrices = new Models().model('StoreProductPrices.Model')
 const StoreProductVariants = new Models().model('StoreProductVariants.Model')
 const StoreProductBrands = new Models().model('StoreProductBrands.Model')
 
-/* module.exports = {
-    docs: async (request, response) => {
-        response.render('docs/index', docs.publish())
-    },
-    apidocs: async (request, response) => {
-        const config = _.result(request.configs, 'documentation', '')
-        response.json(docs.publish(config))
-    },
-    main: async (request, response) => {
-        response.render('store/index')
-    },
-    mobile: async (request, response) => {
-        const isDev = request.query.dev === 'true'
-        response.render('store/mobile', {isDev})
-    },
-    variantsByProductIds: async (productIds) => {
-        let variants = await StoreProductVariants.find({
-            product_id: {
-                $in: productIds
-            },
-            'status.trash': false
-        })
-        return variants
-    },
-    pricesByProductIds: async (productIds) => {
-        let prices = await StoreProductPrices.find({
-            product_id: {
-                $in: productIds
-            },
-            'status.trash': false,
-            'status.pending': false
-        })
-        return prices
-    },
-    categories: async (request, response) => {
-        let criteria = {}
-        let {id, slug, parent, sort} = request.query
-        if (id) criteria['id'] = id
-        if (slug) criteria['slug'] = slug
-        if (parent) criteria['parent_id'] = parent
-        let cat = await StoreCategories
-            .find(criteria)
-            .select(['id', 'name', 'icon', 'parent_id', 'order'])
-        const parentCat = cat.filter(x => !x.parent)
-        const grouplist = _.groupBy(cat, 'parent_id')
-        let list = _.reduce(parentCat, (res, x) => {
-            const obj = Object.assign({parent: {id: x.id, name: x.name, icon: x.icon, order: x.order}}, {
-                childs: _.result(grouplist, x.id, null)
-            })
-            res.push(obj)
-            return res
-        }, [])
-        sort = sort === 'desc' ? 'desc' : 'asc'
-        list = _.orderBy(list, x => x.parent.name, sort)
-        response.apiCollection(list)
-    },
-    brands: async (request, response) => {
-        let criteria = {}
-        let {id, sort} = request.query
-        sort = sort === 'desc' ? 'desc' : 'asc'
-        if (id) criteria['id'] = id
-        let brands = await StoreProductBrands
-            .find(criteria)
-            .select(['id', 'name'])
-            .sort({'name': sort})
-        brands = brands.map(x => ({id: x.id, name: x.name}))
-        response.apiCollection(brands)
-    },
-    products: async (request, response) => {
-        let {page, limit} = request.query
-        limit = parseInt(limit) > 0 ? parseInt(limit) : 10
-        const skip = parseInt(page) > 0 ? parseInt(page) * limit : 0
-        let products = await StoreProducts
-            .find({'status.suspend': false, 'status.trash': false})
-            .limit(limit || 10)
-            .skip(skip)
-            .populate({
-                path: 'store_brands'
-            })
-        const productids = products.map(x => x.id)
-        console.log(this)
-        let variants = await this.variantsByProductIds(productids)
-        variants = _.reduce(variants, (r, x) => {
-            r[x.product_id] = r.items
-        }, {})
-        let prices = await this.pricesByProductIds(productids)
-        prices = _.reduce(prices, (r, x) => {
-            r[x.product_id] = {
-                current: x.current,
-                discount: x.discount
-            }
-        }, {})
-        products = products.map(x => ({
-            product_id: x.id,
-            name: x.name,
-            gender: x.gender,
-            slug: x.slug,
-            brand: x.brand,
-            images: x.images,
-            variants: variants[x.id],
-            prices: prices[x.id]
-        }))
-        response.apiCollection(products)
-    },
-    productById: async (request, response) => {
-        let criteria = {}
-        const {page, limit} = request.query
-        if (page && parseInt(page) > 0) criteria['skip'] = page * limit
-        if (limit && parseInt(limit) > 0) criteria['limit'] = limit
-        const products = await StoreProducts.find()
-        response.apiCollection([])
-    }
-} */
-
 const variantsByProductIds = async (productIds) => {
     let variants = await StoreProductVariants.find({
         product_id: {
@@ -195,13 +81,17 @@ class Store {
     }
     async products (request, response) {
         try {
-            let {categories, page, limit, settings} = request.query
+            let {categories, page, limit, settings, ids: prdIds} = request.query
             limit = parseInt(limit) > 0 ? parseInt(limit) : 10
             const skip = parseInt(page) > 0 ? parseInt(page) * limit : 0
             let criteria = {'status.suspend': false, 'status.trash': false}
             if (categories && categories.length > 0) {
                 categories = categories.split(',').map(x => x.trim())
                 criteria['category_id'] = categories
+            }
+            if (prdIds && prdIds.length > 0) {
+                const ids = prdIds.split(',').map(x => x.trim())
+                criteria['id'] = ids
             }
             let products = await StoreProducts
                 .find(criteria)

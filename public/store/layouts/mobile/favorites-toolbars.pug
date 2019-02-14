@@ -13,5 +13,10 @@
                 i(class="zmdi zmdi-favorite")
             span(class="toolbar-button toolbar-button--material")
                 i(class="zmdi zmdi-more-vert")
+    ons-list(class="list __no_paddings", id="product_list_items", onload="loadProductFavorites();")
+
+    //- div(style="width: 100%;background: #fff;")
+        button(class="button--material--flat", style="width: 100%;", onclick="loadmore();") more...
+    div(style="height: 50px;width: 100%;")
   </ons-page>
 </template>

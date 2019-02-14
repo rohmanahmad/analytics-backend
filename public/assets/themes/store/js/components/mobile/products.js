@@ -1,3 +1,4 @@
+console.log('product loaded')
 class Products extends Page {
     constructor () {
         super();
@@ -9,6 +10,7 @@ class Products extends Page {
         this.brands = [];
         this.currentCategory = null;
         this.favorites = this.getFavorites();
+        this.shopping_carts = this.getShoppingCarts();
     }
     /* categories can multiple separated by comma (,) */
     setCategories (categories = '') {
@@ -16,6 +18,26 @@ class Products extends Page {
         this.categories = cats.map(x => x.trim());
         return this;
     }
+    // shopping carts
+    getShoppingCarts () {
+        const mycarts = localStorage.getItem('shopping_carts');
+        if (!mycarts) {
+            localStorage.setItem('shopping_carts', '');
+            return [];
+        }
+        return mycarts.split(',');
+    }
+    addToShoppingCarts () {
+        console.log('adding to shopping carts');
+        let myShopCarts = '';
+        if (typeof this.shopping_carts === 'object') {
+            myShopCarts += this.shopping_carts.toString();
+        } else {
+            myShopCarts += this.shopping_carts;
+        }
+        localStorage.setItem('shopping_carts', myShopCarts);
+    }
+    // end of shopping carts
 
     loadBrands () {
         if (this.brands.length === 0) {
@@ -47,13 +69,15 @@ class Products extends Page {
     loadProducts (productIds = null) {
         this.perpage = this.getPerpage();
         this.currentLimit = this.perpage * 3;
+        if (productIds) productIds = productIds.toString();
         $.ajax({
             url: '/products/list',
             type: 'get',
             data: {
+                ids: productIds,
                 categories: this.currentCategory,
-                page: this.currentPage,
-                limit: this.currentLimit,
+                page: !productIds ? this.currentPage : '',
+                limit: !productIds ? this.currentLimit : '',
                 settings: `perpage:${this.perpage}`
             },
             success: (res) => {
@@ -148,9 +172,9 @@ class Products extends Page {
             </ons-list-item>
             `;
             let rowlist = '';
-            // console.log(sq)
             for (let product of sq) {
                 const productId = product.product_id;
+                const cart = this.shopping_carts.indexOf(productId) > -1 ? 'zmdi-shopping-cart' : '';
                 const isFavorited = myfavorites.indexOf(productId) > -1 ? 'zmdi-favorite' : '';
                 const price = 'IDR ' + _.result(product, 'prices.price', 0).toLocaleString();
                 const brandname = _.result(this.brands, `${product.brand}`);
@@ -183,11 +207,11 @@ class Products extends Page {
                         <div class="__product_title">${name}</div>
                         <div class="__product_section_1">
                             <div class="__product_cart">
-                                <i class="zmdi zmdi-shopping-cart-plus __cursor"></i>
+                                <i class="zmdi zmdi-shopping-cart-plus __cursor ${cart}" data-id="${productId}"></i>
                             </div>
                             <div class="__product_price">
                                 ${priceBefore}
-                                <span class="__product_current_price">${price}</span>
+                                <span class="__product_current_price" id="${productId}">${price}</span>
                                 ${brandTag}
                                 ${discountHtml}
                             </div>
@@ -206,7 +230,7 @@ class Products extends Page {
         $('#product_list_items').append(listProducts);
         this.registerImageChanger('img.__list_image_other');
         this.registerFavoritedEvent('i.__product_favorite');
-        this.registerCartEvent('span.__product_favorite_count');
+        this.registerCartEvent('.__product_cart > i');
     }
     // utils
     getPerpage () {
@@ -261,8 +285,18 @@ class Products extends Page {
     }
     registerCartEvent (selector) {
         console.log('registering events...registerCartEvent');
+        const self = this;
         $(selector).click(function (e) {
-            console.log('1----');
+            const prdId = $(this).data('id');
+            if (prdId) {
+                if (self.shopping_carts.indexOf(prdId) <= -1) {
+                    self.shopping_carts.push(prdId);
+                    self.addToShoppingCarts();
+                    $(this).addClass('zmdi-shopping-cart');
+                } else {
+                    console.log('this product already exists on your shopping cart');
+                }
+            }
         });
         return this;
     }
@@ -281,7 +315,7 @@ class Products extends Page {
 let P = new Products();
 P
     .loadBrands()
-    .loadProducts()
+    .loadProducts();
     // .registerFavoritedEvent('#favorited')
     // .registerCartEvent('#addtocart')
     // .registerImageChanger('#changethis');
@@ -292,11 +326,15 @@ components.products.load = function(page, catId) {
     P = new Products();
     const content = document.getElementById('content');
     const menu = document.getElementById('categories');
-    if (catId) {
+    if (page === 'toolbars.favorites.template') {
+        const ids = P.getFavorites();
+        P.loadProducts(ids);
+    } else if (catId) {
         P.loadProductsByCategory(catId);
     } else {
         P.loadProducts();
     }
+    setActivePage(page); // mobile.js
     content.load(page)
         .then(menu.close.bind(menu));
 };
