@@ -149,3 +149,14 @@
 .__product_row_items {
     padding: 4px 15px;
 }
+.__carts_main_image {
+    border-radius: 3px;
+    width: 50px;
+    height: 60px;
+}
+.__carts_title {
+    font-size: 11px;
+}
+.__carts_brand {
+    font-size: 9px;
+}

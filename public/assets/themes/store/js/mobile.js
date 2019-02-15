@@ -5,6 +5,7 @@ if (!localStorage) {
 }
 var components = window.components;
 const pages = {
+    'products.template': '#toolbar-none',
     'home.template': '#toolbar-home',
     'toolbars.favorites.template': '#toolbar-favorites',
     'toolbars.carts.template': '#toolbar-carts',
