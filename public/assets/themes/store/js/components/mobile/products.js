@@ -303,16 +303,17 @@ class Products extends Page {
         products = products || this.products || [];
         const contentSelector = this.content_selector;
         let htmlProduct = '';
+        let carts = {};
         for (const sq of products) {
             const product = sq[0];
             const productId = product.product_id;
-            const price = 'IDR ' + _.result(product, 'prices.price', 0).toLocaleString();
+            const price = _.result(product, 'prices.price', 0);
             const brandname = _.result(this.brands, `${product.brand}`);
             const brandTag = brandname || '';
             const discountKey = _.result(product, 'prices.discount.type', null);
             const discountVal = _.result(product, 'prices.discount.value', null);
-            const discountHtml = (discountVal > 0 && discountKey === 'percent') ? '<div class="__product_disc">20%</div>' : '';
-            let priceBefore = price + discountKey === 'percent' ? (price * discountVal / 100) : discountVal;
+            const discountHtml = (discountVal > 0 && discountKey === 'percent') ? `<div class="__product_disc">${discountVal}%</div>` : '';
+            let priceBefore = price + (discountKey === 'percent' ? (price * discountVal / 100) : discountVal);
             priceBefore = priceBefore > 0 ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>` : '';
             const mainImg = product.images.main;
             // const imgs = product.variants.map(x => _.result(x, 'images[0].small', ''));
@@ -321,22 +322,66 @@ class Products extends Page {
 
             let name = product.name.replace(/hijup/gi, '');
             name = name.length > 20 ? name.substring(0, 20) + '...' : name;
-
+            carts[productId] = {
+                price,
+                qty: 1
+            }
             htmlProduct += `<ons-list-item modifier="nodivider" id="cart-${productId}" data-id="${productId}">`;
-            htmlProduct += `<div class="left">
-                <img class="list-item__thumbnail __carts_main_image" src="${mainImg}">
-            </div>`;
-            htmlProduct += `<div class="center __carts">
-                <p class="list-item__title __carts_title">
-                    <span>${name}</span>
-                </p>
-                <p class="list-item__subtitle __carts_brand">
-                    <span>${brandTag}</span>
-                </p>
-            </div>`;
+            htmlProduct += '<ons-row>';
+            htmlProduct += `
+            <ons-col class="__carts_image_section">
+                <div class="left">
+                    <img class="list-item__thumbnail __carts_main_image" src="${mainImg}">
+                </div>
+            </ons-col>`;
+            htmlProduct += `
+            <ons-col>
+                <div class="center __carts">
+                    <p class="list-item__title __carts_title">
+                        <span>${name}</span>
+                    </p>
+                    <p class="list-item__subtitle __carts_brand">
+                        <span>${brandTag}</span>
+                    </p>
+                    <p class="list-item__subtitle __carts_notes">
+                        <textarea class="textarea textarea--transparent" rows="2" placeholder="Add Notes"></textarea>
+                    </p>
+                </div>
+            </ons-col>`;
+            htmlProduct += `<ons-col class="__carts_price_section">
+                <div class="center __carts">
+                    <p class="" data-id="${productId}">
+                        <input class="text-input text-input--material __carts_prices_qty" value="1" placeholder="qty" type="number">
+                        <i class="zmdi zmdi-minus __cursor __btn_minus"></i>
+                        <i class="zmdi zmdi-plus __cursor __btn_plus"></i>
+                    </p>
+                    <p class="__carts_prices">
+                        <span class="__carts_idr">IDR</span> ${price.toLocaleString()}
+                    </p>
+                </div>
+            </ons-col>`;
+            htmlProduct += '</ons-row>';
             htmlProduct += `</ons-list-item>`;
         }
+        htmlProduct += `
+        <ons-list-header class="__carts_total_section">
+            <span class="__carts_total">Total</span>
+        </ons-list-header>
+        <ons-list-item id="cart-total" data-id="">
+            <ons-button modifier="large">Checkout</ons-button>
+        </ons-list-item>`;
         $(contentSelector).html(htmlProduct);
+        this.registerCartsListeners();
+    }
+    registerCartsListeners () {
+        $('.__btn_minus').click(function (e) {
+            console.log($(this).parent().data('id'));
+            console.log('minus');
+        })
+        $('.__btn_plus').click(function (e) {
+            console.log($(this).parent().data('id'));
+            console.log('plus');
+        })
     }
     // utils
     getPerpage () {
