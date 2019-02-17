@@ -1,0 +1,110 @@
+class Products extends Categories {
+
+    constructor () {
+        super();
+        this.brands = [];
+    }
+    loadBrands () {
+        console.log('loading brands');
+        if (this.brands.length === 0) {
+            const brandStorage = this.storage('DB').collection('brands');
+            brandStorage.read()
+                .then(function (brands) {
+                    if (!brands || brands.length > 0) {
+                        $.ajax({
+                            url: '/brands/list',
+                            type: 'get',
+                            data: {},
+                            success: (res) => {
+                                brandStorage.upsert(res.items);
+                            },
+                            error: () => {
+                                console.log('brands not loaded');
+                            }
+                        });
+                    } else {
+                        this.brands = brands;
+                    }
+            });
+        }
+        return this
+    }
+    loadProducts (productIds = null) {
+        return new Promise((resolve, reject) => {
+            this.perpage = this.getPerpage();
+            this.currentLimit = this.perpage * 3;
+            if (productIds) productIds = productIds.toString();
+            $.ajax({
+                url: '/products/list',
+                type: 'get',
+                data: {
+                    ids: productIds,
+                    categories: this.currentCategory,
+                    page: !productIds ? this.currentPage : '',
+                    limit: !productIds ? this.currentLimit : '',
+                    settings: `perpage:${this.perpage}`
+                },
+                success: (res) => {
+                    this.products = res.items || [];
+                    resolve();
+                },
+                error: (err) => {
+                    reject()
+                }
+            });
+        })
+    }
+    loadProductsByCategory (catId = null) {
+        return new Promise((resolve, reject) => {
+            this.perpage = this.getPerpage();
+            this.currentCategory = catId;
+            if (!catId) {
+                return null;
+            }
+            $.ajax({
+                url: '/products/list',
+                type: 'get',
+                data: {
+                    categories: this.currentCategory,
+                    page: this.currentPage,
+                    limit: this.currentLimit,
+                    settings: `perpage:${this.perpage}`
+                },
+                success: (res) => {
+                    this.products = res.items;
+                    resolve();
+                },
+                error: (err) => {
+                    reject(err);
+                }
+            });
+        })
+    }
+    next (productIds = null) {
+        return new Promise((resolve, reject) => {
+            this.perpage = this.getPerpage();
+            this.currentPage += 1;
+            if (productIds) {
+                return null;
+            }
+            $.ajax({
+                url: '/products/list',
+                type: 'get',
+                data: {
+                    categories: this.currentCategory,
+                    limit: this.currentLimit,
+                    page: this.currentPage,
+                    settings: `perpage:${this.perpage}`
+                },
+                success: (res) => {
+                    this.products = res.items;
+                    resolve();
+                },
+                error: (err) => {
+                    reject(err);
+                }
+            });
+        });
+        return this;
+    }
+}

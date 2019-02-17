@@ -188,7 +188,7 @@
 }
 .__carts_prices_qty {
     font-size: 11px;
-    width: 40px;
+    width: 25px;
 }
 .__carts_total_caption {
     float: left;
@@ -202,12 +202,20 @@
     padding-right: 15px;
 }
 .__btn_minus {
-    color: red;
+    color: #bb5d46;
+    margin-left: 10px;
 }
 .__btn_plus {
     color: green;
-    margin-left: 2px;
+    margin-left: 10px;
+}
+.__btn_delete {
+    color: #ff6c6c;
+    margin-left: 5px;
 }
 .__carts_idr {
     font-size: 5pt;
+}
+.__b-border {
+    border-bottom: 1px solid #e9ebec;
 }

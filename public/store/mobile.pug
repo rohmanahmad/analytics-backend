@@ -12,11 +12,13 @@ html(lang="en")
         script(src="/assets/vendor/lodash/lodash.min.js")
         title Koleksiku
     body
+        script(src="/assets/themes/store/js/modules/storage.js?c=" + String(isDev ? new Date().getTime() : 0))
+        script(src="/assets/themes/store/js/modules/utils.js?c=" + String(isDev ? new Date().getTime() : 0))
+        script(src="/assets/themes/store/js/modules/carts.js?c=" + String(isDev ? new Date().getTime() : 0))
+        script(src="/assets/themes/store/js/modules/favorites.js?c=" + String(isDev ? new Date().getTime() : 0))
+        script(src="/assets/themes/store/js/modules/categories.js?c=" + String(isDev ? new Date().getTime() : 0))
+        script(src="/assets/themes/store/js/modules/products.js?c=" + String(isDev ? new Date().getTime() : 0))
         script(src="/assets/themes/store/js/mobile.js?c=" + String(isDev ? new Date().getTime() : 0))
-        script(src="/assets/themes/store/js/page.js?c=" + String(isDev ? new Date().getTime() : 0))
-        //- script(src="/assets/themes/store/js/components/mobile/bottom-toolbars.js?c=" + String(isDev ? new Date().getTime() : 0))
-        //- script(src="/assets/themes/store/js/components/mobile/categories.js?c=" + String(isDev ? new Date().getTime() : 0))
-        script(src="/assets/themes/store/js/components/mobile/products.js?c=" + String(isDev ? new Date().getTime() : 0))
         include components/mobile/categories.pug
         include components/mobile/bottom-toolbars.pug
         //- layouts
