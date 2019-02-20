@@ -9,7 +9,7 @@ class Storage {
         this.dbConnection = null;
         this.dbname = 'siomay';
         this.collection = {};
-        this.checkCompatibility();
+        // this.checkCompatibility();
     }
     collectionModels () {
         return [
@@ -155,7 +155,11 @@ class Storage {
             upsert: function (data = {}) {
                 console.log('(LS) upserting');
                 return new Promise((resolve, reject) => {
-                    resolve();
+                    if (typeof data === 'object') {
+                        data = JSON.stringify(data);
+                    }
+                    localStorage.setItem(this.currentKey, data);
+                    resolve(true);
                 });
             },
             add: function (data = {}) {
@@ -193,11 +197,7 @@ class Storage {
                     console.error('no collection selected');
                     return null;
                 }
-                this.currentData = [];
-                this.currentCollection = self.dbConnection.transaction(colname).objectStore(colname);
-                if (!this.currentCollection) {
-                    throw new Error('collection error');
-                }
+                this.colname = colname;
                 return this;
             },
             upsert: function (data = {}) {
@@ -220,6 +220,12 @@ class Storage {
             add: function (data) {
                 console.log('adding data');
                 return new Promise((resolve, reject) => {
+                    if (!this.colname) {
+                        return reject(new Error('no collection selected!'));
+                    }
+                    const col = self.dbConnection
+                        .transaction(this.colname)
+                        .objectStore(this.colname);
                     resolve();
                 });
             },
@@ -232,16 +238,19 @@ class Storage {
             read: function (ids = []) {
                 console.log('reading database');
                 return new Promise((resolve, reject) => {
-                    this.currentCollection.getAll()
-                        .onsuccess = (ev) => {
-                            const currentData = ev.target.result;
-                            if (!currentData || currentData.length === 0) {
-                                return ids;
-                            }
-                            if (ids && ids.length > 0) {
-                                
-                            }
-                            return currentData;
+                    if (!this.colname) {
+                        return reject(new Error('no collection selected!'));
+                    }
+                    const col = self.dbConnection
+                        .transaction(this.colname)
+                        .objectStore(this.colname);
+                    const q = col.getAll();
+                    q.onsuccess = (ev) => {
+                        const currentData = ev.target.result;
+                        resolve(currentData);
+                    }
+                    q.onerror = (err) => {
+                        reject(err);
                     }
                 })
                 

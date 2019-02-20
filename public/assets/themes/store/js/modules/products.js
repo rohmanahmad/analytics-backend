@@ -2,32 +2,42 @@ class Products extends Categories {
 
     constructor () {
         super();
-        this.brands = [];
     }
     loadBrands () {
-        console.log('loading brands');
-        if (this.brands.length === 0) {
-            const brandStorage = this.storage('DB').collection('brands');
+        if (window.variables.brands) {
+            console.log('loading brands');
+            const self = this;
+            const brandStorage = this.storage('localStorage').collection('brands');
             brandStorage.read()
                 .then(function (brands) {
-                    if (!brands || brands.length > 0) {
+                    if (!brands || brands.length === 0) {
                         $.ajax({
                             url: '/brands/list',
                             type: 'get',
                             data: {},
                             success: (res) => {
                                 brandStorage.upsert(res.items);
+                                self.setBrands(res.items);
                             },
                             error: () => {
                                 console.log('brands not loaded');
                             }
                         });
                     } else {
-                        this.brands = brands;
+                        self.setBrands(brands);
                     }
             });
         }
         return this
+    }
+    setBrands (data = []) {
+        window.variables.brands = _.reduce(data, function (res, x) {
+            res[x.id] = x.name;
+            return res;
+        }, {})
+    }
+    getBrands () {
+
     }
     loadProducts (productIds = null) {
         return new Promise((resolve, reject) => {

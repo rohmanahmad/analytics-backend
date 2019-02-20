@@ -3,7 +3,6 @@
 class Categories extends Favorites {
     constructor () {
         super();
-        this.categories = [];
         this.currentCategory = null;
     }
     /* categories can multiple separated by comma (,) */

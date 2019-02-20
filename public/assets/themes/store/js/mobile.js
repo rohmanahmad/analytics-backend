@@ -1,7 +1,6 @@
 'use strict'
 class MobilePage extends Products {
     constructor () {
-        console.log('loading class');
         super();
         this.perpage = 2;
         this.productWidth = 170 + 1; // 1 for border or other
@@ -46,6 +45,8 @@ class MobilePage extends Products {
         const contentSelector = this.content_selector;
         let listProducts = '';
         let myfavorites = this.getFavorites();
+        const brands = window.variables.brands || {};
+        const shoppingCarts = window.variables.shopping_carts || [];
         for (const sq of products) {
             let htmlProduct = `
             <ons-list-item modifier="nodivider" class="__list_product __no_paddings">
@@ -57,10 +58,10 @@ class MobilePage extends Products {
             let rowlist = '';
             for (let product of sq) {
                 const productId = product.product_id;
-                const cart = this.shopping_carts.indexOf(productId) > -1 ? 'zmdi-shopping-cart' : '';
+                const cart = shoppingCarts.indexOf(productId) > -1 ? 'zmdi-shopping-cart' : '';
                 const isFavorited = myfavorites.indexOf(productId) > -1 ? 'zmdi-favorite' : '';
                 const price = 'IDR ' + _.result(product, 'prices.price', 0).toLocaleString();
-                const brandname = _.result(this.brands, `${product.brand}`);
+                const brandname = _.result(brands, `${product.brand}`);
                 const brandTag = brandname ? `<div class="__product_brand">${brandname}</div>` : '';
                 const discountKey = _.result(product, 'prices.discount.type', null);
                 const discountVal = _.result(product, 'prices.discount.value', null);
@@ -68,7 +69,8 @@ class MobilePage extends Products {
                 let priceBefore = price + discountKey === 'percent' ? (price * discountVal / 100) : discountVal;
                 priceBefore = priceBefore > 0 ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>` : '';
                 const mainImg = product.images.main;
-                const imgs = product.variants.map(x => _.result(x, 'images[0].small', ''));
+                let imgs = product.variants.map(x => _.result(x, 'images[0].small', ''));
+                imgs = imgs.map(x => `<img class="list __list_image_other __cursor" src="${x}" alt=""/>`)
                 const stars = _.result(product, 'stars.count', 0);
                 const favorites = _.result(product, 'favorites.count', 0);
 
@@ -82,10 +84,9 @@ class MobilePage extends Products {
                         </div>
                         <div class="__product_image_others" data-id="${productId}">
                             <img class="list __list_image_other __cursor" src="${mainImg || ''}" alt=""/>
-                            <img class="list __list_image_other __cursor" src="${imgs[0] || ''}" alt=""/>
-                            <img class="list __list_image_other __cursor" src="${imgs[1] || ''}" alt=""/>
-                            <img class="list __list_image_other __cursor" src="${imgs[2] || ''}" alt=""/>
-                            <img class="list __list_image_other __cursor" src="${imgs[3] || ''}" alt=""/>
+                            ${imgs[0] || ''}
+                            ${imgs[1] || ''}
+                            ${imgs[2] || ''}
                         </div>
                         <div class="__product_title">${name}</div>
                         <div class="__product_section_1">
@@ -120,11 +121,12 @@ class MobilePage extends Products {
         const contentSelector = this.content_selector;
         let htmlProduct = '';
         let carts = {};
+        const brands = window.variables.brands || {};
         for (const sq of products) {
             const product = sq[0];
             const productId = product.product_id;
             const price = _.result(product, 'prices.price', 0);
-            const brandname = _.result(this.brands, `${product.brand}`);
+            const brandname = _.result(brands, `${product.brand}`);
             const brandTag = brandname || '';
             const discountKey = _.result(product, 'prices.discount.type', null);
             const discountVal = _.result(product, 'prices.discount.value', null);
@@ -222,13 +224,14 @@ class MobilePage extends Products {
     }
     registerCartEvent (selector) {
         console.log('registering events...registerCartEvent');
-        const self = this;
+        let shoppingCarts = window.variables.shopping_carts || [];
+        const addToShoppingCarts = this.addToShoppingCarts;
         $(selector).click(function (e) {
             const prdId = $(this).data('id');
             if (prdId) {
-                if (self.shopping_carts.indexOf(prdId) <= -1) {
-                    self.shopping_carts.push(prdId);
-                    self.addToShoppingCarts();
+                if (shoppingCarts.indexOf(prdId) <= -1) {
+                    shoppingCarts.push(prdId);
+                    addToShoppingCarts();
                     $(this).addClass('zmdi-shopping-cart');
                 } else {
                     console.log('this product already exists on your shopping cart');
@@ -277,7 +280,19 @@ class MobilePage extends Products {
             console.log('plus', current);
         })
     }
+    setDefaultVariables () {
+        window.variables.brands = this.getBrands();
+        window.variables.shopping_carts = this.getShoppingCarts();
+        window.variables.categories = this.getCategories();
+        return this;
+    }
 }
+
+window.components = window.components || {};
+window.variables = window.variables || {};
+window.variables.brands = window.variables.brands || {};
+window.variables.shopping_carts = window.variables.shopping_carts || [];
+window.variables.categories = window.variables.categories || [];
 
 if (!localStorage) {
     alert('localstorage doesnt support');
@@ -291,7 +306,6 @@ const pages = {
     'toolbars.coupons.template': '#toolbar-coupons',
     'toolbars.chats.template': '#toolbar-chats',
 }
-window.components = {};
 var setActivePage = (page) => {
     const selector = pages[page];
     const activeWindow = [
@@ -425,7 +439,8 @@ if (_.compact(currentWindow).length < 2) {
 }
 setTimeout(function () {
     P
-        .loadBrands();
+    .loadBrands()
+    .setDefaultVariables();
     components.bottom_toolbars.load(currentWindow[1]);
 }, 1 * 1000);
 
