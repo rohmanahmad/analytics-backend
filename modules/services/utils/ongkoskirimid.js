@@ -28,11 +28,11 @@ class OngkosKirimID {
     // KECAMATANS
     async exportKecamatans () {
         try {
-            for (let id = 1; id <= 454; id++) {
+            for (let id = 231; id <= 454; id++) {
                 const c = await this.getKecamatans(id)
                 for (let a of c) {
                     console.log('updating data kecamatan', a.kecamatan_name)
-                    await OngkosKecamatans.update({id: a.id}, a, {upsert: true})
+                    await OngkosKecamatans.updateOne({id: a.id}, a, {upsert: true})
                 }
             }
         } catch (e) {
@@ -41,14 +41,15 @@ class OngkosKirimID {
     }
     async getKecamatans (id = 0) {
         try {
+            console.log('getting', id)
             const d = await client
                 .get(`/v1/shippings/${id}/kecamatan`)
             const body = JSON.parse(d.body)
             const data = body.map(x => {
                 x['id'] = md5(x.kecamatan_id)
                 x['last_update'] = x.last_update.indexOf('0000-00-00') > -1 ? '1990-01-01 00:00:00' : x.last_update
-                x['kodepos_result'] = x['kodepos_result'].length > 0 ? JSON.parse(x['kodepos_result']) : []
-                x['kodepos_indonesia_result'] = x['kodepos_indonesia_result'].length > 0 ? JSON.parse(x['kodepos_indonesia_result']) : []
+                x['kodepos_result'] = x['kodepos_result'].indexOf('[') > -1 ? JSON.parse(x['kodepos_result']) : []
+                x['kodepos_indonesia_result'] = x['kodepos_indonesia_result'].indexOf('[') > -1 ? JSON.parse(x['kodepos_indonesia_result']) : []
                 return x
             })
             return data
@@ -63,7 +64,7 @@ class OngkosKirimID {
                 const c = await this.getCities(id)
                 for (let a of c) {
                     console.log('updating data city', a.city_name)
-                    await OngkosCities.update({id: a.id}, a, {upsert: true})
+                    await OngkosCities.updateOne({id: a.id}, a, {upsert: true})
                 }
             }
         } catch (e) {
@@ -72,6 +73,7 @@ class OngkosKirimID {
     }
     async getCities (id = 0) {
         try {
+            console.log('getting', id)
             const d = await client
                 .get(`/v1/shippings/${id}/city`)
             const body = JSON.parse(d.body)
