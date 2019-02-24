@@ -144,6 +144,10 @@ class Storage {
     }
     localStorage () {
         return {
+            setNotJson: function () {
+                this.noJSON = true;
+                return this;
+            },
             collection: function (colname) {
                 if (!colname) {
                     console.error('no collection selected');
@@ -162,6 +166,17 @@ class Storage {
                     resolve(true);
                 });
             },
+            replace: function (data = {}) {
+                console.log('(LS) replace');
+                return new Promise((resolve, reject) => {
+                    if (typeof data === 'object') {
+                        data = JSON.stringify(data);
+                    }
+                    console.log(typeof data, data);
+                    localStorage.setItem(this.currentKey, data);
+                    resolve(true);
+                });
+            },
             add: function (data = {}) {
                 return new Promise((resolve, reject) => {
                     resolve();
@@ -172,12 +187,14 @@ class Storage {
                     resolve();
                 });
             },
-            read: function (id) {
+            read: function (id, isJSON = true) {
                 return new Promise((resolve, reject) => {
                     try {
-                        const L = localStorage.getItem(this.currentKey);
-                        const JL = JSON.parse(L);
-                        resolve(JL);
+                        let L = localStorage.getItem(this.currentKey);
+                        if (L && L.length > 0 && isJSON) {
+                            L = JSON.parse(L);
+                        }
+                        resolve(L);
                     } catch (e) {
                         reject(e.message);
                     }

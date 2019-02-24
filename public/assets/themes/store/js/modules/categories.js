@@ -4,6 +4,8 @@ class Categories extends Favorites {
     constructor () {
         super();
         this.currentCategory = null;
+        this.categoriesStorage = 'localStorage';
+        this.categoriesCollection = 'categories';
     }
     /* categories can multiple separated by comma (,) */
     setCategories (categories = '') {
@@ -16,28 +18,38 @@ class Categories extends Favorites {
         return this;
     }
     updateCategoriesItems (categories) {
-        const hasLoaded = localStorage.getItem('categories_has_loaded');
-        const hasChilds = $('#category-items')[0].childNodes.length;
-        if (!hasLoaded || hasChilds === 0) {
-            const items = categories ? categories : JSON.parse(localStorage.getItem('categories', []));
-            for (let i of items) {
-                let htmlInner = '';
-                const parent = _.result(i, 'parent', {});
-                const childs = _.result(i, 'childs', null);
-                if (childs) {
-                    htmlInner = `<ons-list-header>${parent.name}</ons-list-header>`;
-                    for (let c of childs) {
-                        htmlInner += `<ons-list-item onclick="components.products.load('products.template', '${c.id}')">`;
-                        htmlInner += c.name;
-                        htmlInner += `</ons-list-item>`;
-                    }
-                    $('#category-items').append(htmlInner);
-                } else {
-                    htmlInner = `<ons-list-item>${parent.name}</ons-list-item>`;
+        const storage = this.storage(this.categoriesStorage);
+        storage
+            .collection('categories_has_loaded')
+            .read(null, false)
+            .then((hasLoaded) => {
+                console.log(hasLoaded)
+                const categoriesStorage = storage.collection(this.categoriesCollection);
+                const hasChilds = $('#category-items')[0].childNodes.length;
+                if (!hasLoaded || hasChilds === 0) {
+                    categoriesStorage
+                        .read()
+                        .then((items) => {
+                            for (let i of items) {
+                                let htmlInner = '';
+                                const parent = _.result(i, 'parent', {});
+                                const childs = _.result(i, 'childs', null);
+                                if (childs) {
+                                    htmlInner = `<ons-list-header>${parent.name}</ons-list-header>`;
+                                    for (let c of childs) {
+                                        htmlInner += `<ons-list-item onclick="components.products.load('products.template', '${c.id}')">`;
+                                        htmlInner += c.name;
+                                        htmlInner += `</ons-list-item>`;
+                                    }
+                                    $('#category-items').append(htmlInner);
+                                } else {
+                                    htmlInner = `<ons-list-item>${parent.name}</ons-list-item>`;
+                                }
+                            }
+                            storage.collection('categories_has_loaded').upsert('true');
+                        });
                 }
-            }
-            localStorage.setItem('categories_has_loaded', 'true');
-        }
+            });
     }
     getCategories () {
         return new Promise((resolve, reject) => {

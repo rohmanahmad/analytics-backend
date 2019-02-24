@@ -2,12 +2,16 @@ class Products extends Categories {
 
     constructor () {
         super();
+        this.brandsCollection = 'brands';
+        this.brandStorage = 'localStorage';
     }
     loadBrands () {
         if (window.variables.brands) {
             console.log('loading brands');
             const self = this;
-            const brandStorage = this.storage('localStorage').collection('brands');
+            const brandStorage = this
+                .storage(this.brandStorage)
+                .collection(this.brandsCollection);
             brandStorage.read()
                 .then(function (brands) {
                     if (!brands || brands.length === 0) {
@@ -37,7 +41,18 @@ class Products extends Categories {
         }, {})
     }
     getBrands () {
-
+        return new Promise((resolve, reject) => {
+            this
+                .storage(this.brandStorage)
+                .collection(this.brandsCollection)
+                .read()
+                .then(function (brands) {
+                    resolve(brands);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
     }
     loadProducts (productIds = null) {
         return new Promise((resolve, reject) => {
@@ -108,7 +123,7 @@ class Products extends Categories {
                 },
                 success: (res) => {
                     this.products = res.items;
-                    resolve();
+                    resolve(this.products.length);
                 },
                 error: (err) => {
                     reject(err);

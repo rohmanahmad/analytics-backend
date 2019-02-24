@@ -46,7 +46,7 @@ class MobilePage extends Products {
         let listProducts = '';
         let myfavorites = this.getFavorites();
         const brands = window.variables.brands || {};
-        const shoppingCarts = window.variables.shopping_carts || [];
+        const shoppingCarts = window.variables.shoppingCarts || [];
         for (const sq of products) {
             let htmlProduct = `
             <ons-list-item modifier="nodivider" class="__list_product __no_paddings">
@@ -65,17 +65,28 @@ class MobilePage extends Products {
                 const brandTag = brandname ? `<div class="__product_brand">${brandname}</div>` : '';
                 const discountKey = _.result(product, 'prices.discount.type', null);
                 const discountVal = _.result(product, 'prices.discount.value', null);
-                const discountHtml = (discountVal > 0 && discountKey === 'percent') ? '<div class="__product_disc">20%</div>' : '';
-                let priceBefore = price + discountKey === 'percent' ? (price * discountVal / 100) : discountVal;
-                priceBefore = priceBefore > 0 ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>` : '';
+                const discountHtml = (discountVal > 0 && discountKey === 'percent')
+                    ? `<div class="__product_disc">${discountVal}%</div>`
+                    : '';
+                let priceBefore = price + discountKey === 'percent'
+                    ? (price * discountVal / 100)
+                    : discountVal;
+                priceBefore = priceBefore > 0
+                    ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>`
+                    : '';
                 const mainImg = product.images.main;
-                let imgs = product.variants.map(x => _.result(x, 'images[0].small', ''));
-                imgs = imgs.map(x => `<img class="list __list_image_other __cursor" src="${x}" alt=""/>`)
+                let imgs = product
+                    .variants
+                    .map(x => _.result(x, 'images[0].small', ''));
+                imgs = imgs
+                    .map(x => `<img class="list __list_image_other __cursor" src="${x}" alt=""/>`)
                 const stars = _.result(product, 'stars.count', 0);
                 const favorites = _.result(product, 'favorites.count', 0);
 
                 let name = product.name.replace(/hijup/gi, '');
-                name = name.length > 20 ? name.substring(0, 20) + '...' : name;
+                name = name.length > 20
+                    ? name.substring(0, 20) + '...'
+                    : name;
                 rowlist += `
                 <ons-col class="__list">
                     <div class="__product __product_border_radius">
@@ -120,8 +131,8 @@ class MobilePage extends Products {
         products = products || this.products || [];
         const contentSelector = this.content_selector;
         let htmlProduct = '';
-        let carts = {};
         const brands = window.variables.brands || {};
+        const detail = window.variables.cartsDetail || [];
         for (const sq of products) {
             const product = sq[0];
             const productId = product.product_id;
@@ -130,20 +141,33 @@ class MobilePage extends Products {
             const brandTag = brandname || '';
             const discountKey = _.result(product, 'prices.discount.type', null);
             const discountVal = _.result(product, 'prices.discount.value', null);
-            const discountHtml = (discountVal > 0 && discountKey === 'percent') ? `<div class="__product_disc">${discountVal}%</div>` : '';
-            let priceBefore = price + (discountKey === 'percent' ? (price * discountVal / 100) : discountVal);
-            priceBefore = priceBefore > 0 ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>` : '';
+            const discountHtml = (discountVal > 0 && discountKey === 'percent')
+                ? `<div class="__product_disc">${discountVal}%</div>`
+                : `<div class="__product_disc">${discountVal}</div>`;
+            let priceBefore = price +
+                (discountKey === 'percent'
+                    ? (price * discountVal / 100)
+                    : discountVal
+                );
+            priceBefore = priceBefore > 0
+                ? `<span class="__product_price_before_dics">IDR ${priceBefore}</span>`
+                : '';
             const mainImg = product.images.main;
             // const imgs = product.variants.map(x => _.result(x, 'images[0].small', ''));
             // const stars = _.result(product, 'stars.count', 0);
             // const favorites = _.result(product, 'favorites.count', 0);
+            const prdDetailCart = _.find(detail, {id: productId}) || {};
+            if (!prdDetailCart['id']) {
+                detail.push({
+                    id: productId,
+                    price,
+                    qty: 1,
+                    opt: {}
+                });
+            }
 
             let name = product.name.replace(/hijup/gi, '');
             name = name.length > 20 ? name.substring(0, 20) + '...' : name;
-            carts[productId] = {
-                price,
-                qty: 1
-            }
             htmlProduct += `<ons-list-item modifier="inset" class="__b-border" id="cart-${productId}" data-id="${productId}">`;
             htmlProduct += '<ons-row>';
             htmlProduct += `
@@ -169,7 +193,7 @@ class MobilePage extends Products {
             htmlProduct += `<ons-col class="__carts_price_section">
                 <div class="center __carts">
                     <p class="" data-id="${productId}">
-                        <input class="text-input text-input--material __carts_prices_qty" value="1" type="number" id="input_${productId}">
+                        <input class="text-input text-input--material __carts_prices_qty" value="${prdDetailCart['qty'] || 1}" type="number" id="input_${productId}">
                         <i class="zmdi zmdi-minus __cursor __btn_minus"></i>
                         <i class="zmdi zmdi-plus __cursor __btn_plus"></i>
                     </p>
@@ -177,7 +201,7 @@ class MobilePage extends Products {
                         <span class="__carts_idr">IDR</span>
                             ${price.toLocaleString()}
                             x
-                            <b class="__current_total" id="current_total_${productId}">1</b>
+                            <b class="__current_total" id="current_total_${productId}">${prdDetailCart['qty'] || 1}</b>
                     </p>
                     <p>
                         <i class="zmdi zmdi-delete __cursor __btn_delete"></i>
@@ -186,23 +210,21 @@ class MobilePage extends Products {
             </ons-col>`;
             htmlProduct += '</ons-row>';
             htmlProduct += `</ons-list-item>`;
-            this.carts_details.push({
-                id: productId,
-                price,
-                qty: 1,
-                opt: {}
-            });
         }
         htmlProduct += `
         <ons-list-header class="__carts_total_section">
             <span class="__carts_total">Total</span>
         </ons-list-header>
         <ons-list-item id="cart-total" data-id="">
+            <b id="cartsTotal" style="float: right;">IDR <span></span></b>
+        </ons-list-item>
+        <ons-list-item id="cart-total" data-id="">
             <ons-button modifier="large">Checkout</ons-button>
         </ons-list-item>`;
         $(contentSelector).html(htmlProduct);
         this.registerCartsListeners();
         this.setCartsDetails(); // carts.js
+        this.addToLabelTotal('#cartsTotal > span');
     }
     toggleActive (instance, selector) {
         console.log('toggle active favorites');
@@ -224,17 +246,17 @@ class MobilePage extends Products {
     }
     registerCartEvent (selector) {
         console.log('registering events...registerCartEvent');
-        let shoppingCarts = window.variables.shopping_carts || [];
-        const addToShoppingCarts = this.addToShoppingCarts;
+        let shoppingCarts = window.variables.shoppingCarts || [];
+        const self = this;
         $(selector).click(function (e) {
             const prdId = $(this).data('id');
             if (prdId) {
                 if (shoppingCarts.indexOf(prdId) <= -1) {
                     shoppingCarts.push(prdId);
-                    addToShoppingCarts();
+                    self.addToShoppingCarts();
                     $(this).addClass('zmdi-shopping-cart');
                 } else {
-                    console.log('this product already exists on your shopping cart');
+                    window.alert('this product already exists on your shopping cart');
                 }
             }
         });
@@ -259,6 +281,8 @@ class MobilePage extends Products {
         return this;
     }
     registerCartsListeners () {
+        const self = this;
+        let cDetail = window.variables.cartsDetail || [];
         $('.__btn_minus').click(function (e) {
             const prdId = $(this).parent().data('id');
             const input = $(`#input_${prdId}`);
@@ -267,9 +291,15 @@ class MobilePage extends Products {
             if (current >= 1) {
                 input.val(current);
                 $(`#current_total_${prdId}`).html(current);
+                let index = _.findIndex(cDetail, {id: prdId});
+                if (index < -1) {
+                    return console.log('product not found');
+                }
+                cDetail[index]['qty'] = current;
+                self.setCartsDetails();
+                self.addToLabelTotal('#cartsTotal > span');
             }
-            console.log('minus', current);
-        })
+        });
         $('.__btn_plus').click(function (e) {
             const prdId = $(this).parent().data('id');
             const input = $(`#input_${prdId}`);
@@ -277,13 +307,32 @@ class MobilePage extends Products {
             current += 1;
             input.val(current);
             $(`#current_total_${prdId}`).html(current);
-            console.log('plus', current);
-        })
+            let index = _.findIndex(cDetail, {id: prdId});
+            if (index < -1) {
+                return console.log('product not found');
+            }
+            cDetail[index]['qty'] = current;
+            self.setCartsDetails();
+            self.addToLabelTotal('#cartsTotal > span');
+        });
     }
     setDefaultVariables () {
-        window.variables.brands = this.getBrands();
-        window.variables.shopping_carts = this.getShoppingCarts();
-        window.variables.categories = this.getCategories();
+        this.getBrands()
+            .then(function (b) {
+                window.variables.brands = b;
+            });
+        this.getShoppingCarts()
+            .then(function (c) {
+                window.variables.shoppingCarts = c;
+            });
+        this.getCategories()
+            .then(function (cat) {
+                window.variables.categories = cat;
+            });
+        this.getCartsDetails()
+            .then(function (detail = []) {
+                window.variables.cartsDetail = detail;
+            });
         return this;
     }
 }
@@ -291,8 +340,9 @@ class MobilePage extends Products {
 window.components = window.components || {};
 window.variables = window.variables || {};
 window.variables.brands = window.variables.brands || {};
-window.variables.shopping_carts = window.variables.shopping_carts || [];
+window.variables.shoppingCarts = window.variables.shoppingCarts || [];
 window.variables.categories = window.variables.categories || [];
+window.variables.cartsDetail = window.variables.cartsDetail || [];
 
 if (!localStorage) {
     alert('localstorage doesnt support');
@@ -316,14 +366,19 @@ var setActivePage = (page) => {
     localStorage.setItem('active_window', activeWindow.toString());
 }
 
-let P = new MobilePage();
+let P = new MobilePage()
+    .setDefaultVariables();
 
 const loadmore = () => {
     P
         .next()
-        .then(function () {
-            P
-                .listingProducts();
+        .then(function (pLength) {
+            if (pLength > 0) {
+                P
+                    .listingProducts();
+            } else {
+                $('#loadmore').hide();
+            }
         });
 }
 const showpopup = (name, price) => {
@@ -391,13 +446,12 @@ components.products.load = function(page, catId) {
 // bottom toolbars
 components.bottom_toolbars = {};
 components.bottom_toolbars.load = function(page) {
-    console.log('(toolbars)', page);
     const content = document.getElementById('content');
     const menu = document.getElementById('categories');
     if (page === 'toolbars.favorites.template') {
         const ids = P.getFavorites();
-        // console.log('(favorites)', ids);
-        if (ids.length > 0) {
+        console.log('(favorites)', ids);
+        if (ids && ids.length > 0) {
             P
                 .setContentSelector('#favorites_list_items')
                 .disableCategories()
@@ -408,19 +462,22 @@ components.bottom_toolbars.load = function(page) {
                 });
         }
     } else if (page === 'toolbars.carts.template') {
-        const ids = P.getShoppingCarts();
-        // console.log('(carts)', ids);
-        if (ids.length > 0) {
-            P
-                .setContentSelector('#carts_list_items')
-                .disableCategories()
-                .setPerPage(1)
-                .loadProducts(ids)
-                .then(function () {
+        P
+            .getShoppingCarts()
+            .then((ids) => {
+                console.log('(carts)', ids);
+                if (ids.length > 0) {
                     P
-                        .listingCarts();
-                });
-        }
+                        .setContentSelector('#carts_list_items')
+                        .disableCategories()
+                        .setPerPage(1)
+                        .loadProducts(ids)
+                        .then(function () {
+                            P
+                                .listingCarts();
+                        });
+                }
+            });
     }
     setActivePage(page); // mobile.js
     content
