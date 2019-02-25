@@ -5,6 +5,8 @@ const md5 = use('md5')
 const Models = use('Models')
 const OngkosCities = new Models().model('OngkosKirimIdCities.Model')
 const OngkosKecamatans = new Models().model('OngkosKirimIdKecamatan.Model')
+const Expedisi = new Models().model('Expedition.Model')
+const Countries = new Models().model('OngkosKirimIdCountries.Model')
 
 const client = got.extend({
     baseUrl: 'https://api.jejualan.com:443',
@@ -18,12 +20,178 @@ class OngkosKirimID {
         let exitCode = 0
         try {
             // await this.exportCities()
-            await this.exportKecamatans()
+            // await this.exportKecamatans()
+            // await this.exportPengiriman()
+            // await this.exportNegara()
+            await this.exportShippingPrices()
         } catch (e) {
             console.log(e)
             exitCode = 200
         }
         process.exit(exitCode)
+    }
+    async exportShippingPrices () {
+        const cities = await OngkosCities.aggregate([
+            {
+                $limit: 1
+            },
+            {
+                $project: {
+                    city_id: true,
+                    city_name: true
+                }
+            }
+        ])
+        const kec = await OngkosKecamatans.aggregate([
+            {
+                $limit: 1
+            },
+            {
+                $project: {
+                    city_id: true,
+                    kecamatan_id: true,
+                    kecamatan_name: true
+                }
+            },
+            {
+                $group: {
+                    _id: '$city_id',
+                    name: {
+                        $last: '$kecamatan_name'
+                    },
+                    sub_district: {
+                        $addToSet: '$kecamatan_id'
+                    }
+                }
+            }
+        ])
+        for (let ct of cities) {
+            const asal = ct.city_id || ''
+            const asalName = ct.city_name || ''
+            for (let sub of kec) {
+                const kotaTujuan = sub._id
+                const kotaTujuanName = sub.name
+                if (sub.sub_district && sub.sub_district.length > 0) {
+                    for (let kecId of sub.sub_district) {
+                        const c = await this.getShippingPrice(asal, kotaTujuan, kecId)
+                        for (let x of c) {
+                            console.log(`(${x.company.name}) ${asalName} -> ${kotaTujuanName} -> ${kecId}`)
+                            // await Countries.updateOne({id: x.id}, x, {upsert: true})
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // besok tinggal jalankan
+    async getShippingPrice (asal, tujuanKota, tujuanKec) {
+        try {
+            console.log(`/v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
+            const d = await client
+                .get(`/v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
+            const body = JSON.parse(d.body)
+            if (typeof body === 'object') {
+                let arr = []
+                for (let b in body) {
+                    const x = body[b]
+                    let nObj = {}
+                    nObj['shipping_price_id'] = parseInt(x.shipping_price_id || '0')
+                    nObj['id'] = md5(`${asal}${tujuanKota}${tujuanKec}${nObj['shipping_price_id']}`)
+                    nObj['company'] = {
+                        'id': parseInt(x.company_id),
+                        'name': x.company_name
+                    }
+                    nObj['price'] = parseInt(x.price)
+                    nObj['status'] = {
+                        'available': true,
+                        'banned': false
+                    }
+                    arr.push(nObj)
+                }
+                return arr
+            }
+            return []
+        } catch (e) {
+
+        }
+    }
+    // Nama Perusahaan Pengiriman
+    async exportNegara () {
+        const c = await this.getCompanyNegara()
+        for (let a of c) {
+            console.log('updating data company', a.name)
+            await Countries.updateOne({id: a.id}, a, {upsert: true})
+        }
+    }
+    async getCompanyNegara () {
+        try {
+            const d = await client
+                .get(`/v1/shippings/countries`)
+            const body = JSON.parse(d.body)
+            const data = body.map(x => {
+                let newObj = {}
+                newObj['id'] = md5(x.country_name)
+                newObj['name'] = x.country_name
+                newObj['website'] = ''
+                newObj['last_update'] = new Date()
+                newObj['status'] = {
+                    'available': true,
+                    'banned': false
+                }
+                newObj['options'] = {
+                    'country_id': x.country_id,
+                    'country_code': x.country_code,
+                    'currency_code': x.currency_code,
+                    'weight_unit': x.weight_unit,
+                    'dimension_unit': x.dimension_unit,
+                    'location_type': parseInt(x.location_type)
+                }
+                newObj['region'] = x.region
+                return newObj
+            })
+            return data
+        } catch (e) {
+            throw e
+        }
+    }
+    // Nama Perusahaan Pengiriman
+    async exportPengiriman () {
+        const c = await this.getCompanyPengiriman()
+        for (let a of c) {
+            console.log('updating data company', a.name)
+            await Expedisi.updateOne({id: a.id}, a, {upsert: true})
+        }
+    }
+    async getCompanyPengiriman () {
+        try {
+            const d = await client
+                .get(`/v1/shippings/companies`)
+            const body = JSON.parse(d.body)
+            const data = body.map(x => {
+                let newObj = {}
+                newObj['id'] = md5(x.comp_name)
+                newObj['name'] = x.comp_name
+                newObj['last_update'] = new Date()
+                newObj['status'] = {
+                    'available': true,
+                    'banned': false
+                }
+                newObj['company'] = {
+                    'id': parseInt(x.comp_id),
+                    'name': x.comp_name,
+                    'description': x.comp_desc,
+                    'origin': 'ongkoskirimid'
+                }
+                newObj['options'] = {
+                    'cek_resi_url': x.status_url,
+                    'international_service': parseInt(x.is_international) === 1
+                }
+                return newObj
+            })
+            return data
+        } catch (e) {
+            throw e
+        }
     }
     // KECAMATANS
     async exportKecamatans () {

@@ -20,5 +20,6 @@ module.exports = {
     store_province: 'server4',
     store_cities: 'server4',
     ongkos_kirim_id_cities: 'server4',
-    ongkos_kirim_id_kecamatan: 'server4'
+    ongkos_kirim_id_kecamatan: 'server4',
+    ongkos_kirim_id_countries: 'server4'
 }

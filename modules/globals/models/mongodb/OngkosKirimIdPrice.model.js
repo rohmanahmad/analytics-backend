@@ -4,7 +4,7 @@ const Base = require('./_base.model')
 
 class Expedition extends Base {
     get collection () {
-        return 'store_expedition'
+        return 'ongkos_kirim_id_price'
     }
 
     get objectid () {
@@ -13,31 +13,13 @@ class Expedition extends Base {
 
     get schema () {
         return {
+            'shipping_price_id': String,
             'id': String,
-            'name': String,
-            'website': {
-                'type': String,
-                'default': ''
-            },
             'company': {
                 'id': Number,
-                'name': String,
-                'origin': {
-                    'type': String,
-                    'default': 'ongkoskirim'
-                },
-                'description': {
-                    'type': String,
-                    'default': ''
-                }
+                'name': String
             },
-            'options': {
-                'cek_resi_url': {
-                    'type': String,
-                    'default': ''
-                },
-                'international_service': Boolean
-            },
+            'price': Number,
             'created_at': {
                 'type': Date,
                 'default': new Date()

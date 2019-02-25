@@ -53,6 +53,7 @@ const nameSpaces = {
     'Cities.Model': './modules/globals/models/mongodb/Cities.model',
     'OngkosKirimIdCities.Model': './modules/globals/models/mongodb/OngkosKirimIdCities.model',
     'OngkosKirimIdKecamatan.Model': './modules/globals/models/mongodb/OngkosKirimIdKecamatan.model',
+    'OngkosKirimIdCountries.Model': './modules/globals/models/mongodb/OngkosKirimIdCountries.model',
     // SERVICES
     'hijup': './modules/services/stores/hijup',
     'expedition': './modules/services/stores/expedition',
