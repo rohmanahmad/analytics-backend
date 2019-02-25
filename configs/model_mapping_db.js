@@ -15,5 +15,11 @@ module.exports = {
     store_product_detail: 'server4',
     store_product_variants: 'server4',
     store_product_prices: 'server4',
-    store_product_brands: 'server4'
+    store_product_brands: 'server4',
+    store_expedition: 'server4',
+    store_province: 'server4',
+    store_cities: 'server4',
+    ongkos_kirim_id_cities: 'server4',
+    ongkos_kirim_id_kecamatan: 'server4',
+    ongkos_kirim_id_countries: 'server4'
 }

@@ -48,8 +48,18 @@ const nameSpaces = {
     'StoreProductVariants.Model': './modules/globals/models/mongodb/StoreProductVariants.model',
     'StoreProductPrices.Model': './modules/globals/models/mongodb/StoreProductPrices.model',
     'StoreProductBrands.Model': './modules/globals/models/mongodb/StoreProductBrands.model',
+    'Expedition.Model': './modules/globals/models/mongodb/Expedition.model',
+    'Province.Model': './modules/globals/models/mongodb/Province.model',
+    'Cities.Model': './modules/globals/models/mongodb/Cities.model',
+    'OngkosKirimIdCities.Model': './modules/globals/models/mongodb/OngkosKirimIdCities.model',
+    'OngkosKirimIdKecamatan.Model': './modules/globals/models/mongodb/OngkosKirimIdKecamatan.model',
+    'OngkosKirimIdCountries.Model': './modules/globals/models/mongodb/OngkosKirimIdCountries.model',
     // SERVICES
     'hijup': './modules/services/stores/hijup',
+    'expedition': './modules/services/stores/expedition',
+    'cities': './modules/services/utils/cities',
+    'province': './modules/services/utils/province',
+    'ongkoskirimid': './modules/services/utils/ongkoskirimid',
     // DEPENDENCIES
     '_': 'lodash',
     'BodyParser': 'body-parser',

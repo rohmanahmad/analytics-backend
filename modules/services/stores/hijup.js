@@ -211,9 +211,9 @@ class Hijup {
                 }
             }))
             this.upsertMany(products, StoreProducts)
-            // this.upsertMany(prices, StoreProductPrices)
-            // this.upsertMany(variants, StoreProductVariants)
-            // this.upsertMany(brands, StoreProductBrands)
+            this.upsertMany(prices, StoreProductPrices)
+            this.upsertMany(variants, StoreProductVariants)
+            this.upsertMany(brands, StoreProductBrands)
         } catch (e) {
             console.log(e)
         }
