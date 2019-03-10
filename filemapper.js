@@ -15,6 +15,7 @@ const nameSpaces = {
     'shares': './configs/shares.conf',
     'store': './configs/store.conf',
     'users': './configs/users.conf',
+    'genderize': './configs/genders.conf',
     // HELPERS
     'Utils.Helper': './modules/globals/helpers/utils.helper',
     'Settings.Helper': './modules/globals/helpers/Settings.helper',
@@ -39,6 +40,8 @@ const nameSpaces = {
     'ShortLink.Model': './modules/globals/models/mongodb/ShortLink.model',
     'InvalidRequestLog.Model': './modules/globals/models/mongodb/InvalidRequestLog.model',
     'InvitationContacts.Model': './modules/globals/models/mongodb/InvitationContacts.model',
+    'Genders.Model': './modules/globals/models/mongodb/Genders.model',
+    'NameList.Model': './modules/globals/models/mongodb/NameList.model',
     'RawHijupProducts.Model': './modules/globals/models/mongodb/RawHijupProducts.model',
     'RawHijupCategories.Model': './modules/globals/models/mongodb/RawHijupCategories.model',
     'RawHijupProductsDetail.Model': './modules/globals/models/mongodb/RawHijupProductsDetail.model',
@@ -54,6 +57,7 @@ const nameSpaces = {
     'OngkosKirimIdCities.Model': './modules/globals/models/mongodb/OngkosKirimIdCities.model',
     'OngkosKirimIdKecamatan.Model': './modules/globals/models/mongodb/OngkosKirimIdKecamatan.model',
     'OngkosKirimIdCountries.Model': './modules/globals/models/mongodb/OngkosKirimIdCountries.model',
+    'OngkosKirimIdPrice.Model': './modules/globals/models/mongodb/OngkosKirimIdPrice.model',
     // SERVICES
     'hijup': './modules/services/stores/hijup',
     'expedition': './modules/services/stores/expedition',

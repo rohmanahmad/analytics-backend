@@ -24,6 +24,14 @@ module.exports = {
         'dsn': _.result(Env, 'SERVER4_DSN', ''),
         'dbname': 'stores_local'
     },
+    'server5': {
+        'dsn': _.result(Env, 'SERVER5_DSN', ''),
+        'dbname': 'rawdata_local'
+    },
+    'server6': {
+        'dsn': _.result(Env, 'SERVER6_DSN', ''),
+        'dbname': 'genders_local'
+    },
     'server44': {
         'host': 'localhost',
         'port': 3306,

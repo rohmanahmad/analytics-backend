@@ -7,6 +7,7 @@ const OngkosCities = new Models().model('OngkosKirimIdCities.Model')
 const OngkosKecamatans = new Models().model('OngkosKirimIdKecamatan.Model')
 const Expedisi = new Models().model('Expedition.Model')
 const Countries = new Models().model('OngkosKirimIdCountries.Model')
+const Prices = new Models().model('OngkosKirimIdPrice.Model')
 
 const client = got.extend({
     baseUrl: 'https://api.jejualan.com:443',
@@ -17,12 +18,13 @@ const client = got.extend({
 
 class OngkosKirimID {
     async handle (args) {
+        console.log('handle ongkos kirim id')
         let exitCode = 0
         try {
-            // await this.exportCities()
-            // await this.exportKecamatans()
-            // await this.exportPengiriman()
-            // await this.exportNegara()
+            await this.exportCities()
+            await this.exportKecamatans()
+            await this.exportPengiriman()
+            await this.exportNegara()
             await this.exportShippingPrices()
         } catch (e) {
             console.log(e)
@@ -31,56 +33,71 @@ class OngkosKirimID {
         process.exit(exitCode)
     }
     async exportShippingPrices () {
-        const cities = await OngkosCities.aggregate([
-            {
-                $limit: 1
-            },
-            {
-                $project: {
-                    city_id: true,
-                    city_name: true
-                }
-            }
-        ])
-        const kec = await OngkosKecamatans.aggregate([
-            {
-                $limit: 1
-            },
-            {
-                $project: {
-                    city_id: true,
-                    kecamatan_id: true,
-                    kecamatan_name: true
-                }
-            },
-            {
-                $group: {
-                    _id: '$city_id',
-                    name: {
-                        $last: '$kecamatan_name'
-                    },
-                    sub_district: {
-                        $addToSet: '$kecamatan_id'
+        try {
+            const cities = await OngkosCities.aggregate([
+                // {
+                //     $limit: 1
+                // },
+                {
+                    $project: {
+                        city_id: true,
+                        city_name: true
                     }
                 }
-            }
-        ])
-        for (let ct of cities) {
-            const asal = ct.city_id || ''
-            const asalName = ct.city_name || ''
-            for (let sub of kec) {
-                const kotaTujuan = sub._id
-                const kotaTujuanName = sub.name
-                if (sub.sub_district && sub.sub_district.length > 0) {
-                    for (let kecId of sub.sub_district) {
-                        const c = await this.getShippingPrice(asal, kotaTujuan, kecId)
-                        for (let x of c) {
-                            console.log(`(${x.company.name}) ${asalName} -> ${kotaTujuanName} -> ${kecId}`)
-                            // await Countries.updateOne({id: x.id}, x, {upsert: true})
+            ])
+            const kec = await OngkosKecamatans.aggregate([
+                // {
+                //     $limit: 1
+                // },
+                {
+                    $project: {
+                        city_id: true,
+                        kecamatan_id: true,
+                        kecamatan_name: true
+                    }
+                },
+                {
+                    $group: {
+                        _id: '$city_id',
+                        name: {
+                            $last: '$kecamatan_name'
+                        },
+                        sub_district: {
+                            $addToSet: '$kecamatan_id'
+                        }
+                    }
+                }
+            ])
+            for (let ct of cities) {
+                const asal = parseInt(ct.city_id || 0)
+                const asalName = ct.city_name || ''
+                for (let sub of kec) {
+                    const kotaTujuan = sub._id
+                    const kotaTujuanName = sub.name
+                    if (sub.sub_district && sub.sub_district.length > 0) {
+                        for (let kecId of sub.sub_district) {
+                            const c = await this.getShippingPrice(asal, kotaTujuan, kecId)
+                            for (let x of c) {
+                                console.log(`(${x.shipping.name}) ${asalName} -> ${kotaTujuanName} -> ${kecId}`)
+                                x['detail'] = {
+                                    from: {
+                                        t: 'city',
+                                        id: asal
+                                    },
+                                    destination: {
+                                        city: kotaTujuan,
+                                        kec: kecId
+                                    }
+                                }
+                                x['last_update'] = new Date()
+                                await Prices.updateOne({id: x.id}, x, {upsert: true, setDefaultsOnInsert: true})
+                            }
                         }
                     }
                 }
             }
+        } catch (e) {
+            throw e
         }
     }
     // besok tinggal jalankan
@@ -97,7 +114,7 @@ class OngkosKirimID {
                     let nObj = {}
                     nObj['shipping_price_id'] = parseInt(x.shipping_price_id || '0')
                     nObj['id'] = md5(`${asal}${tujuanKota}${tujuanKec}${nObj['shipping_price_id']}`)
-                    nObj['company'] = {
+                    nObj['shipping'] = {
                         'id': parseInt(x.company_id),
                         'name': x.company_name
                     }
