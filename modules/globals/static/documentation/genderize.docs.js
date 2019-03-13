@@ -5,15 +5,35 @@ const definitions = require('./definitions')
 module.exports = {
     getPath: () => {
         return {
-            '/engines/genderize/get': {
-                'get': {
+            '/engines/genderize/getnamewords': {
+                'post': {
                     'tags': [
                         'Genderize'
                     ],
-                    'summary': 'Get',
+                    'summary': 'Get Name Words',
+                    'description': 'Get Name per Word',
+                    'parameters': [
+                        definitions.getData('name_form', 'abdul rohman, silvia putri', 'limit by coma(,)')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/success_response'
+                            }
+                        }
+                    }
+                }
+            },
+            '/engines/genderize/getnamelist': {
+                'post': {
+                    'tags': [
+                        'Genderize'
+                    ],
+                    'summary': 'Name List',
                     'description': 'Get Gender By Name',
                     'parameters': [
-                        definitions.getData('name_query', 'akhmad', 'Hanya 1 word')
+                        definitions.getData('name_form', 'abdul rohman, silvia putri', 'limit by coma(,)')
                     ],
                     'responses': {
                         '200': {
@@ -33,8 +53,10 @@ module.exports = {
                     'summary': 'Update',
                     'description': 'Update Gender By Name',
                     'parameters': [
-                        definitions.getData('name_form', 'akhmad', 'Hanya 1 word'),
-                        definitions.getData('gender_form')
+                        definitions.getData('name_form', 'rohman, abdul', '1 word. limit by comma(,)'),
+                        definitions.getData('gender_male_form'),
+                        definitions.getData('gender_female_form'),
+                        definitions.getData('gender_none_form')
                     ],
                     'responses': {
                         '200': {

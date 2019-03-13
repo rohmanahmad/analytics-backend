@@ -14,7 +14,11 @@ class NameList extends Base {
     get schema () {
         return {
             'name': String,
-            'gender': String,
+            'gender': {
+                'male': Number,
+                'female': Number,
+                'none': Number
+            },
             'created_at': Date,
             'updated_at': Date
         }

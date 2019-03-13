@@ -137,9 +137,30 @@ const definitions = {
         "in": "formData",
         "name": "gender",
         "type": "form (numeral)",
-        "description": "1: male, 0: none, -1: vemale",
+        "description": "1: male, 0: none, -1: female",
         "default": 1,
-        "enum": ['none', 'male', 'vemale']
+        "enum": ['none', 'male', 'female']
+    },
+    "gender_female_form": {
+        "in": "formData",
+        "name": "female",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
+    },
+    "gender_male_form": {
+        "in": "formData",
+        "name": "male",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
+    },
+    "gender_none_form": {
+        "in": "formData",
+        "name": "none",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
     },
     // I
     "id_query": {

@@ -16,9 +16,16 @@ module.exports = [
         ]
     },
     {
-        path: '/get',
-        type: 'get',
-        controller: 'getname',
+        path: '/getnamewords',
+        type: 'post',
+        controller: 'getnamewords',
+        middlewares: [
+        ]
+    },
+    {
+        path: '/getnamelist',
+        type: 'post',
+        controller: 'getnamelist',
         middlewares: [
         ]
     },
