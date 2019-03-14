@@ -5,32 +5,12 @@ const definitions = require('./definitions')
 module.exports = {
     getPath: () => {
         return {
-            '/engines/genderize/getnamewords': {
+            '/engines/genderize/get/name': {
                 'post': {
                     'tags': [
                         'Genderize'
                     ],
-                    'summary': 'Get Name Words',
-                    'description': 'Get Name per Word',
-                    'parameters': [
-                        definitions.getData('name_form', 'abdul rohman, silvia putri', 'limit by coma(,)')
-                    ],
-                    'responses': {
-                        '200': {
-                            'description': 'Successful response',
-                            'schema': {
-                                '$ref': '#/definitions/success_response'
-                            }
-                        }
-                    }
-                }
-            },
-            '/engines/genderize/getnamelist': {
-                'post': {
-                    'tags': [
-                        'Genderize'
-                    ],
-                    'summary': 'Name List',
+                    'summary': 'Get Name',
                     'description': 'Get Gender By Name',
                     'parameters': [
                         definitions.getData('name_form', 'abdul rohman, silvia putri', 'limit by coma(,)')
@@ -45,15 +25,35 @@ module.exports = {
                     }
                 }
             },
-            '/engines/genderize/update': {
+            '/engines/genderize/get/name/words': {
+                'post': {
+                    'tags': [
+                        'Genderize'
+                    ],
+                    'summary': 'Get Name (words)',
+                    'description': 'Get Name per Word',
+                    'parameters': [
+                        definitions.getData('name_form', 'abdul, rohman, silvia, putri', 'limit by coma(,)')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/success_response'
+                            }
+                        }
+                    }
+                }
+            },
+            '/engines/genderize/update/name': {
                 'put': {
                     'tags': [
                         'Genderize'
                     ],
-                    'summary': 'Update',
-                    'description': 'Update Gender By Name',
+                    'summary': 'Update Name',
+                    'description': 'Update Gender By (words)',
                     'parameters': [
-                        definitions.getData('name_form', 'rohman, abdul', '1 word. limit by comma(,)'),
+                        definitions.getData('name_form', 'abdul rohman, silvia putri', 'limit by comma(,)'),
                         definitions.getData('gender_male_form'),
                         definitions.getData('gender_female_form'),
                         definitions.getData('gender_none_form')
@@ -68,15 +68,58 @@ module.exports = {
                     }
                 }
             },
-            '/engines/genderize/remove': {
+            '/engines/genderize/update/name/words': {
+                'put': {
+                    'tags': [
+                        'Genderize'
+                    ],
+                    'summary': 'Update Name (words)',
+                    'description': 'Update Gender By Name',
+                    'parameters': [
+                        definitions.getData('name_form', 'abdul, rohman, silvia, putri', '1 word. limit by comma(,)'),
+                        definitions.getData('gender_male_form'),
+                        definitions.getData('gender_female_form'),
+                        definitions.getData('gender_none_form')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/success_response'
+                            }
+                        }
+                    }
+                }
+            },
+            '/engines/genderize/remove/name': {
                 'delete': {
                     'tags': [
                         'Genderize'
                     ],
-                    'summary': 'Remove',
+                    'summary': 'Remove Name',
                     'description': 'Remove Gender By Name',
                     'parameters': [
-                        definitions.getData('name_form', 'akhmad', 'Hanya 1 word'),
+                        definitions.getData('name_form', 'abdul rohman, silvia putri', '(limit by comma)'),
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/success_response'
+                            }
+                        }
+                    }
+                }
+            },
+            '/engines/genderize/remove/name/words': {
+                'delete': {
+                    'tags': [
+                        'Genderize'
+                    ],
+                    'summary': 'Remove Name (words)',
+                    'description': 'Remove Gender By (words)',
+                    'parameters': [
+                        definitions.getData('name_form', 'abdul, rohman, silvia, putri', '1 word (limit by comma)'),
                     ],
                     'responses': {
                         '200': {

@@ -9,30 +9,44 @@ module.exports = [
         ]
     },
     {
-        path: '/update',
+        path: '/update/name/words',
         type: 'put',
-        controller: 'updatename',
+        controller: 'updateNameWords',
         middlewares: [
         ]
     },
     {
-        path: '/getnamewords',
+        path: '/update/name',
+        type: 'put',
+        controller: 'updateName',
+        middlewares: [
+        ]
+    },
+    {
+        path: '/get/name/words',
         type: 'post',
-        controller: 'getnamewords',
+        controller: 'getNameWords',
         middlewares: [
         ]
     },
     {
-        path: '/getnamelist',
+        path: '/get/name',
         type: 'post',
-        controller: 'getnamelist',
+        controller: 'getName',
         middlewares: [
         ]
     },
     {
-        path: '/remove',
+        path: '/remove/name/words',
         type: 'delete',
-        controller: 'removename',
+        controller: 'removeNameWords',
+        middlewares: [
+        ]
+    },
+    {
+        path: '/remove/name',
+        type: 'delete',
+        controller: 'removeName',
         middlewares: [
         ]
     }

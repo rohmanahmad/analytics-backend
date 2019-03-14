@@ -13,10 +13,10 @@ class Genders extends Base {
 
     get schema () {
         return {
-            'key': String,
+            'name': String,
             'evaluate': {
                 'male': Number,
-                'vemale': Number,
+                'female': Number,
                 'none': Number
             },
             'gender': String,
