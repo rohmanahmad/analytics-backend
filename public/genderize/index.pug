@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        link(rel="stylesheet", type="text/css", href="/assets/vendor/onsenUi/css/onsenui.css")
+        link(rel="stylesheet", type="text/css", href="/assets/vendor/onsenUi/css/onsen-css-components.min.css")
+        link(rel="stylesheet", type="text/css", href="/assets/themes/genderize/css/style.css?c=" + c)
+        script(src="/assets/vendor/onsenUi/js/onsenui.min.js")
+        script(src="/assets/vendor/jquery-3/jquery.min.js")
+        script(src="/assets/vendor/lodash/lodash.min.js")
+        title Koleksiku
+    body
+        script(src="/assets/themes/genderize/modules/genderize.js?c=" + c)
+        include mobile/categories.pug
+        include mobile/bottom-toolbars.pug
+        //- layouts
+        include mobile/layouts/home.pug

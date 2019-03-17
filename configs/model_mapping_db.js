@@ -8,7 +8,7 @@ module.exports = {
     invitation_contacts: 'server0',
     invalid_request_log: 'server3',
     genderize_genders: 'server6',
-    genderize_name_list: 'server6',
+    genderize_name_words: 'server6',
     raw_hijup_products: 'server5',
     raw_hijup_products_detail: 'server5',
     raw_hijup_categories: 'server5',

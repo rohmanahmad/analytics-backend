@@ -4,7 +4,7 @@ const Base = require('./_base.model')
 
 class NameList extends Base {
     get collection () {
-        return 'genderize_name_list'
+        return 'genderize_name_words'
     }
 
     get objectid () {

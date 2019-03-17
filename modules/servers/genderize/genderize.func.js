@@ -11,7 +11,8 @@ const docs = use('modules/globals/static/documentation/genderize.docs')
 
 module.exports = {
     main: async (request, response) => {
-        response.send('genderize\'s server running...')
+        const c = request.query.dev === 'true' ? new Date().getTime() : 'static'
+        response.render('genderize/index', {c})
     },
     docs: async (request, response) => {
         response.render('docs/index', docs.publish())
@@ -42,6 +43,7 @@ module.exports = {
                 items
             })
         } catch (e) {
+            console.log(e)
             response.apiError(e)
         }
     },
@@ -67,6 +69,7 @@ module.exports = {
                 items
             })
         } catch (e) {
+            console.log(e)
             response.apiError(e)
         }
     },
@@ -101,6 +104,7 @@ module.exports = {
             }
             response.apiSuccess()
         } catch (e) {
+            console.log(e)
             response.apiError(e)
         }
     },
@@ -112,15 +116,28 @@ module.exports = {
             female = parseInt(female || 0)
             none = parseInt(none || 0)
             const total = (male + female + none)
-            const data = {
-                male: (total * male) / 100,
-                female: (total * female) / 100,
-                none: (total * none) / 100
-            }
-            let gender = 0
-            for (let m in data) {
-                if (data[m] > gender) gender = data[m]
-            }
+            const data = [
+                {
+                    type: 'male',
+                    value: male,
+                    average: (total * male) / 100
+                },
+                {
+                    type: 'female',
+                    value: female,
+                    average: (total * female) / 100
+                },
+                {
+                    type: 'none',
+                    value: none,
+                    average: (total * none) / 100
+                }
+            ]
+            let gender = _.maxBy(data, (x) => x.value)
+            const evaluate = _.reduce(data, function (r, x) {
+                r[x.type] = x.value
+                return r
+            }, {})
             const names = (!name ? '' : name)
                 .split(',')
                 .map(x => x.trim())
@@ -128,8 +145,8 @@ module.exports = {
             for (let n in names) {
                 const item = {
                     'name': names[n],
-                    'evaluate': data,
-                    'gender': gender,
+                    'evaluate': evaluate,
+                    'gender': gender.type,
                     'created_at': new Date(),
                     'updated_at': new Date()
                 }
@@ -140,6 +157,7 @@ module.exports = {
             }
             response.apiSuccess()
         } catch (e) {
+            console.log(e)
             response.apiError(e)
         }
     },
@@ -159,6 +177,7 @@ module.exports = {
                 })
             response.apiSuccess()
         } catch (e) {
+            console.log(e)
             response.apiError(e)
         }
     },
@@ -170,14 +189,24 @@ module.exports = {
                 .split(',')
                 .map(x => x.trim())
                 .filter(x => x.length > 0)
-            await Genders
-                .remove({
-                    'name': {
-                        '$in': names
-                    }
-                })
+            if (names.length > 1) {
+                await Genders
+                    .deleteMany({
+                        'name': {
+                            '$in': names
+                        }
+                    })
+            } else {
+                await Genders
+                    .deleteOne({
+                        'name': {
+                            '$in': names
+                        }
+                    })
+            }
             response.apiSuccess()
         } catch (e) {
+            console.log(e)
             response.apiError(e.message)
         }
     }
