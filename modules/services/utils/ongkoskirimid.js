@@ -2,6 +2,7 @@
 
 const got = use('got')
 const md5 = use('md5')
+const uuid = use('uuid')
 const Models = use('Models')
 const OngkosCities = new Models().model('OngkosKirimIdCities.Model')
 const OngkosKecamatans = new Models().model('OngkosKirimIdKecamatan.Model')
@@ -21,23 +22,93 @@ class OngkosKirimID {
         console.log('handle ongkos kirim id')
         let exitCode = 0
         try {
-            await this.exportCities()
-            await this.exportKecamatans()
-            await this.exportPengiriman()
-            await this.exportNegara()
-            await this.exportShippingPrices()
+            // await this.exportCities()
+            // await this.exportKecamatans()
+            // await this.exportPengiriman()
+            // await this.exportNegara()
+            await this.generateShippingPrice()
+            // await this.exportShippingPrices()
         } catch (e) {
             console.log(e)
             exitCode = 200
         }
+        console.log('-----')
         process.exit(exitCode)
     }
-    async exportShippingPrices () {
+    async generateShippingPrice () {
+        console.log('export shipping price')
         try {
             const cities = await OngkosCities.aggregate([
-                // {
-                //     $limit: 1
-                // },
+                {
+                    $project: {
+                        city_id: true,
+                        city_name: true
+                    }
+                }
+            ])
+            const kec = await OngkosKecamatans.aggregate([
+                {
+                    $project: {
+                        city_id: true,
+                        kecamatan_id: true,
+                        kecamatan_name: true
+                    }
+                },
+                {
+                    $group: {
+                        _id: '$city_id',
+                        name: {
+                            $last: '$kecamatan_name'
+                        },
+                        sub_district: {
+                            $addToSet: '$kecamatan_id'
+                        }
+                    }
+                }
+            ])
+            let row = 1
+            for (let ct of cities) {
+                const asal = parseInt(ct.city_id || 0)
+                const asalName = ct.city_name || ''
+                for (let sub of kec) {
+                    const kotaTujuan = sub._id
+                    const kotaTujuanName = sub.name
+                    if (sub.sub_district && sub.sub_district.length > 0) {
+                        for (let kecId of sub.sub_district) {
+                            let x = {}
+                            x['id'] = uuid()
+                            x['detail'] = {
+                                from: {
+                                    t: 'city',
+                                    id: asal
+                                },
+                                destination: {
+                                    city: kotaTujuan,
+                                    kec: kecId
+                                }
+                            }
+                            x['price'] = 0
+                            x['created_at'] = new Date()
+                            x['last_update'] = new Date()
+                            x['status'] = {
+                                'available': true,
+                                'banned': false
+                            }
+                            console.log(row)
+                            row += 1
+                            await Prices.updateOne({id: x.id}, x, {upsert: true, setDefaultsOnInsert: true})
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            throw e
+        }
+    }
+    async exportShippingPrices () {
+        console.log('export shipping price')
+        try {
+            const cities = await OngkosCities.aggregate([
                 {
                     $project: {
                         city_id: true,
@@ -134,6 +205,7 @@ class OngkosKirimID {
     }
     // Nama Perusahaan Pengiriman
     async exportNegara () {
+        console.log('export negara')
         const c = await this.getCompanyNegara()
         for (let a of c) {
             console.log('updating data company', a.name)
@@ -141,6 +213,7 @@ class OngkosKirimID {
         }
     }
     async getCompanyNegara () {
+        console.log('export company negara')
         try {
             const d = await client
                 .get(`/v1/shippings/countries`)
@@ -173,6 +246,7 @@ class OngkosKirimID {
     }
     // Nama Perusahaan Pengiriman
     async exportPengiriman () {
+        console.log('export pengiriman')
         const c = await this.getCompanyPengiriman()
         for (let a of c) {
             console.log('updating data company', a.name)
@@ -180,6 +254,7 @@ class OngkosKirimID {
         }
     }
     async getCompanyPengiriman () {
+        console.log('export company pengiriman')
         try {
             const d = await client
                 .get(`/v1/shippings/companies`)
@@ -212,6 +287,7 @@ class OngkosKirimID {
     }
     // KECAMATANS
     async exportKecamatans () {
+        console.log('export kecamatan')
         try {
             for (let id = 231; id <= 454; id++) {
                 const c = await this.getKecamatans(id)
@@ -244,6 +320,7 @@ class OngkosKirimID {
     }
     // CITIES
     async exportCities () {
+        console.log('export cities')
         try {
             for (let id = 1; id <= 33; id++) {
                 const c = await this.getCities(id)
@@ -262,6 +339,7 @@ class OngkosKirimID {
             const d = await client
                 .get(`/v1/shippings/${id}/city`)
             const body = JSON.parse(d.body)
+            console.log(body)
             const data = body.map(x => {
                 x['id'] = md5(x.city_id)
                 x['last_update'] = x.last_update.indexOf('0000-00-00') > -1 ? '1990-01-01 00:00:00' : x.last_update

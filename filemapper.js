@@ -82,6 +82,7 @@ const nameSpaces = {
     'optimist': 'optimist',
     'path': 'path',
     'session': 'express-session',
+    'uuid': 'uuid',
     'util': 'util'
 }
 
