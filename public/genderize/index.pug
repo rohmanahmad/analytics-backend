@@ -12,48 +12,63 @@ html(lang="en")
         link(rel="stylesheet", href="/assets/themes/genderize/css/style.css")
         link(rel="shortcut icon", href="/assets/themes/genderize/images/favicon.png", type="image/x-icon")
         title Genderize
-    body
-        <div class="overlay custom-bg"></div>
-
-        <div class="masthead">
-            <div class="masthead-bg"></div>
-            <div class="container h-100">
-            <div class="row h-100">
-                <div class="col-12 my-auto">
-                <div class="masthead-content text-white py-5 py-md-0">
-                    <h1 class="mb-3">Genderize</h1>
-                    <p class="mb-5">Input Name For Getting a gender
-                    //- <strong>January 2019</strong>! Sign up for updates using the form below!</p>
-                    <div class="input-group input-group-newsletter">
-                    <input type="text" class="form-control" placeholder="Enter Name" aria-label="Enter Name" aria-describedby="basic-addon">
-                    <div class="input-group-append">
-                        <button class="btn btn-secondary" type="button">Get Gender</button>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <div class="social-icons">
-            <ul class="list-unstyled text-center mb-0">
-            <li class="list-unstyled-item">
-                <a href="#">
-                <i class="fab fa-twitter"></i>
-                </a>
-            </li>
-            <li class="list-unstyled-item">
-                <a href="#">
-                <i class="fab fa-facebook-f"></i>
-                </a>
-            </li>
-            <li class="list-unstyled-item">
-                <a href="#">
-                <i class="fab fa-instagram"></i>
-                </a>
-            </li>
-            </ul>
-        </div>
+    body.container-fluid.bg-blue
+        //- .overlay.custom-bg
+        .row.h-100
+            .col-md-6(style="padding-left: 0px;")
+                .masthead
+                    .masthead-bg
+                    .container.h-100
+                        .row.h-100
+                            .col-12.my-auto
+                                .masthead-content.text-white.py-5.py-md-0
+                                    h1.mb-3.roboto-font 
+                                        span.icon.bg-info G
+                                        span enderize
+                                    p.mb-5Input Enter Name For Getting a gender
+                                    .input-group.input-group-newsletter
+                                        input.form-control(id="gender-name", placeholder="Enter Name", aria-label="Enter Name", aria-describedby="basic-addon")
+                                        .input-group-append
+                                            button.btn.btn-secondary(type="button", onclick="fn.getGender()") Get Gender
+            .col-md-6.my-auto
+                .masthead-content.text-white.py-5.py-md-0
+                    //- pre.roboto-font.result#results find result here...
+                    table.table.table-borderless.result.roboto-font
+                        tr
+                            th(width="120") Name
+                            td#name-result 
+                        tr
+                            th Fixed Gender
+                            td Male
+                        tr
+                            th(colspan="2") Evaluate
+                        tr
+                            td.text-right Male
+                            td 
+                                .progress
+                                    .progress-bar(role="progressbar", style="width: 0%", aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", id="progress-male") 0%
+                        tr
+                            td.text-right Female
+                            td 
+                                .progress
+                                    .progress-bar(role="progressbar", style="width: 0%", aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", id="progress-female") 0%
+                        tr
+                            td.text-right None
+                            td 
+                                .progress
+                                    .progress-bar(role="progressbar", style="width: 0%", aria-valuenow="0", aria-valuemin="0", aria-valuemax="100", id="progress-none") 0%
+        .social-icons
+            ul.list-unstyled.text-center.mb-0
+                li.list-unstyled-item
+                    a(href="#")
+                        i.fab.fa-twitter
+                li.list-unstyled-item
+                    a(href="#")
+                        i.fab.fa-facebook-f
+                li.list-unstyled-item
+                    a(href="#")
+                        i.fab.fa-instagram
+    script(src="/assets/vendor/lodash/lodash.min.js")
     script(src="/assets/vendor/jquery-3/jquery.min.js")
     script(src="/assets/vendor/bootstrap-4/4.3.1/js/bootstrap.bundle.min.js")
+    script(src="/assets/themes/genderize/modules/genderize.js")

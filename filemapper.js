@@ -51,9 +51,9 @@ const nameSpaces = {
     'StoreProductVariants.Model': './modules/globals/models/mongodb/StoreProductVariants.model',
     'StoreProductPrices.Model': './modules/globals/models/mongodb/StoreProductPrices.model',
     'StoreProductBrands.Model': './modules/globals/models/mongodb/StoreProductBrands.model',
-    'Expedition.Model': './modules/globals/models/mongodb/Expedition.model',
     'Province.Model': './modules/globals/models/mongodb/Province.model',
     'Cities.Model': './modules/globals/models/mongodb/Cities.model',
+    'OngkosKirimIdExpeditions.Model': './modules/globals/models/mongodb/OngkosKirimIdExpeditions.model',
     'OngkosKirimIdCities.Model': './modules/globals/models/mongodb/OngkosKirimIdCities.model',
     'OngkosKirimIdKecamatan.Model': './modules/globals/models/mongodb/OngkosKirimIdKecamatan.model',
     'OngkosKirimIdCountries.Model': './modules/globals/models/mongodb/OngkosKirimIdCountries.model',
@@ -66,6 +66,7 @@ const nameSpaces = {
     'ongkoskirimid': './modules/services/utils/ongkoskirimid',
     // DEPENDENCIES
     '_': 'lodash',
+    'async': 'async',
     'BodyParser': 'body-parser',
     'Compression': 'compression',
     'Cors': 'cors',

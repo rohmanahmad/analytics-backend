@@ -4,7 +4,7 @@ const Base = require('./_base.model')
 
 class Expedition extends Base {
     get collection () {
-        return 'store_expedition'
+        return 'ongkos_kirim_id_expeditions'
     }
 
     get objectid () {

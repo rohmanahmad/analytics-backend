@@ -20,6 +20,7 @@ class Expedition extends Base {
                 'name': String
             },
             'price': Number,
+            'prices_detail': [],
             'detail': {
                 'from': {
                     't': String,

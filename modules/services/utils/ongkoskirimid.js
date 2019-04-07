@@ -3,10 +3,11 @@
 const got = use('got')
 const md5 = use('md5')
 const uuid = use('uuid')
+const {queue} = use('async')
 const Models = use('Models')
 const OngkosCities = new Models().model('OngkosKirimIdCities.Model')
 const OngkosKecamatans = new Models().model('OngkosKirimIdKecamatan.Model')
-const Expedisi = new Models().model('Expedition.Model')
+const Expedisi = new Models().model('OngkosKirimIdExpeditions.Model')
 const Countries = new Models().model('OngkosKirimIdCountries.Model')
 const Prices = new Models().model('OngkosKirimIdPrice.Model')
 
@@ -26,14 +27,101 @@ class OngkosKirimID {
             // await this.exportKecamatans()
             // await this.exportPengiriman()
             // await this.exportNegara()
-            await this.generateShippingPrice()
+            // await this.generateShippingPrice()
             // await this.exportShippingPrices()
+            await this.exportByDB()
         } catch (e) {
             console.log(e)
             exitCode = 200
         }
-        console.log('-----')
-        process.exit(exitCode)
+        // process.exit(exitCode)
+    }
+
+    async exportCompanyExpeditions () {
+        try {
+            await this.getExpeditions()
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async doExport (query) {
+        console.log('exporting prices')
+        try {
+            let bulkUpdate = Prices.collection.initializeOrderedBulkOp()
+            let worker = queue(async (data, next) => {
+                const {_id, from, kec, city} = data
+                const d = await this.getShippingPrice(from, city, kec)
+                bulkUpdate.find({_id}).update({$set: {prices_detail: d, last_update: new Date()}})
+                next()
+            }, 5)
+            worker.drain = async function () {
+                console.log('all process has been finished')
+                bulkUpdate.execute(function (err, res) {
+                    console.log(err, res)
+                    console.log('finish update all data')
+                })
+            }
+            for (let o of query) {
+                worker.push(o, function () {
+                    console.log(`${o.from} => ${o.kec} <> ${o.city} finish`)
+                })
+            }
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async getEmptyPrice () {
+        console.log('get empty prices')
+        try {
+            const query = await Prices.aggregate([
+                {
+                    $match: {
+                        'status.available': true,
+                        'prices_detail': {
+                            '$exists': false
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        'id': true,
+                        'from': '$detail.from.id',
+                        'kec': '$detail.destination.kec',
+                        'city': '$detail.destination.city'
+                    }
+                },
+                {
+                    $limit: 200
+                }
+            ])
+            return query
+        } catch (err) {
+            throw err
+        }
+    }
+    async exportByDB () {
+        console.log('exporting by db')
+        return new Promise(async (resolve, reject) => {
+            try {
+                const self = this
+                const q1 = await self.getEmptyPrice()
+                await self.doExport(q1)
+                const interv = setInterval(async () => {
+                    const query = await self.getEmptyPrice()
+                    if (query.length <= 0) {
+                        clearInterval(interv)
+                        console.log('finish all data')
+                        return resolve(true)
+                    }
+                    await self.doExport(query)
+                }, 60 * 1000)
+            } catch (err) {
+                reject(err)
+            }
+        })
+        // async.eachLimit()
     }
     async generateShippingPrice () {
         console.log('export shipping price')
@@ -69,10 +157,10 @@ class OngkosKirimID {
             let row = 1
             for (let ct of cities) {
                 const asal = parseInt(ct.city_id || 0)
-                const asalName = ct.city_name || ''
+                // const asalName = ct.city_name || ''
                 for (let sub of kec) {
                     const kotaTujuan = sub._id
-                    const kotaTujuanName = sub.name
+                    // const kotaTujuanName = sub.name
                     if (sub.sub_district && sub.sub_district.length > 0) {
                         for (let kecId of sub.sub_district) {
                             let x = {}
@@ -183,17 +271,10 @@ class OngkosKirimID {
                 for (let b in body) {
                     const x = body[b]
                     let nObj = {}
+                    nObj['shipping_id'] = parseInt(x.company_id)
+                    nObj['shipping_name'] = x.company_name
+                    nObj['shipping_price'] = parseInt(x.price)
                     nObj['shipping_price_id'] = parseInt(x.shipping_price_id || '0')
-                    nObj['id'] = md5(`${asal}${tujuanKota}${tujuanKec}${nObj['shipping_price_id']}`)
-                    nObj['shipping'] = {
-                        'id': parseInt(x.company_id),
-                        'name': x.company_name
-                    }
-                    nObj['price'] = parseInt(x.price)
-                    nObj['status'] = {
-                        'available': true,
-                        'banned': false
-                    }
                     arr.push(nObj)
                 }
                 return arr

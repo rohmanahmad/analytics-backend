@@ -53,20 +53,30 @@ module.exports = {
             name = name.toLowerCase()
             const names = (!name ? '' : name)
                 .split(',')
-                .map(x => x.trim())
+                .map(x => x.trim().split(' '))
                 .filter(x => x.length > 0)
             const criteria = {
                 name: {
-                    $in: names
+                    $in: _.flatten(names)
                 }
             }
-            const items = await Genders
+            const items = await NameList
                 .find(criteria)
+            const itms = _.transform(items, function (res, x) {
+                res[x.name] = x.gender
+                return res
+            }, {})
+            let gen = []
+            for (let name of names) {
+                gen.push({
+                    name: name.join(' '),
+                    evaluate: _.each(name, (x, y) => y)
+                })
+            }
             response.send({
                 status: 200,
                 message: 'OK',
-                total: items.length,
-                items
+                items: gen
             })
         } catch (e) {
             console.log(e)
