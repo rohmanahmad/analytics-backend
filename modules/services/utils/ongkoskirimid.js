@@ -51,10 +51,11 @@ class OngkosKirimID {
             let bulkUpdate = Prices.collection.initializeOrderedBulkOp()
             let worker = queue(async (data, next) => {
                 const {_id, from, kec, city} = data
-                const d = await this.getShippingPrice(from, city, kec)
+                const d = await this.getShippingPrice(from, city, kec, _id)
+                // console.log({prices_detail: d, last_update: new Date()})
                 bulkUpdate.find({_id}).update({$set: {prices_detail: d, last_update: new Date()}})
                 next()
-            }, 5)
+            }, 1)
             worker.drain = async function () {
                 console.log('all process has been finished')
                 bulkUpdate.execute(function (err, res) {
@@ -64,7 +65,7 @@ class OngkosKirimID {
             }
             for (let o of query) {
                 worker.push(o, function () {
-                    console.log(`${o.from} => ${o.kec} <> ${o.city} finish`)
+                    // console.log(`${o.from} => ${o.kec} <> ${o.city} finish`)
                 })
             }
         } catch (err) {
@@ -93,7 +94,7 @@ class OngkosKirimID {
                     }
                 },
                 {
-                    $limit: 200
+                    $limit: 4
                 }
             ])
             return query
@@ -116,7 +117,7 @@ class OngkosKirimID {
                         return resolve(true)
                     }
                     await self.doExport(query)
-                }, 60 * 1000)
+                }, 30 * 1000)
             } catch (err) {
                 reject(err)
             }
@@ -260,9 +261,9 @@ class OngkosKirimID {
         }
     }
     // besok tinggal jalankan
-    async getShippingPrice (asal, tujuanKota, tujuanKec) {
+    async getShippingPrice (asal, tujuanKota, tujuanKec, id) {
         try {
-            console.log(`/v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
+            console.log(`${id} | /v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
             const d = await client
                 .get(`/v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
             const body = JSON.parse(d.body)

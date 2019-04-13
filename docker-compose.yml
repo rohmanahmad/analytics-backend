@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   app:
     image: node:alpine
@@ -8,5 +8,7 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - 3000:3000
+      - 8008:8008
     command: npm run dev
+    networks:
+      - bridge
