@@ -16,7 +16,18 @@ const client = got.extend({
     headers: {
         'Authorization': 'Basic b25na2lya3UuamVqdWFsYW4uY29tOjlhOWRkZGYyNTM4NTAzZTY2MmU3YTIyYzcyMGFiYzYx'
     }
-});
+})
+
+const n = Array.from({length: 100}, (x, i) => i)
+const arrNumber = Array.from({length: 10}, (x, i) => i * 100)
+const randomN = function () {
+    const x = n[Math.floor(Math.random() * n.length)]
+    return x
+}
+const randomMe = function () {
+    const x = arrNumber[Math.floor(Math.random() * arrNumber.length)] * randomN()
+    return x
+}
 
 class OngkosKirimID {
     async handle (args) {
@@ -48,20 +59,24 @@ class OngkosKirimID {
     async doExport (query) {
         console.log('exporting prices')
         try {
-            let bulkUpdate = Prices.collection.initializeOrderedBulkOp()
+            // let bulkUpdate = Prices.collection.initializeOrderedBulkOp()
             let worker = queue(async (data, next) => {
                 const {_id, from, kec, city} = data
                 const d = await this.getShippingPrice(from, city, kec, _id)
                 // console.log({prices_detail: d, last_update: new Date()})
-                bulkUpdate.find({_id}).update({$set: {prices_detail: d, last_update: new Date()}})
+                Prices
+                    .updateOne({_id}, {$set: {prices_detail: d, last_update: new Date()}})
+                    .then(function () {
+                        // write log
+                    })
                 next()
             }, 1)
             worker.drain = async function () {
                 console.log('all process has been finished')
-                bulkUpdate.execute(function (err, res) {
-                    console.log(err, res)
-                    console.log('finish update all data')
-                })
+                // bulkUpdate.execute(function (err, res) {
+                //     console.log(err, res)
+                //     console.log('finish update all data')
+                // })
             }
             for (let o of query) {
                 worker.push(o, function () {
@@ -74,14 +89,15 @@ class OngkosKirimID {
     }
 
     async getEmptyPrice () {
-        console.log('get empty prices')
+        const skip = randomMe()
+        console.log('get empty prices', skip)
         try {
             const query = await Prices.aggregate([
                 {
                     $match: {
                         'status.available': true,
                         'prices_detail': {
-                            '$exists': false
+                            '$size': 0
                         }
                     }
                 },
@@ -94,7 +110,10 @@ class OngkosKirimID {
                     }
                 },
                 {
-                    $limit: 4
+                    $skip: skip
+                },
+                {
+                    $limit: 10
                 }
             ])
             return query
@@ -282,7 +301,7 @@ class OngkosKirimID {
             }
             return []
         } catch (e) {
-
+            console.log(e)
         }
     }
     // Nama Perusahaan Pengiriman
