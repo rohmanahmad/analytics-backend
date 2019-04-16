@@ -10,5 +10,3 @@ services:
     ports:
       - 8008:8008
     command: npm run dev
-    networks:
-      - bridge

@@ -14,7 +14,7 @@ const Prices = new Models().model('OngkosKirimIdPrice.Model')
 const client = got.extend({
     baseUrl: 'https://api.jejualan.com:443',
     headers: {
-        'Authorization': 'Basic b25na2lya3UuamVqdWFsYW4uY29tOjlhOWRkZGYyNTM4NTAzZTY2MmU3YTIyYzcyMGFiYzYx'
+        'Authorization': 'Basic b25na2lya3UuamVqdWFsYW4uY29tOmU4ZjUwNDMyYWJjYTUxZjJmNWNkNjZmYmUwMzNlZDhk'
     }
 })
 
@@ -29,10 +29,16 @@ const randomMe = function () {
     return x
 }
 
+const sleep = function (timeout) {
+    return new Promise((resolve, reject) => {
+        console.log('sleep...')
+        setTimeout(resolve, (timeout || 15) * 1000)
+    })
+}
+
 class OngkosKirimID {
     async handle (args) {
         console.log('handle ongkos kirim id')
-        let exitCode = 0
         try {
             // await this.exportCities()
             // await this.exportKecamatans()
@@ -40,12 +46,10 @@ class OngkosKirimID {
             // await this.exportNegara()
             // await this.generateShippingPrice()
             // await this.exportShippingPrices()
-            await this.exportByDB()
+            this.exportByDB()
         } catch (e) {
             console.log(e)
-            exitCode = 200
         }
-        // process.exit(exitCode)
     }
 
     async exportCompanyExpeditions () {
@@ -59,29 +63,21 @@ class OngkosKirimID {
     async doExport (query) {
         console.log('exporting prices')
         try {
-            // let bulkUpdate = Prices.collection.initializeOrderedBulkOp()
             let worker = queue(async (data, next) => {
                 const {_id, from, kec, city} = data
                 const d = await this.getShippingPrice(from, city, kec, _id)
-                // console.log({prices_detail: d, last_update: new Date()})
                 Prices
                     .updateOne({_id}, {$set: {prices_detail: d, last_update: new Date()}})
-                    .then(function () {
-                        // write log
+                    .then(function (r) {
+                        console.log(`${_id} \t| ${city} \t| ${kec} \t| ${from} \t| ${r.nModified} doc updated`)
                     })
                 next()
             }, 1)
             worker.drain = async function () {
                 console.log('all process has been finished')
-                // bulkUpdate.execute(function (err, res) {
-                //     console.log(err, res)
-                //     console.log('finish update all data')
-                // })
             }
             for (let o of query) {
-                worker.push(o, function () {
-                    // console.log(`${o.from} => ${o.kec} <> ${o.city} finish`)
-                })
+                worker.push(o, function () {})
             }
         } catch (err) {
             throw err
@@ -121,27 +117,37 @@ class OngkosKirimID {
             throw err
         }
     }
+
+    async isExists () {
+        try {
+            const x = await Prices.findOne({
+                'prices_detail': {
+                    $size: 0
+                }
+            })
+            console.log(x.id)
+            return x.id
+        } catch (err) {
+            console.log(err)
+        }
+    }
     async exportByDB () {
         console.log('exporting by db')
-        return new Promise(async (resolve, reject) => {
-            try {
-                const self = this
-                const q1 = await self.getEmptyPrice()
-                await self.doExport(q1)
-                const interv = setInterval(async () => {
-                    const query = await self.getEmptyPrice()
-                    if (query.length <= 0) {
-                        clearInterval(interv)
-                        console.log('finish all data')
-                        return resolve(true)
-                    }
-                    await self.doExport(query)
-                }, 30 * 1000)
-            } catch (err) {
-                reject(err)
+        try {
+            const self = this
+            const q1 = await self.getEmptyPrice()
+            await self.doExport(q1)
+            let exists = await this.isExists()
+            while (exists) {
+                const query = await self.getEmptyPrice()
+                await this.doExport(query)
+                await sleep(20)
+                exists = await this.isExists()
+                // if (!exists)
             }
-        })
-        // async.eachLimit()
+        } catch (err) {
+            console.log(err)
+        }
     }
     async generateShippingPrice () {
         console.log('export shipping price')
@@ -282,7 +288,6 @@ class OngkosKirimID {
     // besok tinggal jalankan
     async getShippingPrice (asal, tujuanKota, tujuanKec, id) {
         try {
-            console.log(`${id} | /v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
             const d = await client
                 .get(`/v1/shippings/city/${tujuanKota}/subdistrict/${tujuanKec}/price?from_city_id=${asal}&no_cod=1`)
             const body = JSON.parse(d.body)
