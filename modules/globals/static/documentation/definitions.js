@@ -15,6 +15,12 @@ const schemas = {
             }
         }
     },
+    "success_response": {
+        "properties": {
+            "status": {"default": 200},
+            "message": {"default": "success"},
+        }
+    },
     "ai_voc_schema": {
         "properties": {
             "type": {
@@ -126,6 +132,36 @@ const definitions = {
         "type": "form (string)",
         "description": ""
     },
+    // G
+    "gender_form": {
+        "in": "formData",
+        "name": "gender",
+        "type": "form (numeral)",
+        "description": "1: male, 0: none, -1: female",
+        "default": 1,
+        "enum": ['none', 'male', 'female']
+    },
+    "gender_female_form": {
+        "in": "formData",
+        "name": "female",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
+    },
+    "gender_male_form": {
+        "in": "formData",
+        "name": "male",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
+    },
+    "gender_none_form": {
+        "in": "formData",
+        "name": "none",
+        "type": "form (numeral)",
+        "description": "",
+        "default": 0,
+    },
     // I
     "id_query": {
         "in": "query",
@@ -157,6 +193,21 @@ const definitions = {
         "name": "limit",
         "type": "query (numeral)",
         "description": "limit"
+    },
+    // N
+    "name_form": {
+        "in": "formData",
+        "name": "name",
+        "type": "form (string)",
+        "description": "1 word",
+        "default": 'rohman'
+    },
+    "name_query": {
+        "in": "query",
+        "name": "name",
+        "type": "query (string)",
+        "description": "1 word",
+        "default": 'rohman'
     },
     // P
     "parent_query": {

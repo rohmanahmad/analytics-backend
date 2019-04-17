@@ -19,6 +19,7 @@ if (servers) {
     for (let x of s) {
         const server = x[0].trim()
         const port = parseInt(x[1])
+        console.log(`${serverPath}${server}`, port)
         require(`${serverPath}${server}`).start(port)
     }
 } else {

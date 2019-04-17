@@ -21,7 +21,7 @@ const prefix = 'hijup'
 const localLimit = 1000
 
 /*
-    node service.js [-i _i_ -process _p_]
+    node service.js hijup [--i _i_ --process _p_]
     * _p_:
         - import_categories : import from website to local
         - import_products : import from website to local
@@ -33,15 +33,19 @@ const localLimit = 1000
 
 class Hijup {
     async handle (args = {}) {
-        utils.debugme('handle hijup.com crawl service')
-        const interval = parseInt(args.i) || parseInt(args.interval)
-        const type = args.process || 'all'
-        await this.run(type)
-        if (interval > 0) {
-            setInterval(async () => {
-                utils.debugme('run interval')
-                await this.run(type)
-            }, interval * 1000)
+        try {
+            utils.debugme('handle hijup.com crawl service')
+            const interval = parseInt(args.i) || parseInt(args.interval)
+            const type = args.process || 'all'
+            await this.run(type)
+            if (interval > 0) {
+                setInterval(async () => {
+                    utils.debugme('run interval')
+                    await this.run(type)
+                }, interval * 1000)
+            }
+        } catch (e) {
+            console.log(e)
         }
     }
 
@@ -225,12 +229,12 @@ class Hijup {
         const pengurang = 1 * 24 * 60 * 60 * 1000
         const dateCriteria = new Date(dateNow - pengurang)
         const q = RawHijupProducts.find({
-            'last_recrawl.detail': {
-                $gte: dateCriteria
-            }
-            // last_recrawl: {
-            //     $exists: false
+            // 'last_recrawl.detail': {
+            //     $gte: dateCriteria
             // }
+            last_recrawl: {
+                $exists: false
+            }
         }).select('id') // .limit(1)
         q.exec(async (err, res) => {
             if (err) {
@@ -334,7 +338,7 @@ class Hijup {
             extensions: JSON.stringify(this.getExtension())
         }
         let r = await this.getData(graphUrl, {qs})
-        this.upsertMany(r.products)
+        this.upsertMany(r.products, RawHijupProducts)
         delete r.products
         while (r.hasNext) {
             n += 1

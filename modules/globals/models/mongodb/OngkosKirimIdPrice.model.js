@@ -15,18 +15,29 @@ class Expedition extends Base {
         return {
             'shipping_price_id': String,
             'id': String,
-            'company': {
+            'shipping': {
                 'id': Number,
                 'name': String
             },
             'price': Number,
+            'prices_detail': [],
+            'detail': {
+                'from': {
+                    't': String,
+                    'id': Number
+                },
+                'destination': {
+                    'city': Number,
+                    'kec': Number
+                }
+            },
             'created_at': {
                 'type': Date,
-                'default': new Date()
+                'default': Date.now
             },
             'last_update': {
                 'type': Date,
-                'default': new Date()
+                'default': Date.now
             },
             'status': {
                 'available': Boolean,

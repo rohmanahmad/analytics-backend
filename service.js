@@ -9,9 +9,13 @@ let args = minimist(process.argv.slice(2), {
         v: 'version'
     }
 })
-const serviceName = args._
-const Service = use(serviceName)
+try {
+    const serviceName = args._
+    const Service = use(serviceName)
 
-delete args._
+    delete args._
 
-new Service().handle(args)
+    new Service().handle(args)
+} catch (err) {
+    console.log(err.message)
+}
