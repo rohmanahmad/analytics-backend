@@ -2,6 +2,9 @@
 
 const nameSpaces = {
     // CONFIGS
+    'model_mapping': './configs/model_mapping_db',
+    'databases_conf': './configs/databases',
+    // SERVER CONFIGS
     'admin': './configs/admin.conf',
     'default': './configs/default.conf',
     'events': './configs/events.conf',
@@ -21,6 +24,7 @@ const nameSpaces = {
     'ErrorHandler': './modules/globals/libs/ErrorHandler.lib',
     'Models': './modules/globals/libs/Models.lib',
     'Registry': './modules/globals/libs/Registry.lib',
+    'SentencesLib': './modules/globals/libs/Sentences.lib',
     // MIDDLEWARES
     'RequestLogger.Middleware': './modules/globals/middlewares/RequestLogger.middleware',
     'Layer1AuthToken.Middleware': './modules/globals/middlewares/Layer1AuthToken.middleware',
@@ -35,6 +39,27 @@ const nameSpaces = {
     'ShortLink.Model': './modules/globals/models/mongodb/ShortLink.model',
     'InvalidRequestLog.Model': './modules/globals/models/mongodb/InvalidRequestLog.model',
     'InvitationContacts.Model': './modules/globals/models/mongodb/InvitationContacts.model',
+    'RawHijupProducts.Model': './modules/globals/models/mongodb/RawHijupProducts.model',
+    'RawHijupCategories.Model': './modules/globals/models/mongodb/RawHijupCategories.model',
+    'RawHijupProductsDetail.Model': './modules/globals/models/mongodb/RawHijupProductsDetail.model',
+    'StoreCategories.Model': './modules/globals/models/mongodb/StoreCategories.model',
+    'StoreProducts.Model': './modules/globals/models/mongodb/StoreProducts.model',
+    'StoreProductDetail.Model': './modules/globals/models/mongodb/StoreProductDetail.model',
+    'StoreProductVariants.Model': './modules/globals/models/mongodb/StoreProductVariants.model',
+    'StoreProductPrices.Model': './modules/globals/models/mongodb/StoreProductPrices.model',
+    'StoreProductBrands.Model': './modules/globals/models/mongodb/StoreProductBrands.model',
+    'Expedition.Model': './modules/globals/models/mongodb/Expedition.model',
+    'Province.Model': './modules/globals/models/mongodb/Province.model',
+    'Cities.Model': './modules/globals/models/mongodb/Cities.model',
+    'OngkosKirimIdCities.Model': './modules/globals/models/mongodb/OngkosKirimIdCities.model',
+    'OngkosKirimIdKecamatan.Model': './modules/globals/models/mongodb/OngkosKirimIdKecamatan.model',
+    'OngkosKirimIdCountries.Model': './modules/globals/models/mongodb/OngkosKirimIdCountries.model',
+    // SERVICES
+    'hijup': './modules/services/stores/hijup',
+    'expedition': './modules/services/stores/expedition',
+    'cities': './modules/services/utils/cities',
+    'province': './modules/services/utils/province',
+    'ongkoskirimid': './modules/services/utils/ongkoskirimid',
     // DEPENDENCIES
     '_': 'lodash',
     'BodyParser': 'body-parser',
@@ -42,9 +67,11 @@ const nameSpaces = {
     'Cors': 'cors',
     'debug': 'debug',
     'Express': 'express',
+    'got': 'got',
     'Http': 'http',
     'jwt': 'jsonwebtoken',
     'md5': 'md5',
+    'minimist': 'minimist',
     'mongod': 'mongodb',
     'moment': 'moment',
     'mongoose': 'mongoose',

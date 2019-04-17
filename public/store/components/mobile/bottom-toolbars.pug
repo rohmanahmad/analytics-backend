@@ -1,0 +1,31 @@
+div(class="tabbar")
+    input(type="radio", name="tabbar-a", id="toolbar-none", style="display: none;")
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('home.template')", tappable)
+        input(type="radio", name="tabbar-a", id="toolbar-home")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-home")
+            div(class="tabbar__label") Home
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.favorites.template')", tappable)
+        input(type="radio", name="tabbar-a", id="toolbar-favorites")
+        button(class="tabbar__button")
+            i(class="tabbar__icon zmdi zmdi-favorite")
+            div(class="tabbar__label") Favorit
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.carts.template')", tappable)
+        input(type="radio", name="tabbar-a", id="toolbar-carts")
+        button(class="tabbar__button")
+            i(class="tabbar__icon zmdi zmdi-shopping-cart")
+            div(class="tabbar__label") Belanjaan
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.coupons.template')", tappable)
+        input(type="radio", name="tabbar-a", id="toolbar-coupons")
+        button(class="tabbar__button")
+            i(class="tabbar__icon zmdi zmdi-label-heart")
+            div(class="tabbar__label") Kupon
+
+    label(class="tabbar__item", onclick="components.bottom_toolbars.load('toolbars.chats.template')", tappable)
+        input(type="radio", name="tabbar-a", id="toolbar-chats")
+        button(class="tabbar__button")
+            i(class="tabbar__icon ion-chatboxes")
+            div(class="tabbar__label") Chats

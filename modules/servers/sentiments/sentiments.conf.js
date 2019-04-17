@@ -1,5 +1,4 @@
 module.exports = {
-    'port': 8002,
     'accepted_vocab_type': ['V', 'N', 'ADJ', 'C', 'PN'],
     'default_vocab_desc': {
         'PN': 'Pronoun (kata ganti orang)',

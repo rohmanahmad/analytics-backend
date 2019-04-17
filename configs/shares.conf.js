@@ -2,13 +2,17 @@
 
 const _ = require('lodash')
 const databases = require('./databases')
-const mongoserver = 'server1'
+const Env = useStatic('Env')
+const mongoserver = 'server2'
 const mongoDSN = _.result(databases, `${mongoserver}.dsn`)
 const dbName = _.result(databases, `${mongoserver}.dbname`)
 
 module.exports = {
+    documentation: {
+        domain: 'shares.localhost'
+    },
     auth: {
-        secret: 'th3scretch4ra4ct3r5'
+        secret: _.result(Env, 'APP_KEY_SECRET', 'TH3SECR3TCHARACT3R5')
     },
     database: {
         mongodb: {

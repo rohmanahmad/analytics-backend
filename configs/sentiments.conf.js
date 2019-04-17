@@ -2,13 +2,17 @@
 
 const _ = require('lodash')
 const databases = require('./databases')
-const mongoserver = 'server1'
+const Env = useStatic('Env')
+const mongoserver = 'server0'
 const mongoDSN = _.result(databases, `${mongoserver}.dsn`)
 const dbName = _.result(databases, `${mongoserver}.dbname`)
 
 module.exports = {
+    documentation: {
+        domain: 'sentiments.localhost'
+    },
     auth: {
-        secret: 'th3scretch4ra4ct3r5'
+        secret: _.result(Env, 'APP_KEY_SECRET', 'TH3SECR3TCHARACT3R5')
     },
     database: {
         mongodb: {
@@ -24,7 +28,7 @@ module.exports = {
     },
     server: {
         default: {
-            port: 1000
+            port: 8005
         },
         cors: {
             domains: ['http://localhost:8080'],
