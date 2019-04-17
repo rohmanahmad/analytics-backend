@@ -1,15 +1,13 @@
 'use strict'
 
+const _ = use('_')
 const mongoose = use('mongoose')
 const mongooseObjID = useStatic('mongooseObjID')
-const {mongodb} = use('Settings.Loader')
-const {dsn} = mongodb
 const utils = use('Utils.Helper')
+const ModelMapping = use('model_mapping')
+const DBSettings = use('databases_conf')
 
 class Base {
-    constructor () {
-        this.connection()
-    }
     get options () {
         return {
             useNewUrlParser: true,
@@ -19,9 +17,31 @@ class Base {
         }
     }
 
-    connection () {
+    getMongooseInstance (key = '') {
+        return _.result(mongoose, key)
+    }
+
+    connect () {
+        const dsn = this.getDsn()
+        if (dsn) {
+            return this.connection(dsn)
+        } else {
+            throw new Error('no DSN found')
+        }
+    }
+
+    getDsn () {
+        const currentCollection = this.collection || ''
+        const serverConllection = ModelMapping[currentCollection] || ''
+        const dsn = _.result(DBSettings, `${serverConllection}.dsn`, '')
+        // console.log(currentCollection, serverConllection)
+        return dsn
+    }
+
+    connection (dsn) {
         utils.debugme(`connect to: ${dsn}`)
-        mongoose.connect(dsn, this.options)
+        const con = mongoose.createConnection(dsn, this.options)
+        return con
     }
 
     getSchema () {
@@ -35,9 +55,11 @@ class Base {
     }
 
     model () {
+        this.ObjectID = mongooseObjID
+        const connect = this.connect()
         const myschema = this.getSchema()
         const schema = new mongoose.Schema(myschema)
-        return mongoose.model(this.collection, schema)
+        return connect.model(this.collection, schema)
     }
 }
 

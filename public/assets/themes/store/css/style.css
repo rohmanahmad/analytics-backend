@@ -1,0 +1,221 @@
+.__cursor {
+    cursor: pointer;
+}
+.__no_paddings {
+    padding: 0 0px 0px 0px;
+}
+.__product {
+    width: 96%;
+    height: 100%;
+    padding: auto;
+    min-height: 155px;
+    text-align: center;
+    border: 1px solid #f5f2f2;
+}
+.__list_product {
+    float: left;
+}
+.__list {
+    max-width: 170px;
+    float: left;
+}
+.__product_border_radius {
+    border-radius: 2px;
+}
+.__product_image {
+    width: 100%;
+    height: 63%;
+    background: #f9f9f9;
+    /* background-image: url('./img/bg-no-product-image.png'); */
+    /* z-index: -1; */
+}
+.__product_image img{
+    width: 148px;
+    height: 237px;
+    object-fit: contain;
+}
+.__product_title {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 3px;
+    margin-top: 3px;
+}
+.__product_price {
+    font-size: 9px;
+    max-width: 50%;
+    text-align: left;
+    margin-left: 3px;
+    margin-top: 10px;
+    display: block;
+}
+.__product_current_price {
+    color: #7171f3;
+    font-weight: bold;
+}
+.__product_price_before_dics {
+    /* margin-left: 9px; */
+    text-decoration: line-through;
+    color: #b1b0b0;
+    display: block;
+    line-height: 3pt;
+}
+.__product_cart {
+    font-size: 25px;
+    float: right;
+    width: 49%;
+    padding-right: 10px;
+    text-align: right;
+    color: #7fa4ca;
+    /* padding-top: 5px; */
+}
+.__product_favorite {
+    float: left;
+    color: #f39e51;
+    margin-left: 5px;
+}
+.__product_favorite_count {
+    float: left;
+    font-size: 6pt !important;
+    margin-left: 3px;
+}
+.__product_image_others {
+    width: 100%;
+    height: 55px;
+    margin-top: 0px;
+    overflow: hidden;
+    /* border: 1px solid #000; */
+}
+.__product_image_others .list {
+    width: 34px;
+    height: 100%;
+    float: left;
+    margin-right: 1px;
+    margin-top: 6px;
+}
+.__product_brand {
+    position: absolute;
+    top: 0;
+    /* right: 0; */
+    min-width: 50px;
+    height: 8px;
+    font-size: 9px;
+    font-weight: bold;
+    color: #fff;
+    margin-top: 230px;
+    background: #7aa3cc;
+    float: right;
+    line-height: 5pt;
+    padding: 3px;
+}
+.__product_stars {
+    width: 100%;
+    text-align: right;
+    height: 0px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+    /* border: 1px solid #000; */
+}
+.__product_stars span{
+    font-size: 12pt;
+}
+.__yellow_star {
+    color: #f39e51;
+}
+.__last_star {
+    margin-right: 10px;
+}
+.__product_disc {
+    position: absolute;
+    width: 15px;
+    height: 14px;
+    padding: 5px;
+    top: 14px;
+    margin-left: 123px;
+    font-size: 7pt;
+    font-weight: bold;
+    background-image: url('./img/disc-bg.png');
+    color: #fff;
+    line-height: 11pt;
+    margin-top: 5px;
+}
+.__product_section_1 {
+    width: 100%;
+    height: auto;
+    min-height: 30px;
+    padding: 0px 0px 0px 6px;
+    /* border: 1px solid; */
+}
+.__product_row_items {
+    padding: 4px 15px;
+}
+.__carts {
+    padding: 0px;
+    margin: 0px;
+}
+.__carts p {
+    line-height: 11pt;
+    margin: 0px;
+}
+.__carts_image_section {
+    max-width: 60px;
+}
+.__carts_notes {
+    margin-top: 3px;
+}
+.__carts_price_section {
+    text-align: right;
+    padding-right: 10px;
+}
+.__carts_prices {
+    font-size: 11px;
+    margin-top: 10px !important;
+    margin-right: 22px !important;
+}
+.__carts_notes textarea {
+    font-size: 9px;
+}
+.__carts_main_image {
+    border-radius: 3px;
+    width: 50px;
+    height: 60px;
+}
+.__carts_title {
+    font-size: 11px;
+}
+.__carts_brand {
+    font-size: 9px;
+}
+.__carts_prices_qty {
+    font-size: 11px;
+    width: 25px;
+}
+.__carts_total_caption {
+    float: left;
+    max-width: 50%;
+}
+.__carts_total_nominal {
+    float: right;
+    max-width: 50%;
+}
+.__carts_total_section {
+    padding-right: 15px;
+}
+.__btn_minus {
+    color: #bb5d46;
+    margin-left: 10px;
+}
+.__btn_plus {
+    color: green;
+    margin-left: 10px;
+}
+.__btn_delete {
+    color: #ff6c6c;
+    margin-left: 5px;
+}
+.__carts_idr {
+    font-size: 5pt;
+}
+.__b-border {
+    border-bottom: 1px solid #e9ebec;
+}

@@ -1,7 +1,8 @@
 'use strict'
 
-const InvalidRequestLog = use('InvalidRequestLog.Model')
 const utils = use('Utils.Helper')
+const Models = use('Models')
+const InvalidRequestLog = new Models().model('InvalidRequestLog.Model')
 
 module.exports = function (request, response, next) {
     const ip = request.ip

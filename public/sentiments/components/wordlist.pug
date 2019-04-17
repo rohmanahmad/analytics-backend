@@ -1,0 +1,90 @@
+.row
+    .col.bordered
+        p
+            h3(id="top") Words List
+        p Options:
+        p Page Show:
+        p
+            input(type="checkbox", checked="", id="show_col_type", class="mg-r-5 mg-l-20")
+            label Type
+            input(type="checkbox", checked="", id="show_col_id_keyword", class="mg-r-5 mg-l-20")
+            label ID Keyword
+            input(type="checkbox", checked="", id="show_col_en_keyword", class="mg-r-5 mg-l-20")
+            label EN Keyword
+            input(type="checkbox", checked="", id="show_col_description", class="mg-r-5 mg-l-20")
+            label Description
+        p Type:
+        p
+            input(type="checkbox", checked="", id="show_col_type", class="mg-r-5 mg-l-20")
+            label(title="Kata Benda") (N) Noun
+            input(type="checkbox", checked="", id="show_col_id_keyword", class="mg-r-5 mg-l-20")
+            label(title="Kata Sifat") (ADJ) Adjective
+            input(type="checkbox", checked="", id="show_col_en_keyword", class="mg-r-5 mg-l-20")
+            label(title="Kata Ganti") (PN) Pronoun
+            input(type="checkbox", checked="", id="show_col_description", class="mg-r-5 mg-l-20")
+            label(title="Kata Kerja") (V) Verb
+            input(type="checkbox", checked="", id="show_col_description", class="mg-r-5 mg-l-20")
+            label(title="Kata Keterangan") (ADV) Adverb
+            input(type="checkbox", checked="", id="show_col_description", class="mg-r-5 mg-l-20")
+            label(title="Kata Sambung") (C) Conjunction
+        p
+            button(class="btn btn-sm btn-primary", onclick="changeOptions()") change
+        table.table.table-bordered
+            thead
+                tr
+                    th(width = 50) #
+                    th(id="col-type") Type
+                    th(id="col-id_keyword") ID
+                    th(id="col-en_keyword") EN
+                    th(id="col-description") Description
+                    th Actions
+            tbody.wordlist-body-1
+        p 
+            button(class="btn btn-sm btn-primary", onclick="loadmore()") load more
+            a(class="btn btn-sm btn-warning mg-l-20", href="#top") Top
+
+script(src="assets/themes/sentiments/js/wordlist.js")
+
+script(type='text/javascript').
+    const limit = 10
+    const section1 = new Wordlist('.wordlist-body-1', ['A', 'B', 'C'], {token: "#{token}"})
+        .load(limit)
+    function loadmore () {
+        section1.loadmore(limit)
+    }
+
+script(type='text/javascript').
+    let colShow = {
+        type: true,
+        id: true,
+        en: true,
+        desc: true
+    }
+    function changeOptions () {
+        colShow = {
+            type: $('#show_col_type').is(':checked'),
+            id: $('#show_col_id_keyword').is(':checked'),
+            en: $('#show_col_en_keyword').is(':checked'),
+            desc: $('#show_col_description').is(':checked')
+        }
+        if (colShow['type']) {
+            $('th#col-type,td#col-type').show()
+        } else {
+            $('th#col-type,td#col-type').hide()
+        }
+        if (colShow['id']) {
+            $('th#col-id_keyword,td#col-id_keyword').show()
+        } else {
+            $('th#col-id_keyword,td#col-id_keyword').hide()
+        }
+        if (colShow['en']) {
+            $('th#col-en_keyword,td#col-en_keyword').show()
+        } else {
+            $('th#col-en_keyword,td#col-en_keyword').hide()
+        }
+        if (colShow['desc']) {
+            $('th#col-description,td#col-description').show()
+        } else {
+            $('th#col-description,td#col-description').hide()
+        }
+    }

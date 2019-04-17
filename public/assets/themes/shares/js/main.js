@@ -12,7 +12,7 @@ function getLink () {
         const res = $('#url-result')
         res.text('please wait...')
         $.ajax({
-            'url': 'new',
+            'url': 'api/new',
             'type': 'POST',
             'data': { url },
             'success': function (data) {

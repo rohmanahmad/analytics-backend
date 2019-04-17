@@ -1,0 +1,20 @@
+<template id="toolbars.favorites.template">
+  <ons-page>
+    ons-toolbar(class="toolbar toolbar--material")
+        div(class="toolbar__left toolbar--material__left", onclick="categories.open()")
+            span(class="toolbar-button toolbar-button--material")
+                i(class="zmdi zmdi-menu")
+        div(class="toolbar__center toolbar--material__center") Favorit
+            
+        div(class="toolbar__right toolbar--material__right")
+            span(class="toolbar-button toolbar-button--material")
+                i(class="zmdi zmdi-search")
+            span(class="toolbar-button toolbar-button--material")
+                i(class="zmdi zmdi-favorite")
+            span(class="toolbar-button toolbar-button--material")
+                i(class="zmdi zmdi-more-vert")
+    ons-list(class="list __no_paddings", id="favorites_list_items")
+
+    div(style="height: 50px;width: 100%;")
+  </ons-page>
+</template>

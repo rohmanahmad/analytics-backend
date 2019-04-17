@@ -1,9 +1,33 @@
 'use strict'
 
 const definitions = require('./definitions')
-const paths = require('./paths')('admin')
 
 module.exports = {
+    getPath: () => {
+        return {
+            '/login': {
+                'post': {
+                    'tags': [
+                        'Admin'
+                    ],
+                    'summary': 'Login',
+                    'description': 'Login User',
+                    'parameters': [
+                        definitions.getData('user_email_form'),
+                        definitions.getData('user_password_form')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/share_new_response'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     publish: function () {
         return {
             swagger: '2.0',
@@ -20,7 +44,7 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: 'localhost',
+            host: (config.domain || 'localhost'),
             basePath: '/',
             schemes: [
                 'http'
@@ -28,8 +52,8 @@ module.exports = {
             produces: [
                 'application/json'
             ],
-            paths,
-            definitions: definitions.schemas
+            definitions: definitions.schemas,
+            paths: this.getPath()
         }
     }
 }

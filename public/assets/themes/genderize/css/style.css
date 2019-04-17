@@ -1,0 +1,28 @@
+@font-face {
+    font-family: roboto;
+    src: url("../fonts/roboto.light.ttf");
+}
+.roboto-font {
+    font-family: "roboto" !important;
+}
+.custom-bg {
+    background: #000;
+}
+
+.bg-blue {
+    background: #5d5d5d;
+}
+
+.result {
+    color: #f0f0f0;
+    width: 350px;
+    min-height: 200px;
+    padding: 5px;
+    /* border: 1px solid #a0a0a0; */
+    border-radius: 5px;
+}
+
+.icon {
+    padding: 0px 10px 0px 10px;
+    border-radius: 5px;
+}

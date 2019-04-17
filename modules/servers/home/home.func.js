@@ -7,7 +7,13 @@ module.exports = {
         response.send('home\'s server running...')
     },
     docs: async (request, response) => {
-        response.render('docs/index', docs.publish())
+        if (request.query.url) {
+            response.render('docs/index', docs.publish())
+        } else {
+            const url = request.hostname
+            const apidocs = `${request.protocol}://${url}/api-docs.json`
+            response.redirect(`/documentation?url=${apidocs}`)
+        }
     },
     apidocs: async (request, response) => {
         response.json(docs.publish())

@@ -1,9 +1,52 @@
 'use strict'
 
 const definitions = require('./definitions')
-const paths = require('./paths')('shares')
 
 module.exports = {
+    getPath: () => {
+        return {
+            '/api/new': {
+                'post': {
+                    'tags': [
+                        'Shares'
+                    ],
+                    'summary': 'New Share',
+                    'description': 'Generate Share Url',
+                    'parameters': [
+                        definitions.getData('url_form')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/share_new_response'
+                            }
+                        }
+                    }
+                }
+            },
+            '/{uniq_code}': {
+                'get': {
+                    'tags': [
+                        'Shares'
+                    ],
+                    'summary': 'Goto Url',
+                    'description': 'Goto Url',
+                    'parameters': [
+                        definitions.getData('uniq_code_path')
+                    ],
+                    'responses': {
+                        '200': {
+                            'description': 'Successful response',
+                            'schema': {
+                                '$ref': '#/definitions/share_new_response'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     publish: function () {
         return {
             swagger: '2.0',
@@ -20,14 +63,14 @@ module.exports = {
                     url: 'htt://www.apache.org/licenses/LICENSE-2.0.html'
                 }
             },
-            host: '',
+            host: (config.domain || 'localhost'),
             basePath: '/',
             schemes: [],
             produces: [
                 'application/json'
             ],
-            paths,
-            definitions: definitions.schemas
+            definitions: definitions.schemas,
+            paths: this.getPath()
         }
     }
 }
