@@ -14,11 +14,10 @@ const server = Http.createServer(app)
 // loading all libs and helpers
 const utils = use('Utils.Helper')
 const HttpResponse = use('Http.Response')
-const Settings = use('Settings.Helper')
 const Registry = use('Registry')
 // const ValidateInput = use('ValidateInput.Middleware')
 
-const {port} = Settings(namespace)
+const port = 8004
 const routes = require(`./${namespace}.routes`)
 const controllers = require(`./${namespace}.func`)
 
