@@ -109,7 +109,7 @@ class OngkosKirimID {
                     $skip: skip
                 },
                 {
-                    $limit: 10
+                    $limit: 1000
                 }
             ])
             return query
