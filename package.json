@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch configs --watch modules --watch filemapper.js -x node server.js --watch .env",
+    "dev": "nodemon --watch server.js --watch filemapper.js --watch __cores --watch configs --watch helpers --watch libraries --watch modules --watch middlewares --watch servers --watch utilities --watch .env -x node server.js",
     "dev-cluster": "nodemon --watch app --watch -x node server.cluster.js"
   },
   "author": "rohmanahmad",

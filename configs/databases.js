@@ -3,42 +3,55 @@
 const _ = require('lodash')
 const Env = useStatic('Env')
 
-module.exports = {
-    'server0': {
-        'dsn': _.result(Env, 'SERVER0_DSN', ''),
+module.exports = [
+    {
+        'name': 'server0',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER0_DSN', null),
         'dbname': 'sentiments_local'
     },
-    'server1': {
-        'dsn': _.result(Env, 'SERVER1_DSN', ''),
+    {
+        'name': 'server1',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER1_DSN', null),
         'dbname': 'users_local'
     },
-    'server2': {
-        'dsn': _.result(Env, 'SERVER2_DSN', ''),
+    {
+        'name': 'server2',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER2_DSN', null),
         'dbname': 'share_local'
     },
-    'server3': {
-        'dsn': _.result(Env, 'SERVER3_DSN', ''),
+    {
+        'name': 'server3',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER3_DSN', null),
         'dbname': 'logs_local'
     },
-    'server4': {
-        'dsn': _.result(Env, 'SERVER4_DSN', ''),
+    {
+        'name': 'server4',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER4_DSN', null),
         'dbname': 'stores_local'
     },
-    'server5': {
-        'dsn': _.result(Env, 'SERVER5_DSN', ''),
+    {
+        'name': 'server5',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER5_DSN', null),
         'dbname': 'rawdata_local'
     },
-    'server6': {
-        'dsn': _.result(Env, 'SERVER6_DSN', ''),
+    {
+        'name': 'server6',
+        'driver': 'mongodb',
+        'dsn': _.result(Env, 'SERVER6_DSN', null),
         'dbname': 'genders_local'
     },
-    'server44': {
+    {
+        'driver': 'mysql',
         'host': 'localhost',
         'port': 3306,
         'user': 'root',
         'pass': '',
         'db': ''
-    },
-    'server442': {},
-    'server524': {}
-}
+    }
+]
