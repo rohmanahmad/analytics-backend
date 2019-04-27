@@ -1,0 +1,10 @@
+.alert-container {
+    position: absolute;
+    width: 100%;
+    bottom: 1px;
+    /* border: 1px solid; */
+}
+
+.invalid-login {
+    float: right;
+}
