@@ -1,6 +1,6 @@
 'use strict'
 
-const Env = useStatic('Env')
+const Env = process.env
 const debug = use('debug')
 const moment = use('moment')
 const util = use('util')

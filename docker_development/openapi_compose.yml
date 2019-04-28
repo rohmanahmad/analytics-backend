@@ -1,0 +1,9 @@
+version: '3.7'
+
+services:
+  open_api:
+    image: swaggerapi/swagger-ui
+    environment:
+      - "API_URL=http://localhost:8001/open-api/accounts"
+    ports:
+      - 8000:8080

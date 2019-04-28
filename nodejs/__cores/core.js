@@ -8,9 +8,14 @@ const Cors = use('Cors')
 const BodyParser = use('BodyParser')
 const Http = use('Http')
 const Compression = use('Compression')
+const helmet = require('helmet')
+const methodOverride = require('method-override')
+const expressWinston = require('express-winston')
+const winston = require('winston')
+const path = require('path')
 const Router = Express.Router()
 const PublicPath = '../views'
-const Env = require('dotenv').config('../.env')
+const Env = process.env
 
 const defaultFn = function (req, res) {
     res
@@ -89,6 +94,23 @@ class APP {
             App.use(BodyParser.urlencoded({ extended: true }))
             // parse an HTML body into a string
             App.use(BodyParser.text({ type: 'text/html' }))
+            // enable helmet
+            App.use(methodOverride())
+            App.use(helmet())
+            App.use(function (request, response, next) {
+                console.log(request.originalUrl)
+                next()
+            })
+            App.use(expressWinston.errorLogger({
+                transports: [
+                  new winston.transports.File({filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' }),
+                  new winston.transports.Console({filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' })
+                ],
+                format: winston.format.combine(
+                  winston.format.colorize(),
+                  winston.format.json()
+                )
+            }))
         } catch (err) {
             throw err
         }
@@ -107,6 +129,7 @@ class APP {
                         const cFn = cSplit[1]
                         controller = cName ? this.controllers[cName] : defaultFn
                         controller = cFn ? controller[cFn] : controller
+                        controller = await controller
                     } else if (typeof controller === 'function') {
                         // pass : nothing to changes
                     } else {

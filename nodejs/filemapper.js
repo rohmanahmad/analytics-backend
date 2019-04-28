@@ -7,7 +7,6 @@ const nameSpaces = {
     'databases_conf': './configs/databases',
     // HELPERS
     'Utils.Helper': './helpers/utils.helper',
-    'Settings.Helper': './helpers/Settings.helper',
     'Http.Response': './utilities/listener/response',
     // LIBS
     'ErrorHandler': './libraries/ErrorHandler.lib',
@@ -75,16 +74,6 @@ const nameSpaces = {
     'util': 'util'
 }
 
-const path = require('path')
-
-const myBasePath = function (file = '') {
-    return path.resolve(file)
-}
-
-module.exports = global.basePath = function (file = '') {
-    return myBasePath(file)
-}
-
 module.exports = global.use = function (name) {
     const moduleName = nameSpaces[name] || false
     if (moduleName) {
@@ -94,23 +83,8 @@ module.exports = global.use = function (name) {
     }
 }
 
-require('dotenv').config({path: myBasePath('.env')})
-const mongod = require('mongodb')
+require('dotenv').config({path: '.env'})
 const mongoose = require('mongoose')
-const Env = process.env
 
-const ObjectId = mongod.ObjectId
-const mongooseObjID = mongoose.Schema.Types.ObjectId
-
-const statics = {
-    Env,
-    mongooseObjID,
-    ObjectId
-}
-
-module.exports = global.useStatic = function (name) {
-    if (!statics[name]) {
-        throw new Error(`${name} is not defined on static! please check.`)
-    }
-    return statics[name]
-}
+module.exports = global.MongoID = mongoose.Schema.Types.ObjectId
+module.exports = global.appPath = __dirname

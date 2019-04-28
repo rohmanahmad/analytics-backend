@@ -2,7 +2,6 @@
 
 const _ = use('_')
 const mongoose = use('mongoose')
-const mongooseObjID = useStatic('mongooseObjID')
 const utils = use('Utils.Helper')
 const ModelMapping = use('model_mapping')
 const DBSettings = use('databases_conf')
@@ -48,14 +47,14 @@ class Base {
         let myschema = this.schema
         if (this.objectid) {
             for (let x of this.objectid) {
-                myschema[x] = mongooseObjID
+                myschema[x] = MongoID
             }
         }
         return myschema
     }
 
     model () {
-        this.ObjectID = mongooseObjID
+        this.ObjectID = MongoID
         const connect = this.connect()
         const myschema = this.getSchema()
         const schema = new mongoose.Schema(myschema)

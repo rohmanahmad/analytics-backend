@@ -1,7 +1,7 @@
 'use strict'
 
 const _ = require('lodash')
-const Env = useStatic('Env')
+const Env = process.env
 
 module.exports = [
     {

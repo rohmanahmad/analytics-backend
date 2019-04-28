@@ -2,9 +2,9 @@
 
 module.exports = [
     {
-        path: '/',
+        path: '/login',
         type: 'get',
-        controller: 'OfficeMalangsoftware.Main',
+        controller: 'Accounts.LoginAuth',
         middlewares: [
             // 'AuthToken'
         ]

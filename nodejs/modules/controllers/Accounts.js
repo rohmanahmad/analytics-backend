@@ -2,8 +2,8 @@
 
 let Core = require('../../__cores/core')
 
-class OfficeMalangsoftware extends Core {
-    async Main (request, response) {
+class Accounts extends Core {
+    async LoginAuth (request, response) {
         try {
             response.json('ok')
         } catch (err) {
@@ -18,4 +18,4 @@ class OfficeMalangsoftware extends Core {
     }
 }
 
-module.exports = new OfficeMalangsoftware()
+module.exports = new Accounts()
