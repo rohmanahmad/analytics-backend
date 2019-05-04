@@ -6,8 +6,8 @@ const path = require('path')
 
 const Env = process.env
 
-let logFile = fs.createWriteStream(path.join(Env.LOG_FILES, `${Env.APIS}.log`), { flags: 'a' })
+let logFile = fs.createWriteStream(path.join(Env.LOG_PATH, `${Env.APIS}.log`), { flags: 'a' })
 
 module.exports = function (msg) {
-    morgan('combined', { stream: accessLogStream })
+    morgan('combined', { stream: logFile })
 }

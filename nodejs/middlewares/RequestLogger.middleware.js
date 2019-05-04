@@ -1,4 +1,4 @@
-'use strict'
+/* 'use strict'
 
 const utils = use('Utils.Helper')
 const Models = use('Models')
@@ -24,3 +24,4 @@ module.exports = function (request, response, next) {
         utils.log('new logger created')
     })
 }
+ */

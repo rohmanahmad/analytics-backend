@@ -52,7 +52,7 @@ module.exports = {
         'constructor-super': 'error'
     },
     globals: {
-        use,
-        MongoID
+        use: true,
+        MongoID: true
     }
 };

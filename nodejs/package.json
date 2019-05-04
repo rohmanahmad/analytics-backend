@@ -30,6 +30,7 @@
     "moment": "^2.22.2",
     "mongodb": "^3.1.1",
     "mongoose": "^5.3.4",
+    "morgan": "^1.9.1",
     "optimist": "^0.6.1",
     "pm2": "^3.3.1",
     "pug": "^2.0.3",
@@ -43,12 +44,13 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^1.18.3",
     "babel-eslint": "^8.0.1",
     "eslint": "^4.18.2",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-standard": "^3.0.1",
-    "standard": "^10.0.2"
+    "nodemon": "^1.18.3",
+    "standard": "^10.0.2",
+    "swagger-ui": "^3.22.1"
   }
 }
