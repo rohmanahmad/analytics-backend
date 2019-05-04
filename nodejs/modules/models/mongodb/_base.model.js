@@ -3,8 +3,8 @@
 const _ = use('_')
 const mongoose = use('mongoose')
 const utils = use('Utils.Helper')
-const ModelMapping = use('model_mapping')
-const DBSettings = use('databases_conf')
+const ModelMapping = use('ModelMapping.Config')
+const DBSettings = use('Databases.Config')
 
 class Base {
     get options () {

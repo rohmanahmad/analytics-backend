@@ -1,7 +1,6 @@
 'use strict'
 
 const mongoDBcore = require('./mongodb')
-const _ = require('lodash')
 const Express = use('Express')
 const App = Express()
 const Cors = use('Cors')
@@ -103,12 +102,12 @@ class APP {
             })
             App.use(expressWinston.errorLogger({
                 transports: [
-                  new winston.transports.File({filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' }),
-                  new winston.transports.Console({filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' })
+                    new winston.transports.File({ filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' }),
+                    new winston.transports.Console({ filename: path.join(Env.LOG_PATH, `${Env.APIS}.log`), level: 'error' })
                 ],
                 format: winston.format.combine(
-                  winston.format.colorize(),
-                  winston.format.json()
+                    winston.format.colorize(),
+                    winston.format.json()
                 )
             }))
         } catch (err) {

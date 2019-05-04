@@ -1,4 +1,4 @@
-'use strict'
+/* 'use strict'
 
 const Models = use('Models')
 const _ = use('_')
@@ -120,3 +120,4 @@ class SentencesLib {
 }
 
 module.exports = SentencesLib
+ */

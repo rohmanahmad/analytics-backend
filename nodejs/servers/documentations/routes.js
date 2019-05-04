@@ -10,17 +10,17 @@ module.exports = [
         ]
     },
     {
-        path: '/open-api',
+        path: '/open-api/accounts',
         type: 'get',
-        controller: 'Documentations.OpenAPI',
+        controller: 'Documentations.AccountsDoc',
         middlewares: [
             // 'AuthToken'
         ]
     },
     {
-        path: '/open-api/accounts',
+        path: '/open-api/references',
         type: 'get',
-        controller: 'Documentations.AccountsDoc',
+        controller: 'Documentations.References',
         middlewares: [
             // 'AuthToken'
         ]
