@@ -1,48 +1,52 @@
 'use strict'
 
-const Env = process.env
-const DomainRef = Env.DOMAIN_REF || ''
+// const Env = process.env
+// const DomainRef = Env.DOMAIN_REF || ''
+let parameters = use('SwaggerUIParameters.Lib')
 
 module.exports = {
-    'InventoryItem': {
+    'LoginSuccess': {
         'required': [ 'id', 'manufacturer', 'name', 'releaseDate' ],
         'type': 'object',
         'properties': {
-            'id': {
-                'type': 'string',
-                'format': 'uuid',
-                'example': 'd290f1ee-6c54-4b01-90e6-d701748f0851'
-            },
-            'name': {
-                'type': 'string',
-                'example': 'Widget Adapter'
-            },
-            'releaseDate': {
-                'type': 'string',
-                'format': 'date-time'
-            },
-            'manufacturer': {
-                '$ref': `${DomainRef}/open-api/references?ref=Schemas.Manufacturer`
-            }
+            'login_id': parameters('UUID'),
+            'token': parameters('Token'),
+            'refresh_token': parameters('RefreshToken')
         }
     },
-    'Manufacturer': {
-        'required': [ 'name' ],
+    'RegisterSuccess': {
+        'required': [ 'username', 'email', 'register_id' ],
         'type': 'object',
         'properties': {
-            'name': {
-                'type': 'string',
-                'example': 'ACME Corporation'
-            },
-            'homePage': {
-                'type': 'string',
-                'format': 'url',
-                'example': 'https://www.acme-corp.com'
-            },
-            'phone': {
-                'type': 'string',
-                'example': '408-867-5309'
-            }
+            'username': parameters('usernameStringBody'),
+            'email': parameters('Email'),
+            'fullname': parameters('Fullname'),
+            'register_id': parameters('UUID')
+        }
+    },
+    'ForgotPasswordSent': {
+        'required': [ 'email', 'forgot_id' ],
+        'type': 'object',
+        'properties': {
+            'email': parameters('Email'),
+            'forgot_id': parameters('UUID')
+        }
+    },
+    'ResetPasswordValid': {
+        'required': [ 'email', 'forgot_id' ],
+        'type': 'object',
+        'properties': {
+            'email': parameters('Email'),
+            'forgot_id': parameters('UUID')
+        }
+    },
+    'ResetPasswordSuccess': {
+        'required': [ 'email', 'forgot_id', 'status' ],
+        'type': 'object',
+        'properties': {
+            'email': parameters('Email'),
+            'forgot_id': parameters('UUID'),
+            'status': parameters('Boolean')
         }
     }
 }
