@@ -1,6 +1,7 @@
 'use strict'
 
-let Core = require('../../__cores/core')
+const PORT = process.env.PORT || 4000
+let Core = require('../../__cores/Core')
 const routes = require('./routes')
 const controllers = {
     'Accounts': require('../../modules/controllers/Accounts'),
@@ -15,6 +16,6 @@ module.exports = {
     start: function () {
         console.log('staring ...')
         new Core({routes, middlewares, controllers})
-            .startServer(4002)
+            .startServer(PORT)
     }
 }

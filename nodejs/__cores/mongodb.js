@@ -2,10 +2,10 @@
 
 // const _ = require('lodash')
 let mongoose = require('mongoose')
-let dbSettings = require('../configs/databases')
+let dbSettings = require('../configs/Databases')
 
 let mongo = dbSettings.filter(x => x.driver === 'mongodb')
-let modelMap = require('../configs/model_mapping_db')
+let modelMap = require('../configs/ModelMapDB')
 
 const options = {
     useNewUrlParser: true,

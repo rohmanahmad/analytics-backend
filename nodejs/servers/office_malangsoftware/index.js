@@ -1,6 +1,6 @@
 'use strict'
 
-let Core = require('../../__cores/core')
+let Core = require('../../__cores/Core')
 const routes = require('./routes')
 const controllers = {
     'OfficeMalangsoftware': require('../../modules/controllers/OfficeMalangsoftware'),

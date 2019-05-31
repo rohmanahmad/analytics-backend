@@ -5,7 +5,7 @@ const DomainRef = Env.DOMAIN_REF || ''
 let parameters = use('SwaggerUIParameters.Lib')
 
 module.exports = {
-    '/accounts/login': {
+    '/account/auth/login': {
         'post': {
             'tags': ['User Account API'],
             'summary': 'Login User',
@@ -34,7 +34,7 @@ module.exports = {
             }
         }
     },
-    '/accounts/register': {
+    '/account/auth/register': {
         'post': {
             'tags': ['User Account API'],
             'summary': 'Register User',
@@ -63,7 +63,7 @@ module.exports = {
             }
         }
     },
-    '/accounts/forgot': {
+    '/account/auth/forgot': {
         'post': {
             'tags': ['User Account API'],
             'summary': 'Forgot User Password',
@@ -92,7 +92,7 @@ module.exports = {
             }
         }
     },
-    '/accounts/forgot-link': {
+    '/account/auth/forgot/validation': {
         'get': {
             'tags': ['User Account API'],
             'summary': 'Forgot Validation',
@@ -122,7 +122,7 @@ module.exports = {
             }
         }
     },
-    '/accounts/reset-password': {
+    '/account/auth/password/change': {
         'post': {
             'tags': ['User Account API'],
             'summary': 'Reset User Password',

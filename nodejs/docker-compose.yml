@@ -25,24 +25,24 @@ services:
     networks:
       - malangsoftware_network
 # # ACCOUNTS
-#   accounts_api:
-#     # build:
-#     #   context: .
-#     #   dockerfile: Dockerfile
-#     image: node:alpine
-#     volumes:
-#       - ../nodejs:/app
-#     working_dir: /app
-#     environment:
-#       APIS: accounts
-#       PORT: 4002
-#     ports:
-#       - 8002:4002 # accounts
-#     networks:
-#       - malangsoftware_network
-#     command: npm run dev
-#     external_links:
-#       - docker_development_mongodb_1:mongodb
+  accounts_api:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: node:alpine
+    volumes:
+      - ../nodejs:/app
+    working_dir: /app
+    environment:
+      APIS: accounts
+      PORT: 4002
+    ports:
+      - 8002:4002 # accounts
+    networks:
+      - malangsoftware_network
+    command: npm run dev
+    external_links:
+      - docker_development_mongodb_1:mongodb
 # # OFFICE
 #   office_api:
 #     # build:

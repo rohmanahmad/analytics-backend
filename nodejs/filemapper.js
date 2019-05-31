@@ -2,14 +2,14 @@
 
 const nameSpaces = {
     /* CORE Files */
-    'Core': './__cores/core',
-    'Logger': './__cores/logger',
-    'Mongo': './__cores/mongodb',
+    'Core': './__cores/Core',
+    'Logger': './__cores/Logger',
+    'Mongo': './__cores/Mongodb',
     /* CONFIGS */
-    'ModelMapping.Config': './configs/model_mapping_db',
-    'Databases.Config': './configs/databases',
+    'ModelMapping.Config': './configs/ModelMapDB',
+    'Databases.Config': './configs/Databases',
     /* HELPERS */
-    'Utils.Helper': './helpers/utils.helper',
+    'Utils.Helper': './helpers/UtilsHelper',
     /* LIBS */
     'ErrorHandler.Lib': './libraries/ErrorHandler.lib',
     'ListenerResponse.Lib': './libraries/listener/response',

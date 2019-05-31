@@ -7,7 +7,7 @@ const Dotenv = require('dotenv-webpack');
 
 // require('dotenv').config({path: './.env'});
 // const app = process.env.APP;
-let moduleFiles = glob.sync(`./modules/office_malangsoftware/**/*.js`);
+let moduleFiles = glob.sync(`./modules/office/**/*.js`);
 moduleFiles.push('./modules/utilities.js');
 moduleFiles.push('./modules/xhr.js');
 
@@ -17,7 +17,7 @@ let config = {
         modules: moduleFiles
     },
     output: {
-        path: path.join(__dirname, 'builds', 'office_malangsoftware', 'dist'),
+        path: path.join(__dirname, 'builds', 'office', 'dist'),
         filename: 'bundle.min.js'
     },
     module: {

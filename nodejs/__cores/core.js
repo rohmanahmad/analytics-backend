@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoDBcore = require('./mongodb')
+const mongoDBcore = require('./Mongodb')
 const Express = use('Express')
 const App = Express()
 const Cors = use('Cors')
