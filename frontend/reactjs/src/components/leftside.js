@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom'
 
 function ListMenu (props) {
     const list = [
@@ -21,23 +22,23 @@ function ListMenu (props) {
         },
         {
             title: 'Kalimat Contoh',
-            link: '/kalimat-contoh',
+            link: '/kalimat/contoh',
             icon: 'fas fa-superscript'
         },
         {
             title: 'Cek Kalimat',
-            link: '/cek-kalimat',
+            link: '/kalimat/cek',
             icon: 'fas fa-quote-right'
         },
         {
-            title: 'Pengaturan',
+            title: 'Analisis Gender',
             icon: '',
             is_title: true
         },
         {
-            title: 'Halaman',
-            link: '/halaman',
-            icon: 'fas fa-cog'
+            title: 'Data Gender',
+            link: '/gender/data',
+            icon: 'fas fa-account'
         }
     ]
     return (
@@ -48,10 +49,10 @@ function ListMenu (props) {
                     if (!i.is_title) {
                         const icon = 'nav-icon ' + i.icon
                         const classes = i.custom_class ? `nav-link ${i.custom_class}` : 'nav-link'
-                        liContent = <a className={classes} href={i.link}>
+                        liContent = <NavLink to={i.link} className={classes} activeClassName="active">
                                         <i className={icon || ''}></i> {i.title}
                                         {i.badge ? <span className="badge badge-primary">{i.badge}</span> : ''}
-                                    </a>
+                                    </NavLink>
                     }
                     const titleClass = (i.is_title ? 'nav-title ' : 'nav-item ') + (i.title_class ? i.title_class : '')
                     return (<li className={titleClass} key={i.title}>
@@ -71,7 +72,7 @@ class LeftSide extends Component {
                 <nav className="sidebar-nav">
                     <ListMenu/>
                 </nav>
-                <button className="sidebar-minimizer brand-minimizer" type="button"></button>
+                <div className="brand-minimizer text-center" style={{background: '#4dbd74'}}>APP V1.2.0</div>
             </div>
         )
     }

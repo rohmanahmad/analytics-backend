@@ -4,6 +4,9 @@ import React, {Component} from 'react'
 import Header from './components/header'
 import LeftSide from './components/leftside'
 
+// page Component
+import Dashboard from './components/pages/dashboard'
+
 class Home extends Component {
     render () {
         return (
@@ -11,6 +14,7 @@ class Home extends Component {
                 <Header/>
                 <div className="app-body">
                     <LeftSide/>
+                    <Dashboard/>
                 </div>
             </React.Fragment>
         )

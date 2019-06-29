@@ -35,7 +35,9 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route exact path="/kosa-kata" component={KosaKata} />
-                            <Route exact path="/kalimat" component={Kalimat} />
+                            <Route exact path="/kalimat-contoh" component={Kalimat} />
+                            <Route exact path="/cek-kalimat" component={Kalimat} />
+                            <Route exact path="/halaman-setting" component={Kalimat} />
                             <Route exact path="/login" component={Login} />
                             <Route exact component={PageNotFound} />
                         </Switch>
