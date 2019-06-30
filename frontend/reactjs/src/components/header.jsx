@@ -4,8 +4,8 @@ import FullLogo from '../assets/coreui/img/brand/logo.svg'
 import MinLogo from '../assets/coreui/img/brand/sygnet.svg'
 
 // childs components
-import HeaderLeftMenu from './childs/header.left.menu'
-import HeaderRightMenu from './childs/header.right.menu'
+import HeaderLeftMenu from './childs/header.left.menu.jsx'
+import HeaderRightMenu from './childs/header.right.menu.jsx'
 
 function Logo () {
    return (

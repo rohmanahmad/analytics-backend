@@ -13,6 +13,48 @@ class DashboardSummaries extends Component {
         )
     }
 
+    getOptions () {
+        return {
+            tooltips: {
+                enabled: false
+            },
+            maintainAspectRatio: false,
+            legend: {
+              display: false
+            },
+            scales: {
+              xAxes: [{
+                gridLines: {
+                  color: 'transparent',
+                  zeroLineColor: 'transparent'
+                },
+                ticks: {
+                  fontSize: 2,
+                  fontColor: 'transparent'
+                }
+              }],
+              yAxes: [{
+                display: false,
+                ticks: {
+                  display: false,
+                  min: 35,
+                  max: 89
+                }
+              }]
+            },
+            elements: {
+              line: {
+                borderWidth: 1
+              },
+              point: {
+                radius: 4,
+                hitRadius: 10,
+                hoverRadius: 4
+              }
+            }
+        }
+    }
+
     summary (type) {
         const data = {
             'total_kosakata': {
@@ -36,18 +78,23 @@ class DashboardSummaries extends Component {
                 bg: 'bg-danger'
             },
         }
+        const randData = {
+            'total_kosakata': [58, 76, 44, 45, 51, 55, 60],
+            'total_kalimat': [45, 56, 84, 44, 51, 55, 60],
+            'total_workers': [65, 80, 84, 81, 51, 55, 40],
+            'total_gender_crawled': [60, 45, 54, 78, 51, 55, 50]
+        }
         const {title, val, bg} = data[type]
         const chartData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets:[
-                {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgb(0, 165, 224)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [65, 59, 84, 84, 51, 55, 40]
-                }
-            ]
+            labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
+            datasets: [{
+                label: 'c',
+                backgroundColor: 'rgba(255,255,255,0)',
+                borderColor: 'rgba(255,255,255,.55)',
+                data: randData[type]
+            }]
         }
+        const options = this.getOptions()
         return (
             <div className="col-sm-6 col-lg-3">
                 <div className={"card text-white " + bg}>
@@ -74,9 +121,9 @@ class DashboardSummaries extends Component {
                                 <div className=""></div>
                             </div>
                         </div>
-                        <canvas className="chart chartjs-render-monitor" id="card-chart1" height="70" style={{display: 'block', width: 235 + 'px', height: 70 + 'px'}} width="235">
-                            <Line data={chartData}/>
-                        </canvas>
+                        <div className="chart chartjs-render-monitor" id="card-chart1" height="70" style={{display: 'block', width: 235 + 'px', height: 70 + 'px'}} width="235">
+                            <Line data={chartData} options={options}/>
+                        </div>
                     </div>
                 </div>
             </div>
