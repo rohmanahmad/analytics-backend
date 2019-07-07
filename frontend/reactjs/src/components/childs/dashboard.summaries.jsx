@@ -2,7 +2,34 @@ import React, {Component, Fragment} from 'react'
 import { Line } from 'react-chartjs-2'
 
 class DashboardSummaries extends Component {
+    constructor (props) {
+        super(props)
+    }
+    componentDidMount () {
+        console.log('dashboard_summaries mounted...')
+    }
+    componentWillUnmount () {
+        // do if this component was unmount
+    }
+
     render () {
+        switch (this.props.mobile) {
+            case 'no':
+                return this.desktopUI
+                break;
+            case 'yes':
+                return this.mobileUI
+                break;
+            default:
+                return ('')
+        }
+    }
+    get mobileUI () {
+        return (
+            'mobile'
+        )
+    }
+    get desktopUI () {
         return (
             <Fragment>
                 {this.summary('total_kosakata')}

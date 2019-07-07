@@ -17,6 +17,9 @@ function Logo () {
 }
 
 class Header extends Component {
+   constructor (props) {
+      super(props)
+   }
    render() {
       return (
          <React.Fragment>
@@ -28,8 +31,8 @@ class Header extends Component {
                <button className="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
                   <span className="navbar-toggler-icon"></span>
                </button>
-               <HeaderLeftMenu/>
-               <HeaderRightMenu/>
+               <HeaderLeftMenu mobile={this.props.mobile}/>
+               <HeaderRightMenu mobile={this.props.mobile}/>
             </header>
          </React.Fragment>
       )

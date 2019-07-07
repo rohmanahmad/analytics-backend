@@ -29,7 +29,33 @@ const topRightMenu = [
  ]
 
 class HeaderRightMenu extends Component {
-    render () {
+   constructor (props) {
+      super(props)
+   }
+   componentDidMount () {
+         console.log('header_right_menu mounted...')
+   }
+   componentWillUnmount () {
+         // do if this component was unmount
+   }
+   render () {
+      switch (this.props.mobile) {
+         case 'no':
+             return this.desktopUI
+             break;
+         case 'yes':
+             return this.mobileUI
+             break;
+         default:
+             return ('')
+     }
+   }
+   get mobileUI () {
+      return (
+          'mobile'
+      )
+   }
+   get desktopUI () {
       return (
           <ul className="nav navbar-nav ml-auto">
              {

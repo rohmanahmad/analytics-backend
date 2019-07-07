@@ -2,7 +2,33 @@ import React, { Component, Fragment } from 'react'
 import {Accordion, Button} from 'react-bootstrap'
 
 class KosaKataForm extends Component {
+    constructor (props) {
+        super(props)
+    }
+    componentDidMount () {
+        console.log('kosakata_form mounted...')
+    }
+    componentWillUnmount () {
+        // do if this component was unmount
+    }
     render () {
+        switch (this.props.mobile) {
+            case 'no':
+                return this.desktopUI
+                break;
+            case 'yes':
+                return this.mobileUI
+                break;
+            default:
+                return ('')
+        }
+    }
+    get mobileUI () {
+        return (
+            'mobile'
+        )
+    }
+    get desktopUI () {
         return (
             <div className="card">
                 <div className="card-header">
@@ -47,9 +73,6 @@ class KosaKataForm extends Component {
                         </div>
                         <div className="col-md-12">
                             <Accordion>
-                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        Tampilkan lebih banyak...
-                                    </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
                                         <Fragment>
                                             <div className="form-group">
@@ -84,6 +107,9 @@ class KosaKataForm extends Component {
                                             </div>
                                         </Fragment>
                                     </Accordion.Collapse>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                        Tampilkan lebih banyak...
+                                    </Accordion.Toggle>
                             </Accordion>
                         </div>
                     </div>

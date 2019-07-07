@@ -16,6 +16,23 @@ class Breadcumb extends Component {
         }))
     }
     render () {
+        switch (this.props.mobile) {
+            case 'no':
+                return this.desktopUI
+                break;
+            case 'yes':
+                return this.mobileUI
+                break;
+            default:
+                return ('')
+        }
+    }
+    get mobileUI () {
+        return (
+            'mobile'
+        )
+    }
+    get desktopUI () {
         const brd = this.state.breacumbData
         return (
             <ol className="breadcrumb">

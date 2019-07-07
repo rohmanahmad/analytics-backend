@@ -1,7 +1,33 @@
 import React, {Component, Fragment} from 'react'
 
-class DashboardSummaries extends Component {
+class DashboardSummariesDetail1 extends Component {
+    constructor (props) {
+        super(props)
+    }
+    componentDidMount () {
+        console.log('dashboard_summaries_detail_1 mounted...')
+    }
+    componentWillUnmount () {
+        // do if this component was unmount
+    }
     render () {
+        switch (this.props.mobile) {
+            case 'no':
+                return this.desktopUI
+                break;
+            case 'yes':
+                return this.mobileUI
+                break;
+            default:
+                return ('')
+        }
+    }
+    get mobileUI () {
+        return (
+            'mobile'
+        )
+    }
+    get desktopUI () {
         return (
             <div className="card">
                 <div className="card-header">Traffic &amp; Sales</div>
@@ -251,4 +277,4 @@ class DashboardSummaries extends Component {
     }
 }
 
-export default DashboardSummaries
+export default DashboardSummariesDetail1

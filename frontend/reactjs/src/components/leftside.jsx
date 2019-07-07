@@ -67,12 +67,20 @@ function ListMenu (props) {
 
 class LeftSide extends Component {
     render () {
+        return this.desktopUI
+    }
+    get mobileUI () {
+        return (
+            'mobile'
+        )
+    }
+    get desktopUI () {
         return (
             <div className="sidebar">
                 <nav className="sidebar-nav">
-                    <ListMenu/>
+                    <ListMenu mobile={this.props.mobile}/>
                 </nav>
-                <div className="brand-minimizer text-center" style={{background: '#4dbd74'}}>APP V1.2.0</div>
+                <div className="brand-minimizer text-center" style={{background: '#4dbd74', height: '50px', paddingTop: '20px'}}>APP V1.2.0</div>
             </div>
         )
     }
