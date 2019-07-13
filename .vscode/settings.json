@@ -1,0 +1,9 @@
+{
+    "eslint.nodePath": "~/.nvm/versions/node/v8.9.4/bin/node",
+    "eslint.workingDirectories": [
+        "~/Documents/malangsoftware.com/microservices/api",
+        "~/Documents/malangsoftware.com/microservices/frontend",
+        "~/Documents/malangsoftware.com/microservices/nodejs"
+    ],
+    "eslint.autoFixOnSave": true
+}

@@ -1,3 +1,0 @@
-#!/bin/sh
-rsync -azvP --exclude package-lock.json --exclude yarn.lock --exclude CHANGELOG.MD --exclude README.md --exclude .DS_Store --exclude .vscode --exclude .eslintrc.js --exclude config.development.json --exclude config.production.json --exclude .env --exclude .eslint* --exclude .git --exclude .gitignore --exclude .gitlab-ci.yml --exclude .travis.yml --exclude deployDev --exclude node_modules --exclude .editorconfig --exclude .babelrc ~/Documents/malangsoftware.com/backend/microservices/ node@upcloud.server:/home/node/microservice
-#ssh node@upcloud.server "cd /home/node/microservice && npm i"
