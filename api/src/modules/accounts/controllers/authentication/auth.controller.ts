@@ -4,9 +4,7 @@ import { Controller, Get, Post, Body, HttpException, UseFilters } from '@nestjs/
 import {AuthService} from '../../services/auth.service'
 // dataObject
 import {LoginInputDTO, LoginOutputDTO} from './auth.dto'
-import { HttpExceptionFilter } from '../../../../listeners/http-exception.filter';
 
-@UseFilters(new HttpExceptionFilter())
 @Controller()
 export class AuthController {
     constructor(private readonly authService: AuthService){}
