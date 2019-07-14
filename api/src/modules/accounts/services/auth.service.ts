@@ -4,6 +4,9 @@ import {LoginInputDTO, LoginOutputDTO} from '../../accounts/controllers/authenti
 
 @Injectable()
 export class AuthService {
+    protected getUserLogin(username: string, password: string) : object {
+        return {}
+    }
     doLogin(data: LoginInputDTO) : LoginOutputDTO {
         return {
             statusCode: 200,

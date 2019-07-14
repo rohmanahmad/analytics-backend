@@ -11,7 +11,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const response = ctx.getResponse<Response>()
         const request = ctx.getRequest<Request>()
         const status = exception.getStatus()
-        const message = 'bad request'
+        const message = exception.name
         const error = exception.message
 
         response
