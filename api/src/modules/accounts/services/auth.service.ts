@@ -5,6 +5,7 @@ import {LoginInputDTO, LoginOutputDTO} from '../../accounts/controllers/authenti
 @Injectable()
 export class AuthService {
     doLogin(data: LoginInputDTO) : LoginOutputDTO {
+        throw new Error('Invalid')
         return {
             statusCode: 200,
             message: 'loggedin',
