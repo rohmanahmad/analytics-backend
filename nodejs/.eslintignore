@@ -1,6 +1,0 @@
-public
-static
-logs/*
-!.atom-build.js
-!.eslintrc.js
-deploy
