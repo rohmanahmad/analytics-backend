@@ -1,0 +1,3 @@
+#!/bin/sh
+rsync -azvP --exclude nodejs/package-lock.json --exclude nodejs/yarn.lock --exclude nodejs/CHANGELOG.MD --exclude nodejs/README.md --exclude .DS_Store --exclude .vscode --exclude .eslintrc.js --exclude nodejs/.env --exclude .eslint* --exclude .git --exclude .gitignore --exclude nodejs/node_modules --exclude .babelrc node@upcloud.server:/home/node/microservice
+#ssh node@upcloud.server "cd /home/node/microservice && npm i"

@@ -1,0 +1,66 @@
+version: '3'
+
+networks:
+  malangsoftware_network:
+    external: true
+
+services:
+# DOCUMENTATION
+  # documentations:
+  #   # build:
+  #   #   context: .
+  #   #   dockerfile: Dockerfile
+  #   image: node:alpine
+  #   volumes:
+  #     - ../api:/app
+  #     - ../logs:/logs
+  #   working_dir: /app
+  #   environment:
+  #     APIS: documentations
+  #     PORT: 4001
+  #     DOMAIN_REF: http://localhost:8001
+  #   ports:
+  #     - 8001:4001 # documentation
+  #   command: npm run dev
+  #   networks:
+  #     - malangsoftware_network
+# # ACCOUNTS
+  accounts_api:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: node:alpine
+    volumes:
+      - ../api:/app
+      - ../logs:/logs
+    working_dir: /app
+    environment:
+      NODE_ENV: development
+      APP_NAME: accounts-api
+      PORT: 4000
+    ports:
+      - 4000:4000
+    networks:
+      - malangsoftware_network
+    command: npm run dev
+    external_links:
+      - docker_development_mongodb_1:mongodb
+# # OFFICE
+#   office_api:
+#     # build:
+#     #   context: .
+#     #   dockerfile: Dockerfile
+#     image: node:alpine
+#     volumes:
+#       - ../api:/app
+#     working_dir: /app
+#     environment:
+#       APIS: office_malangsoftware
+#       PORT: 4003
+#     ports:
+#       - 8003:4003 # office
+#     networks:
+#       - malangsoftware_network
+#     command: npm run dev
+#     external_links:
+#       - docker_development_mongodb_1:mongodb

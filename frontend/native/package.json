@@ -1,0 +1,35 @@
+{
+  "name": "frontend-all",
+  "version": "1.0.0",
+  "description": "all of frontend",
+  "main": "webpack.config.js",
+  "scripts": {
+    "office": "nodemon --watch modules/office_malangsoftware --watch .env --watch modules/utilities.js --watch modules/content.js --watch xhr.js --watch office_webpack.config.js --exec npm run build_office",
+    "accounts": "nodemon --watch modules/accounts --watch .env --watch modules/utilities.js --watch modules/content.js --watch xhr.js --watch accounts_webpack.config.js --exec npm run build_accounts",
+    "build_office": "webpack --config office_webpack.config.js",
+    "build_accounts": "webpack --config accounts_webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "rohmanahmad",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.4.3",
+    "babel-loader": "^8.0.5",
+    "dotenv": "^7.0.0",
+    "dotenv-webpack": "^1.7.0",
+    "glob": "^7.1.3",
+    "http-server": "^0.11.1",
+    "nodemon": "^1.18.11",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1",
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.18.2",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "standard": "^10.0.2"
+  }
+}

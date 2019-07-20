@@ -53,8 +53,6 @@ module.exports = {
     },
     globals: {
         use: true,
-        useStatic: true,
-        basePath: true,
-        Env: true
+        debuglog: true
     }
 };

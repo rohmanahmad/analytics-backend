@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+# Documentation
+  # open_api:
+  #   image: swaggerapi/swagger-ui
+  #   volumes:
+  #     - ../nginx/documentation.conf:/etc/nginx/nginx.conf
+  #     - ../nginx/run.sh:/usr/share/nginx/run.sh
+  #     - ../logs:/var/log/nginx
+  #   environment:
+  #     - "API_URL=http://localhost:8001/open-api/accounts"
+  #   ports:
+  #     - 8000:80
+# Accounts
+  accounts:
+    image: nginx:alpine
+    volumes:
+      - ../nginx/custom:/etc/nginx/custom #add custom file required
+      - ../nginx/accounts.conf:/etc/nginx/nginx.conf
+      - ../nginx/run.sh:/usr/share/nginx/run.sh # running nginx
+      - ../logs:/var/log/nginx
+      - ../public:/var/www/public # working folder
+      - ./builds/accounts:/var/www/html # working folder
+    ports:
+      - 5001:80
+# Office
+  # office:
+  #   image: nginx:alpine
+  #   volumes:
+  #     - ../nginx/custom:/etc/nginx/custom #add custom file required
+  #     - ../nginx/office.conf:/etc/nginx/nginx.conf
+  #     - ../nginx/run.sh:/usr/share/nginx/run.sh # running nginx
+  #     - ../logs:/var/log/nginx
+  #     - ../public:/var/www/public # working folder
+  #     - ./builds/office:/var/www/html # working folder
+  #   ports:
+  #     - 5002:80
