@@ -1,18 +1,31 @@
-version: "3"
+version: "3.7"
+networks:
+  malangsoftware_network:
+    external: true
 services:
-  malangsoftware:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: node:alpine
+# NGINX FOR FRONTEND
+  nginx_server:
+    image: nginx:alpine
     volumes:
-      - ./:/app
-    working_dir: /app
-    environment:
-      NODE_ENV: development
-      APIS: malangsoftware
+      # main files per project
+      - ./frontend/builds/office_malangsoftware:/var/www/html/office
+      - ./frontend/builds/accounts:/var/www/html/accounts
+      # all assets
+      - ./frontend/builds/index.html:/var/www/html/index.html
+      - ./public:/var/www/html/public
+      # nginx configurations
+      - ./nginx/office.conf:/etc/nginx/conf.d/office.conf
+      - ./nginx/accounts.conf:/etc/nginx/conf.d/accounts.conf
     ports:
-      - 8007:8007 # events
-      - 8005:8005 # rohmanweb
-      - 8004:8004 # malangsoftware
-    command: npm run start
+      - "5000:5000"
+      - "5001:5001"
+    networks:
+      - malangsoftware_network
+    command: [apt, 'install', 'curl']
+    command: [nginx-debug, '-g', 'daemon off;']
+    # links:
+    #   - malangsoftware_api
+# NODEJS FOR APIs
+  
+# MONGODB FOR APIs
+  

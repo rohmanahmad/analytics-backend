@@ -1,0 +1,15 @@
+version: '3'
+
+networks:
+  malangsoftware_network:
+    external: true
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:latest'
+    ports:
+      - "27017:27017"
+    volumes:
+      - "/Users/rohmanahmad/Documents/DOCKER_PROJECTS/MONGODB_SERVER/v4.0.3/:/bitnami"
+    networks:
+      - malangsoftware_network
