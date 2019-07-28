@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {RegisterReqDTO, RegisterResDTO} from '../controllers/registration/register.dto'
+import {RegisterReqDTO, RegisterResDTO} from '../dto/register.dto'
 
 @Injectable()
 

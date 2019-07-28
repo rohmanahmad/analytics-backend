@@ -1,24 +1,76 @@
-import { Injectable } from '@nestjs/common'
-
-import {LoginInputDTO, LoginOutputDTO} from '../../accounts/controllers/authentication/auth.dto'
+import { Injectable, Inject } from '@nestjs/common'
+import { Model } from 'mongoose'
+import { LoginInputDTO, LoginOutputDTO } from '../dto/auth.dto'
+import { UserAccountInterface } from '../interfaces/user_accounts.interface';
 
 @Injectable()
 export class AuthService {
-    protected getUserLogin(username: string, password: string) : object {
-        return {}
+    constructor (@Inject('UserAccountModel') private readonly AccountModel: Model<UserAccountInterface>) {}
+    
+    async findByUsernameOrEmail (username : string) : Promise <UserAccountInterface>{
+        let criteria: object = {username}
+        if (username.indexOf('@') > 0) {
+            criteria = {email: username}
+        }
+        const account = await this.AccountModel.findOne(criteria)
+        return account ? account.toJSON() : account
     }
-    doLogin(data: LoginInputDTO) : LoginOutputDTO {
-        return {
-            statusCode: 200,
-            message: 'loggedin',
-            data: {
-                username: '',
-                level: '',
-                token: {
-                    hash: '',
-                    ttl: new Date().getTime()
+
+    async doLogin(data: LoginInputDTO) : Promise<LoginOutputDTO> {
+        try {
+            const user = await this.findByUsernameOrEmail(data.username)
+            if (!user) throw new Error('Invalid User or Password')
+            if (user.password.hash !== data.password) throw new Error('Wrong User or Password')
+            return {
+                statusCode: 200,
+                message: 'success',
+                data: {
+                    ...user,
+                    token: {
+                        hash: '',
+                        ttl: new Date().getTime()
+                    }
                 }
             }
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async testCreateUserAccount () {
+        try {
+            this.AccountModel.create({
+                username: 'rohmanahmad',
+                email: 'rohmanahmad@gmail.com',
+                password: {
+                    hash: 'ini_hash_acak_acakan_ya',
+                    salt: 'ini_salt_sangat_asin'
+                },
+                status: 1,
+                roles: {
+                    read: [],
+                    write: [],
+                    is_admin: true
+                },
+                information: {
+                    first_name: 'rohman',
+                    last_name: 'ahmad',
+                    birthday: {
+                        date: '2013-01-01',
+                        place: 'jember'
+                    },
+                    contact: {
+                        whatsapp: '082332303039',
+                        line: '082112332443',
+                        facebook: 'rohmanwebid001',
+                        twitter: 'rohmanwebid001',
+                        linkedin: 'rohmanahmad'
+                    },
+                    others: {}
+                }
+            })
+        } catch (err) {
+            throw err
         }
     }
 }

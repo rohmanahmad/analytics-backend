@@ -8,7 +8,7 @@ export class LoginOutputDTO {
     readonly message: string
     readonly data: {
         username: string,
-        level: string,
+        email: string,
         token: {
             hash: string
             ttl: number

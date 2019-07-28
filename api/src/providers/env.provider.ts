@@ -7,7 +7,7 @@ const current = __dirname
 export class EnvService {
     private readonly env: { [key: string] : string }
     constructor(filepath: string) {
-        const envpath = path.join(current, '../..', 'environments', filepath)
+        const envpath = path.join(current, '..', 'environments', filepath)
         this.env = dotenv.parse(fs.readFileSync(envpath))
     }
     get(key: string) : string {

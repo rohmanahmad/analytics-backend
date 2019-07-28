@@ -1,13 +1,10 @@
-import {Connection} from 'mongoose'
+import { Connection } from 'mongoose'
+import { UserAccounts } from './schemas/user_accounts.schema'
 
-import {AccountsSchema} from '../../schemas/accounts.schema'
-
-export const AccountsProvider = {
-    provide: 'ACCOUNTS_MODEL',
-    useFactory: (conn: Connection) => conn.model('accounts', AccountsSchema),
-    inject: ['MONGO_CONNECTION']
-}
-
-/*
- # ref: https://github.com/nestjs/nest/blob/master/sample/14-mongoose-base/src/cats/cats.providers.ts
-*/
+export const AccountProvider = [
+    {
+        provide: 'UserAccountModel',
+        useFactory: (conn: Connection) => conn.model('UserAccounts', UserAccounts, 'user_accounts'),
+        inject: ['MongoDB_1_Connection']
+    }
+]

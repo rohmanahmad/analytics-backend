@@ -1,9 +1,14 @@
+// DB module
+import { MongooseModule } from '@nestjs/mongoose'
+import { ConfigModule } from '../app.config.module'
+
+
 import { MongooseOptionsFactory } from "@nestjs/mongoose";
 import { EnvService } from "./env.provider";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class MongooseService implements MongooseOptionsFactory {
+class MongooseService implements MongooseOptionsFactory {
     constructor(private readonly env: EnvService) {}
     createMongooseOptions() {
         return {
@@ -12,3 +17,8 @@ export class MongooseService implements MongooseOptionsFactory {
         }
     }
 }
+
+export const MongodbProvider = MongooseModule.forRootAsync({
+    imports: [ConfigModule],
+    useClass: MongooseService
+})

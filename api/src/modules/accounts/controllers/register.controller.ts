@@ -1,6 +1,6 @@
 import {Controller, Post, Body, HttpException, HttpStatus} from '@nestjs/common'
-import {RegisterService} from '../../services/register.service'
-import {RegisterReqDTO, RegisterResDTO} from './register.dto'
+import {RegisterService} from '../services/register.service'
+import {RegisterReqDTO, RegisterResDTO} from '../dto/register.dto'
 
 @Controller()
 export class RegisterController {
