@@ -6,11 +6,13 @@ import { MainModule } from './modules/main.module';
 
 // config modules
 import { ConfigModule } from './configurations/config.module'
+import { DocumentationModule } from './modules/documentation/documentation.module';
 
 @Module({
   imports: [
     MainModule,
-    AccountsModule
+    AccountsModule,
+    DocumentationModule
   ],
   providers: [ConfigModule]
 })

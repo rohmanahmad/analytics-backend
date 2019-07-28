@@ -9,7 +9,7 @@ import {LoginInputDTO, LoginOutputDTO} from './auth.dto'
 export class AuthController {
     constructor(private readonly authService: AuthService){}
 
-    @Post('/auth/login')
+    @Post('/api/v1/auth/login')
     login(@Body() data: LoginInputDTO) : LoginOutputDTO {
         try {
             return this.authService.doLogin(data)
