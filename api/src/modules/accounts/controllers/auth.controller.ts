@@ -32,10 +32,20 @@ export class AuthController {
     async test () {
         try {
             const data = {username: 'rohmanahmad', password: 'ini_hash_acak_acakan_ya'}
-            const xdata = await this.authService.doLogin(data)
+            const {username, email} = await this.authService.doLogin(data)
             return {
-                status: 'ok',
-                data: xdata
+                statusCode: 200,
+                message: 'ok',
+                data: {
+                    username,
+                    email,
+                    // username: '',
+                    // email: '',
+                    token: {
+                        hash: 'THIS_IS_HASH_WITH_SALT',
+                        ttl: new Date().getTime()
+                    }
+                }
             }
         } catch (err) {
             throw new HttpException(err.message, 400)

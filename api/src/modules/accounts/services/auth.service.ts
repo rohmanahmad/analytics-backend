@@ -21,15 +21,13 @@ export class AuthService {
             const user = await this.findByUsernameOrEmail(data.username)
             if (!user) throw new Error('Invalid User or Password')
             if (user.password.hash !== data.password) throw new Error('Wrong User or Password')
+            const {email, username} = user
             return {
-                statusCode: 200,
-                message: 'success',
-                data: {
-                    ...user,
-                    token: {
-                        hash: '',
-                        ttl: new Date().getTime()
-                    }
+                username,
+                email,
+                token: {
+                    hash: '',
+                    ttl: new Date().getTime()
                 }
             }
         } catch (err) {
